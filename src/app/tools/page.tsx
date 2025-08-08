@@ -71,7 +71,7 @@ export default function ToolsPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12 bg-background">
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-7xl">
         <div className="mb-8">
             <Link href="/" passHref>
                 <Button variant="outline">
@@ -89,20 +89,13 @@ export default function ToolsPage() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {tools.map((tool) => (
-            <Card key={tool.href} className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader>
+            <Card key={tool.href} data-ai-hint={tool.hint} className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardHeader className="flex-grow">
                 <CardTitle>{tool.title}</CardTitle>
                 <CardDescription>{tool.description}</CardDescription>
               </CardHeader>
-              <CardContent className="flex-grow">
-                  <div 
-                      data-ai-hint={tool.hint}
-                      className="aspect-video bg-cover rounded-md"
-                      style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
-                  </div>
-              </CardContent>
               <CardFooter>
                 <Link href={tool.href} passHref className="w-full">
                   <Button className="w-full">
