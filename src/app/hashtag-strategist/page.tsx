@@ -3,7 +3,6 @@
 
 import { HashtagStrategist } from '@/components/hashtag-strategist';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/logo';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -20,12 +19,9 @@ export default function HashtagStrategistPage() {
           </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
-            <div className="flex justify-center items-center gap-4 mb-4">
-                <Logo className="w-12 h-12" />
-                <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
-                    Estrategista de Hashtags com IA
-                </h1>
-            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
+                Estrategista de Hashtags com IA
+            </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Insira sua palavra-chave principal e receba 3 grupos de hashtags prontos para usar.
           </p>

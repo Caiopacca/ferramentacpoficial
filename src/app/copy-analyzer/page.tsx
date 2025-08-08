@@ -3,7 +3,6 @@
 
 import { CopyAnalyzer } from '@/components/copy-analyzer';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/logo';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -20,12 +19,9 @@ export default function CopyAnalyzerPage() {
           </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
-            <div className="flex justify-center items-center gap-4 mb-4">
-                <Logo className="w-12 h-12" />
-                <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
-                    Detector de Legendas Vendedoras
-                </h1>
-            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
+                Detector de Legendas Vendedoras
+            </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Cole a legenda do seu post e receba uma análise instantânea sobre o poder de persuasão do seu texto.
           </p>
