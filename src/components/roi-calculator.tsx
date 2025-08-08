@@ -38,9 +38,9 @@ export function RoiCalculator() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ticket: undefined,
-      currentCustomers: undefined,
-      investment: undefined,
+      ticket: '' as any,
+      currentCustomers: '' as any,
+      investment: '' as any,
     },
   });
 
