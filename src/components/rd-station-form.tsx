@@ -8,12 +8,13 @@ import Link from 'next/link';
 
 export function RdStationForm() {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   useEffect(() => {
     const handleConversion = (event: any) => {
-      // O RD Station dispara um evento 'submit_form_success' no window
-      // O 'detail' do evento contém o nome do formulário.
-      // Verificamos se é o formulário correto antes de liberar o botão.
+      // The RD Station script dispatches a 'submit_form_success' event on the window object.
+      // The event 'detail' contains the form_id.
+      // We check if it's the correct form before unlocking the button.
       if (event.detail.form_id === 'form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6') {
         setIsFormSubmitted(true);
       }
@@ -21,11 +22,21 @@ export function RdStationForm() {
 
     window.addEventListener('message', handleMessage);
 
-    // Cleanup the event listener when the component is unmounted
     return () => {
       window.removeEventListener('message', handleMessage);
     };
   }, []);
+
+  useEffect(() => {
+    if (isScriptLoaded && document.getElementById('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6')) {
+        // @ts-ignore
+        if (window.RDStationForms) {
+            // @ts-ignore
+            new window.RDStationForms('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6', 'null').createForm();
+        }
+    }
+  }, [isScriptLoaded]);
+
 
   return (
     <>
@@ -37,8 +48,10 @@ export function RdStationForm() {
                 strategy="afterInteractive"
                 src="https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js"
                 onLoad={() => {
-                // @ts-ignore
-                new window.RDStationForms('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6', 'null').createForm();
+                  if (document.getElementById('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6')) {
+                    // @ts-ignore
+                    new window.RDStationForms('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6', 'null').createForm();
+                  }
                 }}
             />
         </>
