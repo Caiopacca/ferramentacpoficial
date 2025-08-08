@@ -72,6 +72,29 @@ export default function ToolsPage() {
               </Link>
             </CardFooter>
           </Card>
+          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle>Criador de Bio Magnética</CardTitle>
+              <CardDescription>
+                Crie biografias otimizadas para o seu perfil do Instagram em segundos.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+                <div 
+                    data-ai-hint="instagram profile user"
+                    className="aspect-video bg-cover rounded-md"
+                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
+                </div>
+            </CardContent>
+            <CardFooter>
+              <Link href="/bio-creator" passHref className="w-full">
+                <Button className="w-full">
+                  Usar Ferramenta
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
         </div>
       </div>
     </main>
