@@ -49,12 +49,15 @@ const themes = [
   { value: 'Caixinha de Perguntas', label: 'Caixinha de Perguntas' },
 ];
 
+type FormData = z.infer<typeof formSchema>;
+
 export function ReelScriptGenerator() {
   const [result, setResult] = useState<GenerateReelScriptOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeButton, setActiveButton] = useState<number | null>(null);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       niche: '',
@@ -62,15 +65,17 @@ export function ReelScriptGenerator() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function generateScript(values: FormData, duration: 15 | 30) {
     setIsLoading(true);
+    setActiveButton(duration);
     setResult(null);
+
     try {
-      const response = await handleGenerateReelScript(values);
+      const response = await handleGenerateReelScript({ ...values, duration });
       setResult(response);
       toast({
         title: 'Roteiro Gerado!',
-        description: 'Seu roteiro para Reels está pronto.',
+        description: `Seu roteiro de ${duration}s para Reels está pronto.`,
       });
     } catch (error) {
       console.error(error);
@@ -82,14 +87,20 @@ export function ReelScriptGenerator() {
       });
     } finally {
       setIsLoading(false);
+      setActiveButton(null);
     }
   }
+  
+  const onSubmit = (duration: 15 | 30) => {
+    return form.handleSubmit((values) => generateScript(values, duration))();
+  };
+
 
   return (
     <div>
       <Card className="p-6 md:p-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form className="space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
               <FormField
                 control={form.control}
@@ -138,16 +149,40 @@ export function ReelScriptGenerator() {
                 )}
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="w-full md:w-auto" size="lg">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Gerando Roteiro...
-                </>
-              ) : (
-                'Gerar Roteiro de 15s'
-              )}
-            </Button>
+            <div className="flex flex-col md:flex-row gap-4">
+                <Button 
+                    type="button" 
+                    onClick={() => onSubmit(15)} 
+                    disabled={isLoading} 
+                    className="w-full md:w-auto" 
+                    size="lg"
+                >
+                {isLoading && activeButton === 15 ? (
+                    <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Gerando...
+                    </>
+                ) : (
+                    'Gerar Roteiro de 15s'
+                )}
+                </Button>
+                <Button 
+                    type="button" 
+                    onClick={() => onSubmit(30)}
+                    disabled={isLoading} 
+                    className="w-full md:w-auto" 
+                    size="lg"
+                >
+                {isLoading && activeButton === 30 ? (
+                    <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Gerando...
+                    </>
+                ) : (
+                    'Gerar Roteiro de 30s'
+                )}
+                </Button>
+            </div>
           </form>
         </Form>
       </Card>
