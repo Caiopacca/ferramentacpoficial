@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { CtaSection } from '@/components/cta-section';
 
 export default function ColdEmailGeneratorPage() {
   return (
@@ -34,6 +35,7 @@ export default function ColdEmailGeneratorPage() {
           </p>
         </header>
         <ColdEmailGenerator />
+        <CtaSection />
       </div>
     </main>
   );

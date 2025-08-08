@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { CtaSection } from '@/components/cta-section';
 
 export default function ToolsPage() {
   const tools = [
@@ -126,6 +127,7 @@ export default function ToolsPage() {
             </Card>
           ))}
         </div>
+        <CtaSection />
       </div>
     </main>
   );
