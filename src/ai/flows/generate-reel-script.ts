@@ -54,7 +54,7 @@ O resultado deve ser um plano de gravação claro e dinâmico, em formato Markdo
 (Crie um título chamativo para o Reel)
 
 **2. Plano de Cenas:**
-Crie uma tabela em Markdown com as seguintes colunas: CENA, ÁUDIO/TEXTO e TEMPO.
+Crie uma tabela em Markdown com as seguintes colunas: CENA, ÁUDIO/TEXTO e TEMPO. Cada linha da tabela (Gancho, Desenvolvimento, CTA) deve estar em uma nova linha.
 | CENA | ÁUDIO/TEXTO | TEMPO |
 | :--- | :--- | :--- |
 | **(Gancho)** (Descreva a primeira cena visual de forma impactante. Ex: "Close no rosto com expressão de surpresa.") | (Texto que aparece na tela ou primeira frase falada. Ex: "Você está cometendo este erro...") | 0-3s |

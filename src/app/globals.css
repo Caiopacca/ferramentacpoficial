@@ -90,10 +90,10 @@ body {
     @apply text-foreground;
   }
   .prose table {
-      @apply w-full my-4;
+      @apply w-full my-4 border-collapse;
   }
   .prose th {
-      @apply border border-border px-4 py-2 text-left font-bold;
+      @apply border border-border px-4 py-2 text-left font-bold bg-muted;
   }
   .prose td {
       @apply border border-border px-4 py-2;
