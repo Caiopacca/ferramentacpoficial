@@ -21,6 +21,12 @@ import {
   type AnalyzeProfileInput,
   type AnalyzeProfileOutput,
 } from '@/ai/flows/analyze-profile';
+import {
+  calculateRoi,
+  type CalculateRoiInput,
+  type CalculateRoiOutput,
+} from '@/ai/flows/calculate-roi';
+
 
 export async function handleGenerateContent(
   data: GenerateContentIdeasInput
@@ -67,5 +73,17 @@ export async function handleAnalyzeProfile(
   } catch (error) {
     console.error('Error analyzing profile:', error);
     throw new Error('Failed to analyze profile. Please try again.');
+  }
+}
+
+export async function handleCalculateRoi(
+  data: CalculateRoiInput
+): Promise<CalculateRoiOutput> {
+  try {
+    const result = await calculateRoi(data);
+    return result;
+  } catch (error) {
+    console.error('Error calculating ROI:', error);
+    throw new Error('Failed to calculate ROI. Please try again.');
   }
 }

@@ -118,6 +118,29 @@ export default function ToolsPage() {
               </Link>
             </CardFooter>
           </Card>
+          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle>Calculadora de ROI</CardTitle>
+              <CardDescription>
+                Calcule o potencial de retorno sobre seu investimento em marketing.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+                <div 
+                    data-ai-hint="return on investment calculator"
+                    className="aspect-video bg-cover rounded-md"
+                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
+                </div>
+            </CardContent>
+            <CardFooter>
+              <Link href="/roi-calculator" passHref className="w-full">
+                <Button className="w-full">
+                  Usar Ferramenta
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
         </div>
       </div>
     </main>
