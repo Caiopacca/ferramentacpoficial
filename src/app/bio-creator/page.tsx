@@ -29,6 +29,9 @@ export default function BioCreatorPage() {
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Responda 3 perguntas e tenha 3 opções de bio para seu Instagram, prontas para copiar e colar.
           </p>
+           <p className="mt-2 text-sm text-muted-foreground/80">
+            A IA pode cometer erros. Considere verificar informações importantes.
+          </p>
         </header>
         <BioCreator />
       </div>

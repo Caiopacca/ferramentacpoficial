@@ -29,6 +29,9 @@ export default function ColdEmailGeneratorPage() {
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Crie um corpo de e-mail frio, persuasivo e profissional para suas campanhas de prospecção.
           </p>
+           <p className="mt-2 text-sm text-muted-foreground/80">
+            A IA pode cometer erros. Considere verificar informações importantes.
+          </p>
         </header>
         <ColdEmailGenerator />
       </div>

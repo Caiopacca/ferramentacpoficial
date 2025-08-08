@@ -29,6 +29,9 @@ export default function HashtagStrategistPage() {
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Insira sua palavra-chave principal e receba 3 grupos de hashtags prontos para usar.
           </p>
+           <p className="mt-2 text-sm text-muted-foreground/80">
+            A IA pode cometer erros. Considere verificar informações importantes.
+          </p>
         </header>
         <HashtagStrategist />
       </div>

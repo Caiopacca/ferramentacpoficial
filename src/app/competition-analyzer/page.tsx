@@ -29,6 +29,9 @@ export default function CompetitionAnalyzerPage() {
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Insira o seu @ e o de seus concorrentes para uma análise comparativa rápida com IA.
           </p>
+           <p className="mt-2 text-sm text-muted-foreground/80">
+            A IA pode cometer erros. Considere verificar informações importantes.
+          </p>
         </header>
         <CompetitionAnalyzer />
       </div>

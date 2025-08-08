@@ -29,6 +29,9 @@ export default function AdAnalyzerPage() {
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Receba uma segunda opinião da IA antes de investir em tráfego pago e evite erros caros.
           </p>
+          <p className="mt-2 text-sm text-muted-foreground/80">
+            A IA pode cometer erros. Considere verificar informações importantes.
+          </p>
         </header>
         <AdAnalyzer />
       </div>

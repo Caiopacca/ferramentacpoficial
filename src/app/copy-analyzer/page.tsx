@@ -29,6 +29,9 @@ export default function CopyAnalyzerPage() {
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Cole a legenda do seu post e receba uma análise instantânea sobre o poder de persuasão do seu texto.
           </p>
+           <p className="mt-2 text-sm text-muted-foreground/80">
+            A IA pode cometer erros. Considere verificar informações importantes.
+          </p>
         </header>
         <CopyAnalyzer />
       </div>

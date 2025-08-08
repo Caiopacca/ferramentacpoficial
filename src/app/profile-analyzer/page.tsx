@@ -29,6 +29,9 @@ export default function ProfileAnalyzerPage() {
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Insira seu @ do Instagram e receba um diagnóstico completo com nota e pontos de melhoria.
           </p>
+           <p className="mt-2 text-sm text-muted-foreground/80">
+            A IA pode cometer erros. Considere verificar informações importantes.
+          </p>
         </header>
         <ProfileAnalyzer />
       </div>
