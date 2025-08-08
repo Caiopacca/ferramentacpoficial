@@ -2,13 +2,15 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/logo';
 import Link from 'next/link';
 
 export default function CapturePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 md:p-12 bg-background">
       <div className="w-full max-w-lg text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary tracking-tight">
+        <Logo className="mx-auto" />
+        <h1 className="text-3xl md:text-4xl font-bold text-primary tracking-tight mt-4">
           Acesse nossas ferramentas exclusivas
         </h1>
         <p className="mt-4 text-lg md:text-xl text-muted-foreground">

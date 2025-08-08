@@ -1,6 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Logo } from '@/components/logo';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -93,7 +94,8 @@ export default function ToolsPage() {
             </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
+          <Logo className="mx-auto" />
+          <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight mt-4">
             Caixa de Ferramentas IA da CP Marketing
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
