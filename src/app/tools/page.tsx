@@ -9,7 +9,7 @@ export default function ToolsPage() {
   const tools = [
     {
       href: '/profile-analyzer',
-      title: 'Analisador de Perfil com IA',
+      title: 'Analisador de Perfil',
       description: 'Receba um diagnóstico do seu perfil do Instagram com nota e pontos de melhoria.',
       hint: 'instagram performance analysis',
     },
