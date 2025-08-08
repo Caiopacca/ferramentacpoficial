@@ -30,7 +30,6 @@ const formSchema = z.object({
     salesGoal: z.coerce.number().positive('Deve ser um número positivo.'),
     avgTicket: z.coerce.number().positive('Deve ser um número positivo.'),
     leadToCustomerRate: z.coerce.number().positive('Deve ser um número positivo.'),
-    costPerSale: z.coerce.number().nonnegative('O custo não pode ser negativo.'),
     // Conditional fields
     visitorToLeadRate: z.coerce.number().optional(),
     avgCpc: z.coerce.number().optional(),
@@ -74,7 +73,6 @@ export function TrafficCalculator() {
       salesGoal: 20,
       avgTicket: 1000,
       leadToCustomerRate: 10,
-      costPerSale: 200, // Assuming 20% of ticket
       visitorToLeadRate: 3,
       avgCpc: 1.50,
       avgCpl: 25,
@@ -191,20 +189,6 @@ export function TrafficCalculator() {
                   </FormItem>
                 )}
               />
-               <FormField
-                control={form.control}
-                name="costPerSale"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Qual o custo por cada venda? (R$)</FormLabel>
-                    <FormDescription>Custo do produto/serviço.</FormDescription>
-                    <FormControl>
-                      <Input type="number" placeholder="Ex: 200" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               
               {campaignType === 'landingPage' && (
                 <>
@@ -296,7 +280,7 @@ export function TrafficCalculator() {
                 <p><strong>ROI Estimado:</strong> {result.expectedRoi.toFixed(2)}%</p>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
-              * O Lucro Líquido é calculado como (Faturamento Bruto - Custo Total dos Produtos) - Orçamento de Tráfego. O ROI é a relação entre o Lucro Líquido e o Orçamento.
+              * O Lucro Líquido é calculado como (Faturamento Bruto) - Orçamento de Tráfego. O ROI é a relação entre o Lucro Líquido e o Orçamento.
             </p>
           </Card>
         )}

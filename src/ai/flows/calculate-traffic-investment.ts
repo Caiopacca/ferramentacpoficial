@@ -22,7 +22,6 @@ const BaseSchema = z.object({
   salesGoal: z.number().positive('A meta de vendas deve ser um número positivo.'),
   avgTicket: z.number().positive('O ticket médio deve ser um número positivo.'),
   leadToCustomerRate: z.number().positive('A taxa de conversão de lead para cliente deve ser positiva.'),
-  costPerSale: z.number().nonnegative('O custo por venda não pode ser negativo.'),
 });
 
 const LandingPageSchema = BaseSchema.extend({
@@ -64,7 +63,6 @@ const calculateTrafficInvestmentFlow = ai.defineFlow(
         salesGoal,
         avgTicket,
         leadToCustomerRate,
-        costPerSale,
     } = input;
 
     // Convert rates to decimals
@@ -87,9 +85,7 @@ const calculateTrafficInvestmentFlow = ai.defineFlow(
 
     // Calculate ROI
     const grossRevenue = salesGoal * avgTicket;
-    const totalServiceCost = salesGoal * costPerSale; 
-    const grossProfit = grossRevenue - totalServiceCost;
-    const expectedProfit = grossProfit - requiredBudget;
+    const expectedProfit = grossRevenue - requiredBudget;
     
     // Avoid division by zero
     const expectedRoi = requiredBudget > 0 ? (expectedProfit / requiredBudget) * 100 : 0;
