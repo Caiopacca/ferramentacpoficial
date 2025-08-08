@@ -45,7 +45,7 @@ export default function ToolsPage() {
     },
     {
       href: '/hashtag-strategist',
-      title: 'Estrategista de Hashtags',
+      title: 'O Hashtag Mestre',
       description: 'Gere 3 grupos de hashtags (nicho, volume, localização) para seus posts.',
       hint: 'social media hashtags',
     },
