@@ -42,17 +42,17 @@ const formSchema = z.object({
 });
 
 const themes = [
-  { value: 'Dica Rápida', label: 'Dica Rápida' },
-  { value: 'Antes e Depois', label: 'Antes e Depois' },
-  { value: 'Mito vs. Verdade', label: 'Mito vs. Verdade' },
-  { value: 'Processo Acelerado (Timelapse)', label: 'Processo Acelerado (Timelapse)' },
-  { value: 'Caixinha de Perguntas', label: 'Caixinha de Perguntas' },
-  { value: 'Narrando um Storytime', label: 'Narrando um Storytime' },
-  { value: 'Tutorial Rápido', label: 'Tutorial Rápido' },
-  { value: 'POV (Point of View)', label: 'POV (Point of View)' },
-  { value: 'Lista Top 3', label: 'Lista Top 3' },
-  { value: 'Desafio / Trend', label: 'Desafio / Trend' },
-];
+    { value: 'Dica do Dia', label: 'Dica do Dia' },
+    { value: 'Transformação', label: 'Transformação' },
+    { value: 'Verdades e Mitos', label: 'Verdades e Mitos' },
+    { value: 'Passo a Passo Rápido', label: 'Passo a Passo Rápido' },
+    { value: 'Respostas Rápidas', label: 'Respostas Rápidas' },
+    { value: 'Nossa História', label: 'Nossa História' },
+    { value: 'Como Fazer', label: 'Como Fazer' },
+    { value: 'O Ponto de Vista', label: 'O Ponto de Vista' },
+    { value: 'As 3 Melhores', label: 'As 3 Melhores' },
+    { value: 'Desafio da Semana', label: 'Desafio da Semana' },
+  ];
 
 type FormData = z.infer<typeof formSchema>;
 
