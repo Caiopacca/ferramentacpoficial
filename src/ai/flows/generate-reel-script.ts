@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview This file defines a Genkit flow for generating 15-second Reel scripts.
+ * @fileOverview This file defines a Genkit flow for generating 15 and 30-second Reel scripts.
  *
  * It takes a niche and a theme and returns a structured script with hook, development, CTA, and audio suggestion.
  *
@@ -89,7 +89,7 @@ const generateReelScriptFlow = ai.defineFlow(
     outputSchema: GenerateReelScriptOutputSchema,
   },
   async (input) => {
-    const developmentTime = input.duration === 15 ? 12 : 25;
+    const developmentTime = input.duration === 15 ? 12 : 27;
     
     const {output} = await generateReelScriptPrompt({
         ...input,
