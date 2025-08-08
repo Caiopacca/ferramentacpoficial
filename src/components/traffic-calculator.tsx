@@ -22,7 +22,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 import { handleCalculateTrafficInvestment } from '@/app/actions';
-import type { CalculateTrafficInvestmentOutput } from '@/ai/flows/calculate-traffic-investment';
+import type { CalculateTrafficInvestmentInput, CalculateTrafficInvestmentOutput } from '@/ai/flows/calculate-traffic-investment';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const formSchema = z.object({
@@ -89,12 +89,30 @@ export function TrafficCalculator() {
     setIsLoading(true);
     setResult(null);
 
-    // This is a type guard to satisfy TypeScript
-    const validatedValues = form.getValues();
+    let payload: CalculateTrafficInvestmentInput;
+
+    if (values.campaignType === 'landingPage') {
+        payload = {
+            campaignType: 'landingPage',
+            salesGoal: values.salesGoal,
+            avgTicket: values.avgTicket,
+            leadToCustomerRate: values.leadToCustomerRate,
+            visitorToLeadRate: values.visitorToLeadRate!,
+            avgCpc: values.avgCpc!,
+        };
+    } else { // directContact
+        payload = {
+            campaignType: 'directContact',
+            salesGoal: values.salesGoal,
+            avgTicket: values.avgTicket,
+            leadToCustomerRate: values.leadToCustomerRate,
+            avgCpl: values.avgCpl!,
+        };
+    }
     
     try {
-      const response = await handleCalculateTrafficInvestment(validatedValues as any);
-      const grossRevenue = (validatedValues.salesGoal || 0) * (validatedValues.avgTicket || 0);
+      const response = await handleCalculateTrafficInvestment(payload);
+      const grossRevenue = (values.salesGoal || 0) * (values.avgTicket || 0);
       setResult({ ...response, grossRevenue });
       toast({
         title: 'Cálculo Concluído!',
