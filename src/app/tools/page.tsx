@@ -72,6 +72,12 @@ export default function ToolsPage() {
       description: 'Crie um corpo de e-mail persuasivo para prospecção fria com base no cargo e objetivo.',
       hint: 'email marketing cold',
     },
+    {
+      href: '/traffic-calculator',
+      title: 'Calculadora de Tráfego Pago',
+      description: 'Descubra o investimento necessário em tráfego e o retorno esperado para atingir suas metas.',
+      hint: 'paid traffic calculator',
+    },
   ];
 
 

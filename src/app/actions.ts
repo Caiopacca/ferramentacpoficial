@@ -56,6 +56,11 @@ import {
     type GenerateColdEmailInput,
     type GenerateColdEmailOutput,
 } from '@/ai/flows/generate-cold-email';
+import {
+    calculateTrafficInvestment,
+    type CalculateTrafficInvestmentInput,
+    type CalculateTrafficInvestmentOutput,
+} from '@/ai/flows/calculate-traffic-investment';
 
 
 export async function handleGenerateContent(
@@ -187,5 +192,17 @@ export async function handleGenerateColdEmail(
     } catch (error) {
         console.error('Error generating cold email:', error);
         throw new Error('Failed to generate cold email. Please try again.');
+    }
+}
+
+export async function handleCalculateTrafficInvestment(
+    data: CalculateTrafficInvestmentInput
+    ): Promise<CalculateTrafficInvestmentOutput> {
+    try {
+        const result = await calculateTrafficInvestment(data);
+        return result;
+    } catch (error) {
+        console.error('Error calculating traffic investment:', error);
+        throw new Error('Failed to calculate traffic investment. Please try again.');
     }
 }
