@@ -51,6 +51,11 @@ import {
     type GenerateEmailSubjectInput,
     type GenerateEmailSubjectOutput,
 } from '@/ai/flows/generate-email-subject';
+import {
+    generateColdEmail,
+    type GenerateColdEmailInput,
+    type GenerateColdEmailOutput,
+} from '@/ai/flows/generate-cold-email';
 
 
 export async function handleGenerateContent(
@@ -170,5 +175,17 @@ export async function handleGenerateEmailSubject(
     } catch (error) {
         console.error('Error generating email subjects:', error);
         throw new Error('Failed to generate email subjects. Please try again.');
+    }
+}
+
+export async function handleGenerateColdEmail(
+    data: GenerateColdEmailInput
+    ): Promise<GenerateColdEmailOutput> {
+    try {
+        const result = await generateColdEmail(data);
+        return result;
+    } catch (error) {
+        console.error('Error generating cold email:', error);
+        throw new Error('Failed to generate cold email. Please try again.');
     }
 }

@@ -66,6 +66,12 @@ export default function ToolsPage() {
       description: 'Crie 5 opções de títulos de e-mail persuasivos para prospecção fria.',
       hint: 'email marketing outreach',
     },
+    {
+      href: '/cold-email-generator',
+      title: 'Gerador de E-mail de Prospecção',
+      description: 'Crie um corpo de e-mail persuasivo para prospecção fria com base no cargo e objetivo.',
+      hint: 'email marketing cold',
+    },
   ];
 
 
