@@ -27,7 +27,7 @@ export default function ReelScriptWriterPage() {
             </h1>
           </div>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Escolha um tema, defina seu nicho e gere um roteiro de 15 segundos pronto para gravar.
+            Escolha um tema, defina seu nicho e gere roteiros de 15 e 30 segundos prontos para gravar.
           </p>
            <p className="mt-2 text-sm text-muted-foreground/80">
             A IA pode cometer erros. Considere verificar informações importantes.
