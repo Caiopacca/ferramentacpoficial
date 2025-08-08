@@ -9,7 +9,7 @@ export default function Home() {
             Fábrica de Conteúdo com IA
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Selecione seu nicho e objetivo para receber 7 dias de ideias de posts geradas por nossa Inteligência Artificial. Diga adeus ao bloqueio criativo!
+            Selecione seu nicho e objetivo para receber 7 dias de ideias de posts geradas por nossa Inteligência Artificial.
           </p>
         </header>
         <ContentGenerator />
