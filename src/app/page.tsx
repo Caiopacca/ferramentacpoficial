@@ -1,18 +1,31 @@
-import { ContentGenerator } from '@/components/content-generator';
 
-export default function Home() {
+'use client';
+
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+
+export default function CapturePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12 bg-background">
-      <div className="w-full max-w-4xl">
-        <header className="text-center mb-8 md:mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
-            Fábrica de Conteúdo CP Marketing
-          </h1>
-          <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Selecione seu nicho e objetivo para receber 7 dias de ideias de posts geradas por nossa Inteligência Artificial.
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 md:p-12 bg-background">
+      <div className="w-full max-w-lg text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-primary tracking-tight">
+          Acesse nossas ferramentas exclusivas
+        </h1>
+        <p className="mt-4 text-lg md:text-xl text-muted-foreground">
+          Preencha o formulário para ter acesso às nossas ferramentas de marketing com IA.
+        </p>
+        <div className="mt-8 border border-dashed border-border rounded-lg p-8 bg-card">
+          <p className="text-muted-foreground">
+            // Seu formulário do RD Station vai aqui.
+            <br />
+            // Por enquanto, use o botão abaixo para continuar.
           </p>
-        </header>
-        <ContentGenerator />
+        </div>
+        <Link href="/tools" passHref>
+          <Button size="lg" className="mt-8">
+            Acessar Ferramentas
+          </Button>
+        </Link>
       </div>
     </main>
   );
