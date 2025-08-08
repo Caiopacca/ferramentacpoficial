@@ -31,6 +31,11 @@ import {
   type AnalyzeCopyInput,
   type AnalyzeCopyOutput,
 } from '@/ai/flows/analyze-copy';
+import {
+    generateReelScript,
+    type GenerateReelScriptInput,
+    type GenerateReelScriptOutput,
+} from '@/ai/flows/generate-reel-script';
 
 
 export async function handleGenerateContent(
@@ -103,4 +108,16 @@ export async function handleAnalyzeCopy(
     console.error('Error analyzing copy:', error);
     throw new Error('Failed to analyze copy. Please try again.');
   }
+}
+
+export async function handleGenerateReelScript(
+    data: GenerateReelScriptInput
+    ): Promise<GenerateReelScriptOutput> {
+    try {
+        const result = await generateReelScript(data);
+        return result;
+    } catch (error) {
+        console.error('Error generating reel script:', error);
+        throw new Error('Failed to generate reel script. Please try again.');
+    }
 }

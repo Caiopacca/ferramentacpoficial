@@ -5,6 +5,52 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ToolsPage() {
+  const tools = [
+    {
+      href: '/profile-analyzer',
+      title: 'Analisador de Perfil com IA',
+      description: 'Receba um diagnóstico do seu perfil do Instagram com nota e pontos de melhoria.',
+      hint: 'instagram performance analysis',
+    },
+    {
+      href: '/competition-analyzer',
+      title: 'Radar de Concorrência',
+      description: 'Analise seu perfil do Instagram em comparação com seus concorrentes.',
+      hint: 'business competition analysis',
+    },
+    {
+      href: '/bio-creator',
+      title: 'Criador de Bio Magnética',
+      description: 'Crie biografias otimizadas para o seu perfil do Instagram em segundos.',
+      hint: 'instagram profile user',
+    },
+    {
+      href: '/content-factory',
+      title: 'Fábrica de Conteúdo',
+      description: 'Gere 7 dias de ideias de posts para seu nicho e objetivo com o poder da IA.',
+      hint: 'social media marketing',
+    },
+    {
+      href: '/roi-calculator',
+      title: 'Calculadora de ROI',
+      description: 'Calcule o potencial de retorno sobre seu investimento em marketing.',
+      hint: 'return on investment calculator',
+    },
+    {
+      href: '/copy-analyzer',
+      title: 'Detector de Legendas Vendedoras',
+      description: 'Receba um feedback instantâneo sobre o poder de persuasão da sua legenda.',
+      hint: 'copywriting analysis text',
+    },
+    {
+      href: '/reel-script-writer',
+      title: 'Roteirista de Reels com IA',
+      description: 'Gere um roteiro de 15 segundos para um Reel com base em um tema e nicho.',
+      hint: 'video script writing',
+    },
+  ];
+
+
   return (
     <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12 bg-background">
       <div className="w-full max-w-4xl">
@@ -26,144 +72,29 @@ export default function ToolsPage() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle>Analisador de Perfil com IA</CardTitle>
-              <CardDescription>
-                Receba um diagnóstico do seu perfil do Instagram com nota e pontos de melhoria.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-                <div 
-                    data-ai-hint="instagram performance analysis"
-                    className="aspect-video bg-cover rounded-md"
-                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
-                </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/profile-analyzer" passHref className="w-full">
-                <Button className="w-full">
-                  Usar Ferramenta
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle>Radar de Concorrência</CardTitle>
-              <CardDescription>
-                Analise seu perfil do Instagram em comparação com seus concorrentes.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-                <div 
-                    data-ai-hint="business competition analysis"
-                    className="aspect-video bg-cover rounded-md"
-                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
-                </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/competition-analyzer" passHref className="w-full">
-                <Button className="w-full">
-                  Usar Ferramenta
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle>Criador de Bio Magnética</CardTitle>
-              <CardDescription>
-                Crie biografias otimizadas para o seu perfil do Instagram em segundos.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-                <div 
-                    data-ai-hint="instagram profile user"
-                    className="aspect-video bg-cover rounded-md"
-                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
-                </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/bio-creator" passHref className="w-full">
-                <Button className="w-full">
-                  Usar Ferramenta
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle>Fábrica de Conteúdo</CardTitle>
-              <CardDescription>
-                Gere 7 dias de ideias de posts para seu nicho e objetivo com o poder da IA.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-                <div 
-                    data-ai-hint="social media marketing"
-                    className="aspect-video bg-cover rounded-md"
-                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
-                </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/content-factory" passHref className="w-full">
-                <Button className="w-full">
-                  Usar Ferramenta
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle>Calculadora de ROI</CardTitle>
-              <CardDescription>
-                Calcule o potencial de retorno sobre seu investimento em marketing.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-                <div 
-                    data-ai-hint="return on investment calculator"
-                    className="aspect-video bg-cover rounded-md"
-                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
-                </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/roi-calculator" passHref className="w-full">
-                <Button className="w-full">
-                  Usar Ferramenta
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle>Detector de Legendas Vendedoras</CardTitle>
-              <CardDescription>
-                Receba um feedback instantâneo sobre o poder de persuasão da sua legenda.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-                <div 
-                    data-ai-hint="copywriting analysis text"
-                    className="aspect-video bg-cover rounded-md"
-                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
-                </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/copy-analyzer" passHref className="w-full">
-                <Button className="w-full">
-                  Usar Ferramenta
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
+          {tools.map((tool) => (
+            <Card key={tool.href} className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardHeader>
+                <CardTitle>{tool.title}</CardTitle>
+                <CardDescription>{tool.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="flex-grow">
+                  <div 
+                      data-ai-hint={tool.hint}
+                      className="aspect-video bg-cover rounded-md"
+                      style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
+                  </div>
+              </CardContent>
+              <CardFooter>
+                <Link href={tool.href} passHref className="w-full">
+                  <Button className="w-full">
+                    Usar Ferramenta
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
       </div>
     </main>
