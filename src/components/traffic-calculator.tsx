@@ -175,20 +175,6 @@ export function TrafficCalculator() {
                   </FormItem>
                 )}
               />
-                <FormField
-                control={form.control}
-                name="leadToCustomerRate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>De 100 leads, quantos viram clientes? (%)</FormLabel>
-                    <FormDescription>Sua taxa de fechamento.</FormDescription>
-                    <FormControl>
-                      <Input type="number" placeholder="Ex: 10" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               
               {campaignType === 'landingPage' && (
                 <>
@@ -201,6 +187,20 @@ export function TrafficCalculator() {
                         <FormDescription>Taxa de conversão da sua página.</FormDescription>
                         <FormControl>
                           <Input type="number" placeholder="Ex: 3" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="leadToCustomerRate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>De 100 leads, quantos viram clientes? (%)</FormLabel>
+                        <FormDescription>Sua taxa de fechamento.</FormDescription>
+                        <FormControl>
+                          <Input type="number" placeholder="Ex: 10" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -224,20 +224,36 @@ export function TrafficCalculator() {
               )}
 
               {campaignType === 'directContact' && (
-                <FormField
-                    control={form.control}
-                    name="avgCpl"
-                    render={({ field }) => (
+                <>
+                    <FormField
+                        control={form.control}
+                        name="leadToCustomerRate"
+                        render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Quanto você paga por conversa iniciada? (R$)</FormLabel>
-                        <FormDescription>Seu Custo por Lead (CPL) médio.</FormDescription>
-                        <FormControl>
-                            <Input type="number" step="0.01" placeholder="Ex: 25.00" {...field} />
-                        </FormControl>
-                        <FormMessage />
+                            <FormLabel>De 100 leads, quantos viram clientes? (%)</FormLabel>
+                            <FormDescription>Sua taxa de fechamento.</FormDescription>
+                            <FormControl>
+                            <Input type="number" placeholder="Ex: 10" {...field} />
+                            </FormControl>
+                            <FormMessage />
                         </FormItem>
-                    )}
-                />
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="avgCpl"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Quanto você paga por conversa iniciada? (R$)</FormLabel>
+                            <FormDescription>Seu Custo por Lead (CPL) médio.</FormDescription>
+                            <FormControl>
+                                <Input type="number" step="0.01" placeholder="Ex: 25.00" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </>
               )}
 
             </div>
