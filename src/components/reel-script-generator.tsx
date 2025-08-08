@@ -47,6 +47,11 @@ const themes = [
   { value: 'Mito vs. Verdade', label: 'Mito vs. Verdade' },
   { value: 'Processo Acelerado (Timelapse)', label: 'Processo Acelerado (Timelapse)' },
   { value: 'Caixinha de Perguntas', label: 'Caixinha de Perguntas' },
+  { value: 'Narrando um Storytime', label: 'Narrando um Storytime' },
+  { value: 'Tutorial Rápido', label: 'Tutorial Rápido' },
+  { value: 'POV (Point of View)', label: 'POV (Point of View)' },
+  { value: 'Lista Top 3', label: 'Lista Top 3' },
+  { value: 'Desafio / Trend', label: 'Desafio / Trend' },
 ];
 
 type FormData = z.infer<typeof formSchema>;
