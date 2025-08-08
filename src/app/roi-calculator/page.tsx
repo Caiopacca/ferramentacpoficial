@@ -5,6 +5,7 @@ import { RoiCalculator } from '@/components/roi-calculator';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function RoiCalculatorPage() {
   return (
@@ -19,9 +20,12 @@ export default function RoiCalculatorPage() {
           </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
+          <div className="flex justify-center items-center gap-4">
+            <Image src="/imagem/logo.png" alt="Logo CP Marketing" width={50} height={50} className="rounded-md" />
             <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
                 Calculadora de Retorno sobre Marketing
             </h1>
+          </div>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Calcule o potencial de lucro dos seus investimentos em anúncios com base no seu ticket médio e metas.
           </p>

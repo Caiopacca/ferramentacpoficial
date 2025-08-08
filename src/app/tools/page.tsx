@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ToolsPage() {
   const tools = [
@@ -93,9 +94,12 @@ export default function ToolsPage() {
             </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
-                Caixa de Ferramentas IA da CP Marketing
-            </h1>
+            <div className="flex justify-center items-center gap-4">
+              <Image src="/imagem/logo.png" alt="Logo CP Marketing" width={50} height={50} className="rounded-md" />
+              <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
+                  Caixa de Ferramentas IA da CP Marketing
+              </h1>
+            </div>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Explore nossas ferramentas gratuitas de IA para otimizar seu marketing de conteúdo.
           </p>

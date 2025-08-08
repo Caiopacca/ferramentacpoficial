@@ -5,6 +5,7 @@ import { EmailSubjectGenerator } from '@/components/email-subject-generator';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function EmailSubjectGeneratorPage() {
   return (
@@ -19,9 +20,12 @@ export default function EmailSubjectGeneratorPage() {
           </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
+          <div className="flex justify-center items-center gap-4">
+            <Image src="/imagem/logo.png" alt="Logo CP Marketing" width={50} height={50} className="rounded-md" />
             <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
                 Gerador de Assuntos que Abrem Portas
             </h1>
+          </div>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Gere 5 opções de títulos de e-mail curtos e persuasivos para sua prospecção.
           </p>

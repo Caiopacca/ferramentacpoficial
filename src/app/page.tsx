@@ -3,14 +3,18 @@
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function CapturePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 md:p-12 bg-background">
       <div className="w-full max-w-lg text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary tracking-tight">
-          Acesse nossas ferramentas exclusivas
-        </h1>
+        <div className="flex justify-center items-center gap-4">
+            <Image src="/imagem/logo.png" alt="Logo CP Marketing" width={40} height={40} className="rounded-md" />
+            <h1 className="text-3xl md:text-4xl font-bold text-primary tracking-tight">
+            Acesse nossas ferramentas exclusivas
+            </h1>
+        </div>
         <p className="mt-4 text-lg md:text-xl text-muted-foreground">
           Preencha o formulário para ter acesso às nossas ferramentas de marketing com IA.
         </p>

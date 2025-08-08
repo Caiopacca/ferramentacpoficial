@@ -5,6 +5,7 @@ import { AdAnalyzer } from '@/components/ad-analyzer';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AdAnalyzerPage() {
   return (
@@ -19,9 +20,12 @@ export default function AdAnalyzerPage() {
           </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
+          <div className="flex justify-center items-center gap-4">
+            <Image src="/imagem/logo.png" alt="Logo CP Marketing" width={50} height={50} className="rounded-md" />
             <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
                 Raio-X de Anúncios
             </h1>
+          </div>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Receba uma segunda opinião da IA antes de investir em tráfego pago e evite erros caros.
           </p>

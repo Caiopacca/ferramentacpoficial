@@ -5,6 +5,7 @@ import { CompetitionAnalyzer } from '@/components/competition-analyzer';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function CompetitionAnalyzerPage() {
   return (
@@ -19,9 +20,12 @@ export default function CompetitionAnalyzerPage() {
           </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
+          <div className="flex justify-center items-center gap-4">
+            <Image src="/imagem/logo.png" alt="Logo CP Marketing" width={50} height={50} className="rounded-md" />
             <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
                 Radar de Concorrência
             </h1>
+          </div>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Insira o seu @ e o de seus concorrentes para uma análise comparativa rápida com IA.
           </p>
