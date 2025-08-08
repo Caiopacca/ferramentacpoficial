@@ -11,23 +11,27 @@ export function RdStationForm() {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   useEffect(() => {
-    const handleConversion = (event: any) => {
-      // The RD Station script dispatches a 'submit_form_success' event on the window object.
-      // The event 'detail' contains the form_id.
-      // We check if it's the correct form before unlocking the button.
-      if (event.detail.form_id === 'form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6') {
+    // Handler to process the conversion event from RD Station
+    const handleConversion = (event: Event) => {
+      // The event is a CustomEvent, and the form_id is in the detail property.
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail?.form_id === 'form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6') {
         setIsFormSubmitted(true);
       }
     };
 
-    window.addEventListener('message', handleMessage);
+    // We add the listener to the window object to capture the event dispatched by the RD Station script.
+    window.addEventListener('submit_form_success', handleConversion);
 
+    // Cleanup function to remove the listener when the component unmounts.
     return () => {
-      window.removeEventListener('message', handleMessage);
+      window.removeEventListener('submit_form_success', handleConversion);
     };
   }, []);
 
   useEffect(() => {
+    // This effect runs when the script is loaded.
+    // It checks if the RD Station Forms object is available and creates the form.
     if (isScriptLoaded && document.getElementById('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6')) {
         // @ts-ignore
         if (window.RDStationForms) {
@@ -47,12 +51,7 @@ export function RdStationForm() {
                 id="rdstation-forms-script"
                 strategy="afterInteractive"
                 src="https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js"
-                onLoad={() => {
-                  if (document.getElementById('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6')) {
-                    // @ts-ignore
-                    new window.RDStationForms('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6', 'null').createForm();
-                  }
-                }}
+                onLoad={() => setIsScriptLoaded(true)}
             />
         </>
       ) : (
