@@ -37,6 +37,7 @@ const formSchema = z.object({
 });
 
 const jobTitles = [
+  { value: 'Dono(a) de Empresa', label: 'Dono(a) de Empresa' },
   { value: 'CEO ou Fundador(a)', label: 'CEO ou Fundador(a)' },
   { value: 'Gerente de Marketing', label: 'Gerente de Marketing' },
   { value: 'Gerente de Compras', label: 'Gerente de Compras' },
@@ -48,6 +49,7 @@ const jobTitles = [
 const objectives = [
   { value: 'Apresentar meu serviço/produto', label: 'Apresentar meu serviço/produto' },
   { value: 'Marcar uma reunião de demonstração', label: 'Marcar uma reunião de demonstração' },
+  { value: 'Oferecer uma consultoria gratuita', label: 'Oferecer uma consultoria gratuita' },
   { value: 'Iniciar uma parceria estratégica', label: 'Iniciar uma parceria estratégica' },
   { value: 'Fazer networking', label: 'Fazer networking' },
 ];
