@@ -26,6 +26,11 @@ import {
   type CalculateRoiInput,
   type CalculateRoiOutput,
 } from '@/ai/flows/calculate-roi';
+import {
+  analyzeCopy,
+  type AnalyzeCopyInput,
+  type AnalyzeCopyOutput,
+} from '@/ai/flows/analyze-copy';
 
 
 export async function handleGenerateContent(
@@ -85,5 +90,17 @@ export async function handleCalculateRoi(
   } catch (error) {
     console.error('Error calculating ROI:', error);
     throw new Error('Failed to calculate ROI. Please try again.');
+  }
+}
+
+export async function handleAnalyzeCopy(
+  data: AnalyzeCopyInput
+): Promise<AnalyzeCopyOutput> {
+  try {
+    const result = await analyzeCopy(data);
+    return result;
+  } catch (error) {
+    console.error('Error analyzing copy:', error);
+    throw new Error('Failed to analyze copy. Please try again.');
   }
 }

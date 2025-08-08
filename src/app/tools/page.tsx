@@ -141,6 +141,29 @@ export default function ToolsPage() {
               </Link>
             </CardFooter>
           </Card>
+          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle>Detector de Legendas Vendedoras</CardTitle>
+              <CardDescription>
+                Receba um feedback instantâneo sobre o poder de persuasão da sua legenda.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+                <div 
+                    data-ai-hint="copywriting analysis text"
+                    className="aspect-video bg-cover rounded-md"
+                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
+                </div>
+            </CardContent>
+            <CardFooter>
+              <Link href="/copy-analyzer" passHref className="w-full">
+                <Button className="w-full">
+                  Usar Ferramenta
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
         </div>
       </div>
     </main>
