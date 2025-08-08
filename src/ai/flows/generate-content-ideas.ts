@@ -16,21 +16,21 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateContentIdeasInputSchema = z.object({
-  niche: z.string().describe('The user\u2019s niche (e.g., Dermatology, Advocacy, Restaurant).'),
-  objective: z.string().describe('The user\u2019s objective (e.g., Attract Clients, Generate Authority).'),
+  niche: z.string().describe('O nicho de atuação do usuário (ex: Dermatologia, Advocacia, Restaurante).'),
+  objective: z.string().describe('O objetivo do usuário (ex: Atrair Clientes, Gerar Autoridade).'),
 });
 export type GenerateContentIdeasInput = z.infer<
   typeof GenerateContentIdeasInputSchema
 >;
 
 const ContentIdeaSchema = z.object({
-  format: z.enum(['Reel', 'Carousel', 'Story']).describe('The format of the content idea.'),
-  title: z.string().describe('A magnetic title/hook for the content idea.'),
-  description: z.string().describe('A brief description of the content idea.'),
+  format: z.enum(['Reel', 'Carousel', 'Story']).describe('O formato da ideia de conteúdo.'),
+  title: z.string().describe('Um título ou gancho magnético para a ideia de conteúdo.'),
+  description: z.string().describe('Uma breve descrição da ideia de conteúdo.'),
 });
 
 const GenerateContentIdeasOutputSchema = z.object({
-  contentIdeas: z.array(ContentIdeaSchema).length(7).describe('A list of 7 content ideas for the week.'),
+  contentIdeas: z.array(ContentIdeaSchema).length(7).describe('Uma lista com 7 ideias de conteúdo para a semana.'),
 });
 
 export type GenerateContentIdeasOutput = z.infer<
@@ -45,7 +45,14 @@ const generateContentIdeasPrompt = ai.definePrompt({
   output: {
     schema: GenerateContentIdeasOutputSchema,
   },
-  prompt: `Você é um diretor de conteúdo criativo para redes sociais. O usuário atua no nicho de {{{niche}}} e tem como objetivo {{{objective}}}. Gere uma lista com 7 ideias de conteúdo para uma semana no Instagram. Para cada ideia, especifique o formato (Reel, Carrossel ou Story), um título/gancho magnético e uma breve descrição do conteúdo. O tom deve ser criativo e inspirador.`,
+  prompt: `Aja como um diretor de conteúdo criativo para redes sociais. O usuário atua no nicho de {{{niche}}} e seu objetivo é {{{objective}}}.
+
+Gere um plano de conteúdo com 7 ideias para uma semana no Instagram. Para cada dia, forneça:
+1.  **Formato:** Reel, Carrossel ou Story.
+2.  **Título/Gancho:** Um título magnético e que prenda a atenção.
+3.  **Descrição:** Um resumo claro e conciso do conteúdo.
+
+O tom deve ser criativo, inspirador e alinhado com as melhores práticas de marketing de conteúdo.`,
 });
 
 const generateContentIdeasFlow = ai.defineFlow(

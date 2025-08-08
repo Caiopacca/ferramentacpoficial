@@ -34,8 +34,8 @@ import { Skeleton } from './ui/skeleton';
 
 const formSchema = z.object({
   niche: z
-    .string({ required_error: 'Por favor, insira um nicho.' })
-    .min(2, 'Nicho deve ter pelo menos 2 caracteres.'),
+    .string({ required_error: 'Por favor, preencha seu nicho.' })
+    .min(2, 'O nicho deve ter pelo menos 2 caracteres.'),
   objective: z
     .string({ required_error: 'Por favor, selecione um objetivo.' })
     .min(1, 'Por favor, selecione um objetivo.'),
@@ -100,7 +100,7 @@ export function ContentGenerator() {
                       Ex: Dermatologia, Advocacia, Restaurante...
                     </FormDescription>
                     <FormControl>
-                      <Input placeholder="Qual área você atua?" {...field} />
+                      <Input placeholder="Qual é a sua área de atuação?" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -141,10 +141,10 @@ export function ContentGenerator() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Gerando Ideias...
+                  Gerando ideias...
                 </>
               ) : (
-                'Gerar 7 Dias de Conteúdo'
+                'Gerar Plano de 7 Dias'
               )}
             </Button>
           </form>
