@@ -24,30 +24,17 @@ import type { GenerateHashtagsOutput } from '@/ai/flows/generate-hashtags';
 import { handleGenerateHashtags } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Checkbox } from './ui/checkbox';
+
 
 const formSchema = z.object({
   keyword: z.string().min(2, 'A palavra-chave deve ter pelo menos 2 caracteres.'),
-  locationType: z.enum(['local', 'national'], {
-    required_error: 'Selecione uma opção de atendimento.',
-  }),
   city: z.string().optional(),
   state: z.string().optional(),
-}).superRefine((data, ctx) => {
-    if (data.locationType === 'local' && (!data.city || data.city.length < 2)) {
-        ctx.addIssue({
-            code: 'custom',
-            path: ['city'],
-            message: 'Cidade é obrigatória para negócios locais.',
-        });
-    }
-    if (data.locationType === 'local' && (!data.state || data.state.length < 2)) {
-        ctx.addIssue({
-            code: 'custom',
-            path: ['state'],
-            message: 'Estado é obrigatório para negócios locais.',
-        });
-    }
+  isNational: z.boolean().default(false),
+}).refine(data => data.city || data.isNational, {
+    message: 'Você deve preencher a localização ou marcar o atendimento nacional.',
+    path: ['isNational'], // you can pick any field to display the error
 });
 
 
@@ -61,11 +48,11 @@ export function HashtagStrategist() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       keyword: '',
-      locationType: 'national',
+      city: '',
+      state: '',
+      isNational: false,
     },
   });
-
-  const locationType = form.watch('locationType');
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -124,46 +111,12 @@ export function HashtagStrategist() {
               )}
             />
 
-            <FormField
-                control={form.control}
-                name="locationType"
-                render={({ field }) => (
-                    <FormItem className="space-y-3">
-                    <FormLabel className="text-lg">Onde você atende?</FormLabel>
-                     <FormDescription>
-                        Isso nos ajuda a criar hashtags de localização mais eficazes.
-                     </FormDescription>
-                    <FormControl>
-                        <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-6"
-                        >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                            <RadioGroupItem value="national" />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                            Negócio Nacional (Online)
-                            </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                            <RadioGroupItem value="local" />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                             Negócio Local (Cidade/Estado)
-                            </FormLabel>
-                        </FormItem>
-                        </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-            />
-            
-            {locationType === 'local' && (
-                <div className="grid md:grid-cols-2 gap-6 p-4 border rounded-md bg-muted/50">
+            <div>
+                <FormLabel className="text-lg">Onde você atende?</FormLabel>
+                <FormDescription className="mb-4">
+                    Preencha os campos para gerar hashtags locais e/ou nacionais.
+                </FormDescription>
+                <div className="grid md:grid-cols-2 gap-6 p-4 border rounded-md bg-muted/50 mt-2">
                      <FormField
                         control={form.control}
                         name="city"
@@ -171,7 +124,7 @@ export function HashtagStrategist() {
                             <FormItem>
                             <FormLabel>Cidade</FormLabel>
                             <FormControl>
-                                <Input placeholder="Ex: São Paulo" {...field} />
+                                <Input placeholder="Ex: Goiânia" {...field} />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
@@ -182,16 +135,39 @@ export function HashtagStrategist() {
                         name="state"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Estado</FormLabel>
+                            <FormLabel>Estado (UF)</FormLabel>
                             <FormControl>
-                                <Input placeholder="Ex: SP" {...field} />
+                                <Input placeholder="Ex: GO" {...field} />
                             </FormControl>
                             <FormMessage />
                             </FormItem>
                         )}
                     />
                 </div>
-            )}
+            </div>
+            
+            <FormField
+              control={form.control}
+              name="isNational"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Atendo em todo o Brasil (online)
+                    </FormLabel>
+                    <FormDescription>
+                      Marque esta opção para gerar hashtags de alcance nacional.
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
 
 
             <Button type="submit" disabled={isLoading} className="w-full md:w-auto" size="lg">
