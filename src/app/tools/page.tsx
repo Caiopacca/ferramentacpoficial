@@ -20,7 +20,7 @@ export default function ToolsPage() {
       hint: 'instagram profile user',
     },
     {
-      href: '/content-factory',
+      href: 'content-factory',
       title: 'Fábrica de Conteúdo',
       description: 'Gere 7 dias de ideias de posts para seu nicho e objetivo com o poder da IA.',
       hint: 'social media marketing',
@@ -69,7 +69,7 @@ export default function ToolsPage() {
     },
     {
       href: '/email-subject-generator',
-      title: 'Gerador de Assuntos de E-mail',
+      title: 'Gerador de Títulos Persuasivos',
       description: 'Crie 5 opções de títulos de e-mail persuasivos para prospecção fria.',
       hint: 'email marketing outreach',
     },

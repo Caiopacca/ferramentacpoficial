@@ -42,10 +42,22 @@ const generateEmailSubjectPrompt = ai.definePrompt({
   output: {
     schema: GenerateEmailSubjectOutputSchema,
   },
-  prompt: `Você é um especialista em prospecção fria por e-mail. Um usuário precisa enviar um e-mail para um {{{jobTitle}}} com o objetivo de {{{objective}}}.
+  prompt: `Você é um copywriter sênior, um estrategista de marketing especialista em criar títulos de e-mail para prospecção fria que são impossíveis de ignorar. Sua missão é gerar 5 opções de assuntos que garantam uma alta taxa de abertura.
 
-Gere 5 opções de assuntos (títulos) de e-mail curtos, magnéticos e profissionais que aumentem a taxa de abertura.
-Apresente as opções diretamente, sem usar uma lista numerada. Cada assunto deve ser um item no array de strings de saída.`,
+**Destinatário:** {{{jobTitle}}}
+**Objetivo do E-mail:** {{{objective}}}
+
+**Instruções para os Títulos:**
+1.  **Seja Magnético, Não Vendedor:** O título não deve parecer uma venda. Ele precisa despertar curiosidade, gerar urgência ou ser ultra-específico.
+2.  **Use Gatilhos Mentais:** Incorpore gatilhos como:
+    *   **Curiosidade:** "Uma pergunta sobre [tópico relevante para o cargo]"
+    *   **Especificidade:** "Ideia para otimizar [área específica] em 10 minutos"
+    *   **Prova Social:** "Como a [Empresa Conhecida] resolveu [problema comum]"
+    *   **Urgência/Exclusividade:** "Convite para [cargo]"
+3.  **Curto e Direto:** Idealmente, menos de 6 palavras. Otimizado para visualização em mobile.
+4.  **Personalização Implícita:** O título deve fazer o {{{jobTitle}}} sentir que o e-mail foi pensado para ele, mesmo sem usar o nome.
+
+Gere 5 opções de alto impacto, prontas para usar. Cada assunto deve ser um item no array de strings de saída.`,
 });
 
 const generateEmailSubjectFlow = ai.defineFlow(
