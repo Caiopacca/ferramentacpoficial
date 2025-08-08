@@ -6,7 +6,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Loader2 } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
+import { Badge } from '@/components/ui/badge';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+
 
 import { Button } from '@/components/ui/button';
 import {
@@ -21,8 +28,9 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import type { AnalyzeProfileOutput } from '@/ai/flows/analyze-profile';
 import { handleAnalyzeProfile } from '@/app/actions';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import { Progress } from './ui/progress';
 
 const formSchema = z.object({
   username: z
@@ -66,11 +74,19 @@ export function ProfileAnalyzer() {
     }
   }
 
+    const getPillarScoreColor = (score: number) => {
+        if (score >= 8) return 'bg-green-500/20 text-green-400';
+        if (score >= 5) return 'bg-yellow-500/20 text-yellow-400';
+        return 'bg-red-500/20 text-red-400';
+    };
+
+
   return (
     <div className="space-y-8">
       <Card>
         <CardHeader>
             <CardTitle>Analisador de Perfil</CardTitle>
+            <CardDescription>Insira seu @ do Instagram e receba um diagnóstico completo com nota e pontos de melhoria.</CardDescription>
         </CardHeader>
         <CardContent>
             <Form {...form}>
@@ -130,16 +146,63 @@ export function ProfileAnalyzer() {
         )}
 
         {analysis && (
-          <Card>
-            <CardHeader>
-                <CardTitle>Relatório de Performance</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <article className="prose dark:prose-invert max-w-none">
-                    <ReactMarkdown>{analysis.analysis}</ReactMarkdown>
-                </article>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+             <Card>
+                <CardHeader>
+                    <CardTitle className="text-2xl">Diagnóstico Estratégico de Perfil</CardTitle>
+                    <CardDescription>{analysis.username}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="text-center p-6 bg-card-foreground/5 rounded-lg">
+                        <p className="text-sm font-medium text-muted-foreground">Nota Geral de Performance Comercial</p>
+                        <p className="text-7xl font-bold text-primary mt-2">{analysis.overallScore}</p>
+                        <Progress value={analysis.overallScore} className="mt-4 h-2" />
+                    </div>
+                </CardContent>
+             </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Resumo Executivo Estratégico</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">{analysis.executiveSummary}</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Diagnóstico Detalhado por Pilares</CardTitle>
+                     <CardDescription>Clique em cada pilar para ver a análise e o plano de ação.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Accordion type="single" collapsible className="w-full">
+                        {analysis.pillars.map((pillar, index) => (
+                             <AccordionItem value={`item-${index}`} key={index}>
+                                <AccordionTrigger className="text-base hover:no-underline">
+                                    <div className="flex items-center gap-4">
+                                        <Badge className={`px-2 py-1 text-sm font-bold ${getPillarScoreColor(pillar.score)}`}>
+                                            {pillar.score}/10
+                                        </Badge>
+                                        <span>{pillar.title}</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="space-y-4 pt-2">
+                                    <div>
+                                        <h4 className="font-semibold text-foreground">Análise de Impacto</h4>
+                                        <p className="text-muted-foreground mt-1">{pillar.impactAnalysis}</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold text-foreground">Plano de Ação</h4>
+                                        <p className="text-muted-foreground mt-1">{pillar.actionPlan}</p>
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </CardContent>
+            </Card>
+          </div>
         )}
       </div>
     </div>
