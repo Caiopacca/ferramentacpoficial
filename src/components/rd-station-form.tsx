@@ -10,18 +10,18 @@ export function RdStationForm() {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (
-        event.data.type === 'conversion' &&
-        event.data.payload.formId === '3d422f4cbcae3b0a8fe6'
-      ) {
+    const handleConversion = (event: any) => {
+      // O RD Station dispara um evento 'submit_form_success' no window
+      // O 'detail' do evento contém o nome do formulário.
+      // Verificamos se é o formulário correto antes de liberar o botão.
+      if (event.detail.form_id === 'form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6') {
         setIsFormSubmitted(true);
       }
     };
 
     window.addEventListener('message', handleMessage);
 
-    // Cleanup do event listener quando o componente é desmontado
+    // Cleanup the event listener when the component is unmounted
     return () => {
       window.removeEventListener('message', handleMessage);
     };
@@ -34,20 +34,18 @@ export function RdStationForm() {
             <div role="main" id="form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6"></div>
             <Script
                 id="rdstation-forms-script"
+                strategy="afterInteractive"
                 src="https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js"
                 onLoad={() => {
-                  // @ts-ignore
-                  if (window.RDStationForms) {
-                    // @ts-ignore
-                    new window.RDStationForms('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6', 'null').createForm();
-                  }
+                // @ts-ignore
+                new window.RDStationForms('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6', 'null').createForm();
                 }}
             />
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-4">
+        <div className="flex flex-col items-center justify-center gap-4 py-8">
             <h2 className="text-2xl font-bold text-primary">Obrigado!</h2>
-            <p className="text-muted-foreground">Seu acesso está liberado. Clique no botão abaixo para explorar as ferramentas.</p>
+            <p className="text-muted-foreground text-center">Seu acesso está liberado. Clique no botão abaixo para explorar as ferramentas.</p>
             <Link href="/tools" passHref>
                 <Button size="lg" className="mt-4">
                     Acessar Ferramentas
