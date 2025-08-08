@@ -33,8 +33,8 @@ const formSchema = z.object({
   city: z.string().optional(),
   state: z.string().optional(),
   isNational: z.boolean().default(false),
-}).refine(data => data.city || data.isNational, {
-    message: 'Você deve preencher a localização ou marcar o atendimento nacional.',
+}).refine(data => data.state || data.isNational, {
+    message: 'Você deve selecionar um estado ou marcar o atendimento nacional.',
     path: ['isNational'], // you can pick any field to display the error
 });
 
@@ -148,19 +148,6 @@ export function HashtagStrategist() {
                     Preencha os campos para gerar hashtags locais e/ou nacionais.
                 </FormDescription>
                 <div className="grid md:grid-cols-2 gap-6 p-4 border rounded-md bg-muted/50 mt-2">
-                     <FormField
-                        control={form.control}
-                        name="city"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Cidade</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Ex: Goiânia" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
                     <FormField
                         control={form.control}
                         name="state"
@@ -185,6 +172,19 @@ export function HashtagStrategist() {
                             </FormItem>
                         )}
                     />
+                     <FormField
+                        control={form.control}
+                        name="city"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Cidade (Opcional)</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Ex: Goiânia" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
                 </div>
             </div>
             
@@ -207,6 +207,7 @@ export function HashtagStrategist() {
                       Marque esta opção para gerar hashtags de alcance nacional.
                     </FormDescription>
                   </div>
+                   <FormMessage />
                 </FormItem>
               )}
             />
