@@ -63,16 +63,16 @@ Crie um título chamativo para o Reel.
 **2. Plano de Cenas (campo 'scenePlan'):**
 Crie um array com 3 objetos, um para cada cena do vídeo, seguindo a estrutura: Gancho, Desenvolvimento e CTA.
 - **Gancho (item 1):**
-  - scene: Descreva a primeira cena visual de forma impactante. Ex: "Close no rosto com expressão de surpresa."
-  - audioText: Texto que aparece na tela ou primeira frase falada. Ex: "Você está cometendo este erro..."
+  - scene: Descreva a primeira cena visual de forma impactante. Seja específico sobre a ação e a expressão. Ex: "Close no rosto do criador, com uma expressão de choque, olhando para a câmera."
+  - audioText: Forneça a frase exata para a narração ou texto que aparece na tela. Ex: "Pare de fazer isso se você quer (resultado desejado)."
   - time: "0-3s"
 - **Desenvolvimento (item 2):**
-  - scene: Descreva a(s) cena(s) seguintes de forma dinâmica. Ex: "Corte rápido mostrando o jeito errado e depois o jeito certo."
-  - audioText: Continue a narração ou os textos na tela, entregando o conteúdo de valor de forma clara e objetiva.
-  - time: "4-{{{developmentTime}}}s"
+  - scene: Descreva a(s) cena(s) seguintes de forma dinâmica e detalhada. Sugira ações e cortes. Ex: "Corte rápido mostrando a 'maneira errada' (descrever a cena). Em seguida, um corte mostrando a 'maneira certa' (descrever a cena)."
+  - audioText: Escreva a narração completa ou os textos que explicam o conteúdo de valor de forma clara, objetiva e completa.
+  - time: "4s-{{{developmentTime}}}s"
 - **CTA (item 3):**
-  - scene: Descreva a cena final. Ex: "Apontando para o botão de seguir."
-  - audioText: Texto ou narração com a chamada para ação. Ex: "Gostou? Me siga para mais dicas."
+  - scene: Descreva a cena final de forma clara. Ex: "O criador aponta para a descrição do vídeo ou para o botão de seguir, sorrindo."
+  - audioText: Forneça a narração ou texto exato para a chamada para ação. Ex: "Gostou da dica? Comente 'EU QUERO' para receber mais. E não se esqueça de seguir!"
   - time: "Últimos 3s"
 
 **3. Dica de Ouro (campo 'proTip'):**
