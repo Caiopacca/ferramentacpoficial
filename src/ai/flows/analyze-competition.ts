@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -15,7 +16,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const AnalyzeCompetitionInputSchema = z.object({
+const AnalyzeCompetitionInputSchema = z.object({
   userProfile: z.string().describe('O @ do perfil do usuário no Instagram.'),
   competitorProfile1: z.string().describe('O @ do primeiro concorrente no Instagram.'),
   competitorProfile2: z.string().optional().describe('O @ do segundo concorrente no Instagram (opcional).'),
@@ -24,7 +25,7 @@ export type AnalyzeCompetitionInput = z.infer<
   typeof AnalyzeCompetitionInputSchema
 >;
 
-export const AnalyzeCompetitionOutputSchema = z.object({
+const AnalyzeCompetitionOutputSchema = z.object({
   analysis: z.string().describe('Uma análise comparativa em formato Markdown.'),
 });
 export type AnalyzeCompetitionOutput = z.infer<
