@@ -46,6 +46,11 @@ import {
     type GenerateHashtagsInput,
     type GenerateHashtagsOutput,
 } from '@/ai/flows/generate-hashtags';
+import {
+    generateEmailSubject,
+    type GenerateEmailSubjectInput,
+    type GenerateEmailSubjectOutput,
+} from '@/ai/flows/generate-email-subject';
 
 
 export async function handleGenerateContent(
@@ -153,5 +158,17 @@ export async function handleGenerateHashtags(
     } catch (error) {
         console.error('Error generating hashtags:', error);
         throw new Error('Failed to generate hashtags. Please try again.');
+    }
+}
+
+export async function handleGenerateEmailSubject(
+    data: GenerateEmailSubjectInput
+    ): Promise<GenerateEmailSubjectOutput> {
+    try {
+        const result = await generateEmailSubject(data);
+        return result;
+    } catch (error) {
+        console.error('Error generating email subjects:', error);
+        throw new Error('Failed to generate email subjects. Please try again.');
     }
 }

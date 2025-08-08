@@ -60,6 +60,12 @@ export default function ToolsPage() {
       description: 'Gere 3 grupos de hashtags (nicho, volume, localização) para seus posts.',
       hint: 'social media hashtags',
     },
+    {
+      href: '/email-subject-generator',
+      title: 'Gerador de Assuntos de E-mail',
+      description: 'Crie 5 opções de títulos de e-mail persuasivos para prospecção fria.',
+      hint: 'email marketing outreach',
+    },
   ];
 
 
