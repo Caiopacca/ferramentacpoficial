@@ -5,8 +5,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2 } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
+import { Loader2, Users, FileText, Image as ImageIcon, ArrowRight, Award, CheckCircle, TrendingUp } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -23,8 +24,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import type { AnalyzeAdOutput } from '@/ai/flows/analyze-ad';
 import { handleAnalyzeAd } from '@/app/actions';
-import { Card } from './ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 
 const formSchema = z.object({
   targetAudience: z.string().min(10, 'Descreva seu público com pelo menos 10 caracteres.'),
@@ -68,6 +70,19 @@ export function AdAnalyzer() {
       setIsLoading(false);
     }
   }
+
+  const getPillarScoreColor = (score: number) => {
+    if (score >= 8) return 'bg-green-500/20 text-green-400';
+    if (score >= 5) return 'bg-yellow-500/20 text-yellow-400';
+    return 'bg-red-500/20 text-red-400';
+  };
+
+  const pillarIcons: { [key: string]: React.ReactNode } = {
+    'Alinhamento Público-Copy': <Users className="h-5 w-5" />,
+    'Alinhamento Copy-Criativo': <ImageIcon className="h-5 w-5" />,
+    'Clareza da Oferta e CTA': <ArrowRight className="h-5 w-5" />,
+  };
+
 
   return (
     <div>
@@ -139,19 +154,96 @@ export function AdAnalyzer() {
       <div className="mt-12">
         {isLoading && (
             <Card className="p-6">
-                <Skeleton className="h-8 w-1/3 mb-4" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-3/4 mb-6" />
+                <CardHeader>
+                    <Skeleton className="h-8 w-2/3 mb-4" />
+                    <Skeleton className="h-10 w-1/3" />
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-1/4" />
+                        <Skeleton className="h-4 w-full" />
+                    </div>
+                     <div className="space-y-2">
+                        <Skeleton className="h-4 w-1/4" />
+                        <Skeleton className="h-4 w-full" />
+                    </div>
+                </CardContent>
             </Card>
         )}
 
         {analysis && (
-          <Card className="p-6">
-             <article className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown>{analysis.analysis}</ReactMarkdown>
-             </article>
-          </Card>
+          <div className="space-y-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-2xl">Diagnóstico do Anúncio</CardTitle>
+                    <CardDescription>Análise de alinhamento estratégico para conversão.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="text-center p-6 bg-card-foreground/5 rounded-lg">
+                        <p className="text-sm font-medium text-muted-foreground">Nota Geral de Alinhamento</p>
+                        <p className="text-7xl font-bold text-primary mt-2">{analysis.alignmentScore}</p>
+                        <Progress value={analysis.alignmentScore} className="mt-4 h-2" />
+                    </div>
+                </CardContent>
+             </Card>
+
+            <Card>
+                <CardHeader className="flex-row items-center gap-3">
+                    <Award className="w-6 h-6 text-primary" />
+                    <CardTitle>Resumo Executivo</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">{analysis.executiveSummary}</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Análise Detalhada por Pilares</CardTitle>
+                    <CardDescription>Navegue pelas abas para ver a análise de cada pilar.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Tabs defaultValue={analysis.pillars[0].pillarName} className="w-full">
+                        <TabsList className="grid w-full grid-cols-3">
+                            {analysis.pillars.map(pillar => (
+                                <TabsTrigger key={pillar.pillarName} value={pillar.pillarName}>
+                                    {pillar.pillarName}
+                                </TabsTrigger>
+                            ))}
+                        </TabsList>
+                        {analysis.pillars.map(pillar => (
+                             <TabsContent key={pillar.pillarName} value={pillar.pillarName}>
+                                <Card className="border-0 shadow-none">
+                                    <CardHeader className="flex-row items-start gap-4 space-y-0 p-4">
+                                        <span className="p-2 bg-primary/10 rounded-md text-primary">
+                                            {pillarIcons[pillar.pillarName]}
+                                        </span>
+                                        <div>
+                                            <CardTitle className="text-xl flex items-center gap-2">
+                                                {pillar.pillarName}
+                                                <Badge className={`px-2 py-1 text-sm font-bold ${getPillarScoreColor(pillar.score)}`}>
+                                                    {pillar.score}/10
+                                                </Badge>
+                                            </CardTitle>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent className="space-y-4 p-4 pt-0">
+                                        <div>
+                                            <h4 className="font-semibold text-foreground flex items-center gap-2 mb-1"><CheckCircle className="w-4 h-4 text-green-500" /> Análise</h4>
+                                            <p className="text-muted-foreground text-sm">{pillar.analysis}</p>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-foreground flex items-center gap-2 mb-1"><TrendingUp className="w-4 h-4 text-blue-500" /> Sugestão de Melhoria</h4>
+                                            <p className="text-muted-foreground text-sm bg-muted/50 p-3 rounded-md border border-dashed">{pillar.suggestion}</p>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </TabsContent>
+                        ))}
+                    </Tabs>
+                </CardContent>
+            </Card>
+          </div>
         )}
       </div>
     </div>
