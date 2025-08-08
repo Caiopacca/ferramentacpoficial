@@ -14,7 +14,7 @@ export function CtaSection() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center">
-        <Link href="https://caiopaulino.com/consultoria-gratuita/" target="_blank" passHref>
+        <Link href="https://wa.me/5562991528778?text=Olá, gostaria de solicitar a consultoria estratégica gratuita." target="_blank" passHref>
           <Button size="lg">
             Quero Falar com um Especialista
             <ArrowRight className="ml-2 h-4 w-4" />
