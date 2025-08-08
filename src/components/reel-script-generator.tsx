@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Loader2 } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -31,6 +30,7 @@ import type { GenerateReelScriptOutput } from '@/ai/flows/generate-reel-script';
 import { handleGenerateReelScript } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import { ScriptResultDisplay } from './script-result-display';
 
 const formSchema = z.object({
   niche: z
@@ -194,23 +194,16 @@ export function ReelScriptGenerator() {
 
       <div className="mt-12">
         {isLoading && (
-            <Card className="p-6">
-                <Skeleton className="h-8 w-1/3 mb-4" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-3/4 mb-6" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-2/3 mb-2" />
+            <Card className="p-6 space-y-4">
+                <Skeleton className="h-8 w-1/2 mb-4" />
+                <Skeleton className="h-24 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
             </Card>
         )}
 
         {result && (
-          <Card className="p-6">
-             <article className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown>{result.script}</ReactMarkdown>
-             </article>
-          </Card>
+          <ScriptResultDisplay result={result} />
         )}
       </div>
     </div>
