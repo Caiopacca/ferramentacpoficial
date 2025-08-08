@@ -16,6 +16,11 @@ import {
   type GenerateBioInput,
   type GenerateBioOutput,
 } from '@/ai/flows/generate-bio';
+import {
+  analyzeProfile,
+  type AnalyzeProfileInput,
+  type AnalyzeProfileOutput,
+} from '@/ai/flows/analyze-profile';
 
 export async function handleGenerateContent(
   data: GenerateContentIdeasInput
@@ -50,5 +55,17 @@ export async function handleGenerateBio(
   } catch (error) {
     console.error('Error generating bio:', error);
     throw new Error('Failed to generate bio. Please try again.');
+  }
+}
+
+export async function handleAnalyzeProfile(
+  data: AnalyzeProfileInput
+): Promise<AnalyzeProfileOutput> {
+  try {
+    const result = await analyzeProfile(data);
+    return result;
+  } catch (error) {
+    console.error('Error analyzing profile:', error);
+    throw new Error('Failed to analyze profile. Please try again.');
   }
 }

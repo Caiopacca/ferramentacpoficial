@@ -28,20 +28,20 @@ export default function ToolsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader>
-              <CardTitle>Fábrica de Conteúdo</CardTitle>
+              <CardTitle>Analisador de Perfil com IA</CardTitle>
               <CardDescription>
-                Gere 7 dias de ideias de posts para seu nicho e objetivo com o poder da IA.
+                Receba um diagnóstico do seu perfil do Instagram com nota e pontos de melhoria.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
                 <div 
-                    data-ai-hint="social media marketing"
+                    data-ai-hint="instagram performance analysis"
                     className="aspect-video bg-cover rounded-md"
                     style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
                 </div>
             </CardContent>
             <CardFooter>
-              <Link href="/content-factory" passHref className="w-full">
+              <Link href="/profile-analyzer" passHref className="w-full">
                 <Button className="w-full">
                   Usar Ferramenta
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -88,6 +88,29 @@ export default function ToolsPage() {
             </CardContent>
             <CardFooter>
               <Link href="/bio-creator" passHref className="w-full">
+                <Button className="w-full">
+                  Usar Ferramenta
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+          <Card className="flex flex-col h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle>Fábrica de Conteúdo</CardTitle>
+              <CardDescription>
+                Gere 7 dias de ideias de posts para seu nicho e objetivo com o poder da IA.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+                <div 
+                    data-ai-hint="social media marketing"
+                    className="aspect-video bg-cover rounded-md"
+                    style={{backgroundImage: "url('https://placehold.co/600x400.png')"}}>
+                </div>
+            </CardContent>
+            <CardFooter>
+              <Link href="/content-factory" passHref className="w-full">
                 <Button className="w-full">
                   Usar Ferramenta
                   <ArrowRight className="ml-2 h-4 w-4" />
