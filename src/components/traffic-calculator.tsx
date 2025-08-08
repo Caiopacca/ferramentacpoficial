@@ -23,13 +23,43 @@ import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 import { handleCalculateTrafficInvestment } from '@/app/actions';
 import type { CalculateTrafficInvestmentOutput } from '@/ai/flows/calculate-traffic-investment';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const formSchema = z.object({
+    campaignType: z.enum(['landingPage', 'directContact']),
     salesGoal: z.coerce.number().positive('Deve ser um número positivo.'),
     avgTicket: z.coerce.number().positive('Deve ser um número positivo.'),
     leadToCustomerRate: z.coerce.number().positive('Deve ser um número positivo.'),
-    visitorToLeadRate: z.coerce.number().positive('Deve ser um número positivo.'),
-    avgCpc: z.coerce.number().positive('Deve ser um número positivo.'),
+    costPerSale: z.coerce.number().nonnegative('O custo não pode ser negativo.'),
+    // Conditional fields
+    visitorToLeadRate: z.coerce.number().optional(),
+    avgCpc: z.coerce.number().optional(),
+    avgCpl: z.coerce.number().optional(),
+}).superRefine((data, ctx) => {
+    if (data.campaignType === 'landingPage') {
+        if (!data.visitorToLeadRate || data.visitorToLeadRate <= 0) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ['visitorToLeadRate'],
+                message: 'Deve ser um número positivo para este tipo de campanha.',
+            });
+        }
+        if (!data.avgCpc || data.avgCpc <= 0) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ['avgCpc'],
+                message: 'Deve ser um número positivo para este tipo de campanha.',
+            });
+        }
+    } else if (data.campaignType === 'directContact') {
+        if (!data.avgCpl || data.avgCpl <= 0) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ['avgCpl'],
+                message: 'Deve ser um número positivo para este tipo de campanha.',
+            });
+        }
+    }
 });
 
 export function TrafficCalculator() {
@@ -40,19 +70,37 @@ export function TrafficCalculator() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      campaignType: 'landingPage',
       salesGoal: 20,
       avgTicket: 1000,
       leadToCustomerRate: 10,
+      costPerSale: 200, // Assuming 20% of ticket
       visitorToLeadRate: 3,
       avgCpc: 1.50,
+      avgCpl: 25,
     },
   });
+
+  const campaignType = form.watch('campaignType');
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setResult(null);
+
+    // This is a type guard to satisfy TypeScript
+    if ((values.campaignType === 'landingPage' && (values.visitorToLeadRate === undefined || values.avgCpc === undefined)) ||
+        (values.campaignType === 'directContact' && values.avgCpl === undefined)) {
+            toast({
+                title: 'Erro de Validação',
+                description: 'Por favor, preencha todos os campos necessários.',
+                variant: 'destructive',
+            });
+            setIsLoading(false);
+            return;
+    }
+    
     try {
-      const response = await handleCalculateTrafficInvestment(values);
+      const response = await handleCalculateTrafficInvestment(values as any);
       setResult(response);
       toast({
         title: 'Cálculo Concluído!',
@@ -79,6 +127,29 @@ export function TrafficCalculator() {
       <Card className="p-6 md:p-8">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            
+            <FormField
+              control={form.control}
+              name="campaignType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Qual o tipo da sua campanha?</FormLabel>
+                   <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o tipo de campanha" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="landingPage">Página de Destino / Site</SelectItem>
+                      <SelectItem value="directContact">Contato Direto (WhatsApp, Direct)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="grid md:grid-cols-2 gap-x-6 gap-y-8">
               <FormField
                 control={form.control}
@@ -106,7 +177,7 @@ export function TrafficCalculator() {
                   </FormItem>
                 )}
               />
-              <FormField
+                <FormField
                 control={form.control}
                 name="leadToCustomerRate"
                 render={({ field }) => (
@@ -120,34 +191,71 @@ export function TrafficCalculator() {
                   </FormItem>
                 )}
               />
-              <FormField
+               <FormField
                 control={form.control}
-                name="visitorToLeadRate"
+                name="costPerSale"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>De 100 visitantes, quantos viram leads? (%)</FormLabel>
-                    <FormDescription>Sua taxa de conversão do site/página.</FormDescription>
+                    <FormLabel>Qual o custo por cada venda? (R$)</FormLabel>
+                    <FormDescription>Custo do produto/serviço.</FormDescription>
                     <FormControl>
-                      <Input type="number" placeholder="Ex: 3" {...field} />
+                      <Input type="number" placeholder="Ex: 200" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="avgCpc"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Quanto você paga por clique? (R$)</FormLabel>
-                    <FormDescription>Seu Custo por Clique (CPC) médio.</FormDescription>
-                    <FormControl>
-                      <Input type="number" step="0.01" placeholder="Ex: 1.50" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              
+              {campaignType === 'landingPage' && (
+                <>
+                    <FormField
+                    control={form.control}
+                    name="visitorToLeadRate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>De 100 visitantes, quantos viram leads? (%)</FormLabel>
+                        <FormDescription>Taxa de conversão da sua página.</FormDescription>
+                        <FormControl>
+                          <Input type="number" placeholder="Ex: 3" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="avgCpc"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Quanto você paga por clique? (R$)</FormLabel>
+                        <FormDescription>Seu Custo por Clique (CPC) médio.</FormDescription>
+                        <FormControl>
+                          <Input type="number" step="0.01" placeholder="Ex: 1.50" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+
+              {campaignType === 'directContact' && (
+                <FormField
+                    control={form.control}
+                    name="avgCpl"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Quanto você paga por conversa iniciada? (R$)</FormLabel>
+                        <FormDescription>Seu Custo por Lead (CPL) médio.</FormDescription>
+                        <FormControl>
+                            <Input type="number" step="0.01" placeholder="Ex: 25.00" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+              )}
+
             </div>
             <Button type="submit" disabled={isLoading} size="lg" className="w-full md:w-auto">
               {isLoading ? (
@@ -182,11 +290,14 @@ export function TrafficCalculator() {
             <h2 className="text-2xl font-bold text-primary mb-4">Resultados</h2>
             <div className="grid md:grid-cols-2 gap-4 text-lg">
                 <p><strong>Leads Necessários:</strong> {result.requiredLeads}</p>
-                <p><strong>Visitantes Necessários:</strong> {result.requiredVisitors}</p>
+                {result.requiredVisitors && <p><strong>Visitantes Necessários:</strong> {result.requiredVisitors}</p>}
                 <p><strong>Orçamento Estimado:</strong> {formatCurrency(result.requiredBudget)}</p>
                 <p><strong>Lucro Líquido Esperado:</strong> {formatCurrency(result.expectedProfit)}</p>
                 <p><strong>ROI Estimado:</strong> {result.expectedRoi.toFixed(2)}%</p>
             </div>
+            <p className="text-sm text-muted-foreground mt-4">
+              * O Lucro Líquido é calculado como (Faturamento Bruto - Custo Total dos Produtos) - Orçamento de Tráfego. O ROI é a relação entre o Lucro Líquido e o Orçamento.
+            </p>
           </Card>
         )}
       </div>

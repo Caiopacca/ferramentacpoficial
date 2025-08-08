@@ -4,8 +4,9 @@
 /**
  * @fileOverview A Genkit flow to calculate paid traffic investment needs.
  *
- * This flow takes sales goals, conversion metrics, and cost per click to
- * estimate the required advertising budget and potential return.
+ * This flow takes sales goals and campaign metrics to estimate the
+ * required advertising budget and potential return. It supports two
+ * campaign types: landing page and direct contact.
  *
  * @exports {
  *   calculateTrafficInvestment: (input: CalculateTrafficInvestmentInput) => Promise<CalculateTrafficInvestmentOutput>;
@@ -17,18 +18,34 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-const CalculateTrafficInvestmentInputSchema = z.object({
+const BaseSchema = z.object({
   salesGoal: z.number().positive('A meta de vendas deve ser um número positivo.'),
   avgTicket: z.number().positive('O ticket médio deve ser um número positivo.'),
   leadToCustomerRate: z.number().positive('A taxa de conversão de lead para cliente deve ser positiva.'),
-  visitorToLeadRate: z.number().positive('A taxa de conversão de visitante para lead deve ser positiva.'),
-  avgCpc: z.number().positive('O CPC médio deve ser um número positivo.'),
+  costPerSale: z.number().nonnegative('O custo por venda não pode ser negativo.'),
 });
+
+const LandingPageSchema = BaseSchema.extend({
+    campaignType: z.literal('landingPage'),
+    visitorToLeadRate: z.number().positive('A taxa de conversão de visitante para lead deve ser positiva.'),
+    avgCpc: z.number().positive('O CPC médio deve ser um número positivo.'),
+});
+
+const DirectContactSchema = BaseSchema.extend({
+    campaignType: z.literal('directContact'),
+    avgCpl: z.number().positive('O CPL médio deve ser um número positivo.'),
+});
+
+const CalculateTrafficInvestmentInputSchema = z.discriminatedUnion("campaignType", [
+    LandingPageSchema,
+    DirectContactSchema,
+]);
+
 export type CalculateTrafficInvestmentInput = z.infer<typeof CalculateTrafficInvestmentInputSchema>;
 
 const CalculateTrafficInvestmentOutputSchema = z.object({
   requiredLeads: z.number(),
-  requiredVisitors: z.number(),
+  requiredVisitors: z.number().optional(),
   requiredBudget: z.number(),
   expectedProfit: z.number(),
   expectedRoi: z.number(),
@@ -47,28 +64,31 @@ const calculateTrafficInvestmentFlow = ai.defineFlow(
         salesGoal,
         avgTicket,
         leadToCustomerRate,
-        visitorToLeadRate,
-        avgCpc
+        costPerSale,
     } = input;
 
     // Convert rates to decimals
     const leadToCustomerDecimal = leadToCustomerRate / 100;
-    const visitorToLeadDecimal = visitorToLeadRate / 100;
 
     // 1. Calculate required leads
     const requiredLeads = salesGoal / leadToCustomerDecimal;
+    
+    let requiredBudget = 0;
+    let requiredVisitors: number | undefined = undefined;
 
-    // 2. Calculate required visitors
-    const requiredVisitors = requiredLeads / visitorToLeadDecimal;
+    if (input.campaignType === 'landingPage') {
+        const visitorToLeadDecimal = input.visitorToLeadRate / 100;
+        requiredVisitors = requiredLeads / visitorToLeadDecimal;
+        requiredBudget = requiredVisitors * input.avgCpc;
+    } else { // directContact
+        requiredBudget = requiredLeads * input.avgCpl;
+    }
 
-    // 3. Calculate required budget
-    const requiredBudget = requiredVisitors * avgCpc;
 
-    // 4. Calculate ROI
+    // Calculate ROI
     const grossRevenue = salesGoal * avgTicket;
-    // Assuming a 20% cost of service, this could be an input later
-    const grossServiceCost = salesGoal * (avgTicket * 0.2); 
-    const grossProfit = grossRevenue - grossServiceCost;
+    const totalServiceCost = salesGoal * costPerSale; 
+    const grossProfit = grossRevenue - totalServiceCost;
     const expectedProfit = grossProfit - requiredBudget;
     
     // Avoid division by zero
@@ -76,7 +96,7 @@ const calculateTrafficInvestmentFlow = ai.defineFlow(
 
     return {
         requiredLeads: Math.ceil(requiredLeads),
-        requiredVisitors: Math.ceil(requiredVisitors),
+        requiredVisitors: requiredVisitors ? Math.ceil(requiredVisitors) : undefined,
         requiredBudget,
         expectedProfit,
         expectedRoi
