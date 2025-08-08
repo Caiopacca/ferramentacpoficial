@@ -20,10 +20,12 @@ export default function TrafficCalculatorPage() {
           </Link>
         </div>
         <header className="text-center mb-8 md:mb-12">
-          <Logo className="mx-auto" />
-          <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight mt-4">
-            Calculadora de Tráfego Pago
-          </h1>
+            <div className="flex justify-center items-center gap-4 mb-4">
+                <Logo className="w-12 h-12" />
+                <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
+                    Calculadora de Tráfego Pago
+                </h1>
+            </div>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Descubra o investimento necessário em tráfego e o retorno esperado para atingir suas metas.
           </p>

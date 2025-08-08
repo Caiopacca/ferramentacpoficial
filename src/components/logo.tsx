@@ -3,14 +3,13 @@ import { cn } from '@/lib/utils';
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <div className={cn('relative w-20 h-20', className)}>
+    <div className={cn('relative', className)}>
       <svg
         width="100%"
         height="100%"
         viewBox="0 0 512 512"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect width="512" height="512" fill="black" />
         <path
           d="M379.83,363.38c-23.36,32.3-59.3,53.48-99.64,53.48-80.89,0-137.33-63.14-137.33-146.52,0-79.3,55.82-143.43,137-143.43,39.4,0,74.45,20.25,99.27,51.27l-47.5,31.05c-15.5-20.93-38.41-33.64-64.08-33.64-48.8,0-80.88,41.33-80.88,94.75,0,54.7,33.36,97.1,82.16,97.1,26.63,0,50.39-14.22,64.71-36.13l-133.45-92.49,20.24-29.13,165.65,114.88-26.15,38.88Z"
           fill="#f97316"
