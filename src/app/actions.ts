@@ -41,6 +41,11 @@ import {
     type AnalyzeAdInput,
     type AnalyzeAdOutput,
 } from '@/ai/flows/analyze-ad';
+import {
+    generateHashtags,
+    type GenerateHashtagsInput,
+    type GenerateHashtagsOutput,
+} from '@/ai/flows/generate-hashtags';
 
 
 export async function handleGenerateContent(
@@ -136,5 +141,17 @@ export async function handleAnalyzeAd(
     } catch (error) {
         console.error('Error analyzing ad:', error);
         throw new Error('Failed to analyze ad. Please try again.');
+    }
+}
+
+export async function handleGenerateHashtags(
+    data: GenerateHashtagsInput
+    ): Promise<GenerateHashtagsOutput> {
+    try {
+        const result = await generateHashtags(data);
+        return result;
+    } catch (error) {
+        console.error('Error generating hashtags:', error);
+        throw new Error('Failed to generate hashtags. Please try again.');
     }
 }

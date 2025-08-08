@@ -54,6 +54,12 @@ export default function ToolsPage() {
       description: 'Avalie a coerência do seu anúncio (público, copy e criativo) antes de investir.',
       hint: 'advertising campaign review',
     },
+    {
+      href: '/hashtag-strategist',
+      title: 'Estrategista de Hashtags',
+      description: 'Gere 3 grupos de hashtags (nicho, volume, localização) para seus posts.',
+      hint: 'social media hashtags',
+    },
   ];
 
 

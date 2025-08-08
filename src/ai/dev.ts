@@ -9,3 +9,4 @@ import '@/ai/flows/calculate-roi.ts';
 import '@/ai/flows/analyze-copy.ts';
 import '@/ai/flows/generate-reel-script.ts';
 import '@/ai/flows/analyze-ad.ts';
+import '@/ai/flows/generate-hashtags.ts';
