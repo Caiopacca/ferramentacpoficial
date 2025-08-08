@@ -36,6 +36,11 @@ import {
     type GenerateReelScriptInput,
     type GenerateReelScriptOutput,
 } from '@/ai/flows/generate-reel-script';
+import {
+    analyzeAd,
+    type AnalyzeAdInput,
+    type AnalyzeAdOutput,
+} from '@/ai/flows/analyze-ad';
 
 
 export async function handleGenerateContent(
@@ -119,5 +124,17 @@ export async function handleGenerateReelScript(
     } catch (error) {
         console.error('Error generating reel script:', error);
         throw new Error('Failed to generate reel script. Please try again.');
+    }
+}
+
+export async function handleAnalyzeAd(
+    data: AnalyzeAdInput
+    ): Promise<AnalyzeAdOutput> {
+    try {
+        const result = await analyzeAd(data);
+        return result;
+    } catch (error) {
+        console.error('Error analyzing ad:', error);
+        throw new Error('Failed to analyze ad. Please try again.');
     }
 }

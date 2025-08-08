@@ -48,6 +48,12 @@ export default function ToolsPage() {
       description: 'Gere um roteiro de 15 segundos para um Reel com base em um tema e nicho.',
       hint: 'video script writing',
     },
+    {
+      href: '/ad-analyzer',
+      title: 'Raio-X de Anúncios',
+      description: 'Avalie a coerência do seu anúncio (público, copy e criativo) antes de investir.',
+      hint: 'advertising campaign review',
+    },
   ];
 
 
