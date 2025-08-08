@@ -1,9 +1,9 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
+import { RdStationForm } from '@/components/rd-station-form';
 
 export default function CapturePage() {
   return (
@@ -19,17 +19,8 @@ export default function CapturePage() {
           Preencha o formulário para ter acesso às nossas ferramentas de marketing com IA.
         </p>
         <div className="mt-8 border border-dashed border-border rounded-lg p-8 bg-card">
-          <p className="text-muted-foreground">
-            // Seu formulário do RD Station vai aqui.
-            <br />
-            // Por enquanto, use o botão abaixo para continuar.
-          </p>
+          <RdStationForm />
         </div>
-        <Link href="/tools" passHref>
-          <Button size="lg" className="mt-8">
-            Acessar Ferramentas
-          </Button>
-        </Link>
       </div>
     </main>
   );
