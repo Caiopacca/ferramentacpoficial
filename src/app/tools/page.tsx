@@ -27,7 +27,7 @@ export default function ToolsPage() {
     },
     {
       href: '/reel-script-writer',
-      title: 'Roteiro de Reels com IA',
+      title: 'Roteiro de Reels',
       description: 'Gere roteiros de 15 e 30 segundos para um Reel com base em um tema e nicho.',
       hint: 'video script writing',
     },
