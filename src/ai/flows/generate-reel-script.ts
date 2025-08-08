@@ -44,23 +44,28 @@ const generateReelScriptPrompt = ai.definePrompt({
   output: {
     schema: GenerateReelScriptOutputSchema,
   },
-  prompt: `Você é um roteirista de vídeos curtos especialista em viralização no Instagram. Crie um roteiro magnético e atual de {{{duration}}} segundos para um Reel do nicho de **{{{niche}}}** sobre o tema **{{{theme}}}**.
+  prompt: `Você é um diretor de conteúdo e roteirista especialista em viralização no Instagram. Sua tarefa é criar um roteiro prático e detalhado de {{{duration}}} segundos para um Reel do nicho de **{{{niche}}}** sobre o tema **{{{theme}}}**.
 
-O roteiro deve ser prático, pronto para gravar e usar as melhores práticas de 2024 para retenção.
+O resultado deve ser um plano de gravação claro e dinâmico, em formato Markdown, para que qualquer pessoa consiga entender e executar.
 
-Estruture a resposta em Markdown, usando os seguintes títulos exatamente como estão abaixo:
+**Estrutura da Resposta:**
 
-**Gancho Viral (0-3s):**
-(Texto ou ação visual para prender a atenção imediatamente. Pense em uma frase polêmica, uma pergunta intrigante ou uma cena visualmente chocante.)
+**1. Título Magnético:**
+(Crie um título chamativo para o Reel)
 
-**Desenvolvimento Rápido (4-{{{developmentTime}}}s):**
-(Conteúdo principal, explicado de forma clara e rápida. Use transições dinâmicas se for um vídeo com cenas. Se for um vídeo falado, use frases curtas e diretas.)
+**2. Plano de Cenas:**
+Crie uma tabela em Markdown com as seguintes colunas: CENA, ÁUDIO/TEXTO e TEMPO.
+| CENA | ÁUDIO/TEXTO | TEMPO |
+| :--- | :--- | :--- |
+| **(Gancho)** (Descreva a primeira cena visual de forma impactante. Ex: "Close no rosto com expressão de surpresa.") | (Texto que aparece na tela ou primeira frase falada. Ex: "Você está cometendo este erro...") | 0-3s |
+| **(Desenvolvimento)** (Descreva a(s) cena(s) seguintes de forma dinâmica. Ex: "Corte rápido mostrando o jeito errado e depois o jeito certo.") | (Continue a narração ou os textos na tela, entregando o conteúdo de valor de forma clara e objetiva.) | 4-{{{developmentTime}}}s |
+| **(CTA - Chamada para Ação)** (Descreva a cena final. Ex: "Apontando para o botão de seguir.") | (Texto ou narração com a chamada para ação. Ex: "Gostou? Me siga para mais dicas.") | Últimos 3s |
 
-**CTA - Chamada para Ação (Últimos 3s):**
-(O que o usuário deve fazer em seguida. O CTA deve ser claro, direto e de baixa fricção. Ex: "Me segue para mais dicas" ou "Comente 'EU QUERO'")
+**3. Dica de Ouro:**
+(Forneça uma dica de produção ou edição para deixar o vídeo mais profissional. Ex: "Use um corte a cada 2 segundos para manter o dinamismo.")
 
-**Sugestão de Áudio em Alta:**
-(Sugira um tipo de áudio ou música que combine com o roteiro e que esteja em alta no Instagram. Ex: "Use um áudio de tutorial que esteja em alta" ou "Música eletrônica animada de alguma trend recente.")`,
+**4. Sugestão de Áudio em Alta:**
+(Sugira um tipo de áudio/música que combine com o roteiro e esteja em alta. Ex: "Use um áudio de tutorial com batida eletrônica que esteja em alta no Reels.")`,
 });
 
 const generateReelScriptFlow = ai.defineFlow(
