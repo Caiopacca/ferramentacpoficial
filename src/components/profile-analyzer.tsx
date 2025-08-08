@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import type { AnalyzeProfileOutput } from '@/ai/flows/analyze-profile';
 import { handleAnalyzeProfile } from '@/app/actions';
-import { Card } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 
 const formSchema = z.object({
@@ -67,55 +67,78 @@ export function ProfileAnalyzer() {
   }
 
   return (
-    <div>
-      <Card className="p-6 md:p-8">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-lg">Seu @ no Instagram</FormLabel>
-                  <FormControl>
-                    <Input placeholder="@seu_negocio" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={isLoading} className="w-full md:w-auto" size="lg">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Analisando Perfil...
-                </>
-              ) : (
-                'Analisar Meu Perfil'
-              )}
-            </Button>
-          </form>
-        </Form>
+    <div className="space-y-8">
+      <Card>
+        <CardHeader>
+            <CardTitle>Analisador de Perfil</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Seu @ no Instagram</FormLabel>
+                    <FormControl>
+                        <Input placeholder="@seu_negocio" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <Button type="submit" disabled={isLoading} size="lg">
+                {isLoading ? (
+                    <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Analisando Perfil...
+                    </>
+                ) : (
+                    'Analisar Meu Perfil'
+                )}
+                </Button>
+            </form>
+            </Form>
+        </CardContent>
       </Card>
 
-      <div className="mt-12">
+      <div className="mt-6">
         {isLoading && (
-            <Card className="p-6">
-                <Skeleton className="h-8 w-1/3 mb-4" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-3/4 mb-6" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-2/3 mb-2" />
+            <Card>
+                <CardHeader>
+                    <Skeleton className="h-8 w-2/3" />
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-1/4" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-4/5" />
+                    </div>
+                     <div className="space-y-2">
+                        <Skeleton className="h-4 w-1/4" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-4/5" />
+                    </div>
+                     <div className="space-y-2">
+                        <Skeleton className="h-4 w-1/4" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-4/5" />
+                    </div>
+                </CardContent>
             </Card>
         )}
 
         {analysis && (
-          <Card className="p-6">
-             <article className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown>{analysis.analysis}</ReactMarkdown>
-             </article>
+          <Card>
+            <CardHeader>
+                <CardTitle>Relatório de Performance</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <article className="prose dark:prose-invert max-w-none">
+                    <ReactMarkdown>{analysis.analysis}</ReactMarkdown>
+                </article>
+            </CardContent>
           </Card>
         )}
       </div>

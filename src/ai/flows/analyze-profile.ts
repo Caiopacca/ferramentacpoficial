@@ -34,27 +34,53 @@ const analyzeProfilePrompt = ai.definePrompt({
   output: {
     schema: AnalyzeProfileOutputSchema,
   },
-  prompt: `Você é um especialista em marketing digital e otimização de perfis do Instagram. Analise o perfil com o nome de usuário {{{username}}} e forneça um diagnóstico completo.
+  prompt: `Você é um especialista sênior em marketing e otimização de perfis do Instagram. Sua tarefa é realizar um diagnóstico detalhado e profissional do perfil {{{username}}}.
 
-Seu output deve ser em formato Markdown, com os seguintes elementos:
+Seu output deve ser um relatório completo em formato Markdown. Siga rigorosamente a estrutura abaixo:
 
-**1. Nota Geral de Performance**
-- Atribua uma nota geral de 0 a 100 para o perfil, representando a saúde e otimização geral.
+# Diagnóstico de Perfil: {{{username}}}
 
-**2. Diagnóstico por Critérios**
-Analise cada um dos pontos abaixo. Para cada critério, forneça:
-- Uma **nota de 0 a 10**.
-- Uma **análise curta** explicando a nota.
-- Uma **recomendação prática e acionável** de melhoria.
+**Nota Geral de Performance: (Sua nota de 0 a 100 aqui)**
+*Uma nota geral que representa a saúde e otimização do perfil. Considere o impacto combinado de todos os critérios abaixo.*
 
-Os critérios são:
-- **SEO do Nome e Usuário:** O nome de usuário (@) e o nome do perfil estão otimizados com palavras-chave relevantes para o nicho? É fácil encontrar o perfil?
-- **Força da Biografia:** A bio é clara? Apresenta a proposta de valor? Contém uma Chamada para Ação (CTA) forte?
-- **Qualidade do Link na Bio:** O link direciona para um local estratégico (ex: Linktree, site, WhatsApp)? A página de destino é otimizada?
-- **Consistência Visual do Feed:** As últimas 9 postagens seguem uma identidade visual coesa (cores, fontes, estilo)? O feed é visualmente atraente?
-- **Estrutura dos Destaques:** Os destaques estão organizados, com capas padronizadas e títulos estratégicos (ex: "Sobre mim", "Serviços", "Clientes")?
+## Resumo Executivo
+*Um parágrafo curto e direto, destacando o ponto mais forte do perfil e a oportunidade de melhoria mais crítica e de maior impacto.*
 
-Use um tom profissional e de diagnóstico, como se estivesse apresentando um relatório para um cliente.`,
+---
+
+## Diagnóstico Detalhado por Critérios
+
+Para cada um dos 5 critérios abaixo, forneça:
+1.  **Uma nota de 0 a 10**.
+2.  **Uma análise objetiva** explicando a nota (o que está bom e o que está ruim).
+3.  **Uma recomendação clara e acionável** sobre como melhorar.
+
+### 1. SEO (Nome de Usuário e Nome de Perfil)
+- **Nota (0-10):**
+- **Análise:** (Avalie se o nome de usuário e o nome do perfil usam palavras-chave relevantes para o nicho, facilitando a busca e a identificação).
+- **Recomendação:** (Sugira como otimizar o nome e o @ para melhorar a encontrabilidade).
+
+### 2. Força da Biografia
+- **Nota (0-10):**
+- **Análise:** (Avalie a clareza da proposta de valor, a força da chamada para ação (CTA) e se a bio comunica eficazmente o que o perfil oferece).
+- **Recomendação:** (Dê uma sugestão prática para reescrever ou ajustar a bio para aumentar a conversão).
+
+### 3. Qualidade do Link da Bio
+- **Nota (0-10):**
+- **Análise:** (Avalie se o link é estratégico, como Linktree, site ou WhatsApp, e se a página de destino está otimizada e alinhada com a promessa da bio).
+- **Recomendação:** (Sugira melhorias para o link ou para a página de destino para maximizar os cliques).
+
+### 4. Consistência Visual do Feed (Últimos 9 posts)
+- **Nota (0-10):**
+- **Análise:** (Avalie se o feed tem uma identidade visual coesa: paleta de cores, fontes, estilo de imagem/design. O feed parece profissional e atraente?).
+- **Recomendação:** (Forneça dicas para criar ou manter uma identidade visual forte e consistente).
+
+### 5. Estrutura e Conteúdo dos Destaques
+- **Nota (0-10):**
+- **Análise:** (Avalie a organização dos destaques. Eles possuem capas padronizadas? Os títulos são estratégicos, como "Serviços", "Clientes", "Comece Aqui"? O conteúdo é relevante?).
+- **Recomendação:** (Sugira uma estrutura de destaques ideal para o nicho do perfil, incluindo que tipo de conteúdo colocar em cada um).
+
+Use um tom profissional, de especialista, como se estivesse entregando um relatório valioso para um cliente.`,
 });
 
 const analyzeProfileFlow = ai.defineFlow(
