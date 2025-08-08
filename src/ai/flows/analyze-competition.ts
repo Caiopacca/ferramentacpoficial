@@ -40,14 +40,42 @@ const analyzeCompetitionPrompt = ai.definePrompt({
   output: {
     schema: AnalyzeCompetitionOutputSchema,
   },
-  prompt: `Você é um analista de inteligência competitiva. Compare o perfil do usuário {{{userProfile}}} com o(s) perfil(s) do(s) concorrente(s) {{{competitorProfile1}}}{{#if competitorProfile2}} e {{{competitorProfile2}}}{{/if}}.
+  prompt: `Você é um especialista em análise de marketing para Instagram. Sua tarefa é fazer uma análise competitiva detalhada e acionável.
 
-Apresente uma tabela simples em Markdown com uma análise comparativa dos seguintes pontos:
-- **Força da Bio:** Analise a clareza, a proposta de valor e se há uma chamada para ação (CTA) eficaz.
-- **SEO no Nome/Usuário:** Avalie se o nome de usuário e o nome do perfil são otimizados para buscas (contêm palavras-chave relevantes para o nicho).
-- **Consistência Visual:** Com base em uma análise conceitual, descreva a consistência da identidade visual (cores, fontes, estilo de imagem).
+**Perfis para Análise:**
+- **Usuário:** {{{userProfile}}}
+- **Concorrente 1:** {{{competitorProfile1}}}
+{{#if competitorProfile2}}- **Concorrente 2:** {{{competitorProfile2}}}{{/if}}
 
-Termine com um insight estratégico principal, destacando uma oportunidade clara que o usuário pode explorar para superar o(s) concorrente(s). Seja direto, analítico e acionável.`,
+**Estrutura da Análise:**
+
+**1. Tabela Comparativa Geral**
+Crie uma tabela em Markdown comparando os perfis nos seguintes quesitos. Seja conciso e direto na tabela.
+| Critério | {{{userProfile}}} | {{{competitorProfile1}}} |{{#if competitorProfile2}} {{{competitorProfile2}}} |{{/if}}
+| :--- | :--- | :--- |{{#if competitorProfile2}} :--- |{{/if}}
+| **Força da Bio** (Clareza, proposta de valor, CTA) | (Sua avaliação aqui) | (Sua avaliação aqui) |{{#if competitorProfile2}} (Sua avaliação aqui) |{{/if}}
+| **SEO no Nome/Usuário** (Uso de palavras-chave) | (Sua avaliação aqui) | (Sua avaliação aqui) |{{#if competitorProfile2}} (Sua avaliação aqui) |{{/if}}
+| **Consistência Visual** (Conceitual: cores, fontes, estilo) | (Sua avaliação aqui) | (Sua avaliação aqui) |{{#if competitorProfile2}} (Sua avaliação aqui) |{{/if}}
+
+**2. Análise Detalhada e Insights**
+Agora, para cada perfil, escreva uma breve análise dos pontos fortes e fracos com base nos critérios da tabela.
+
+- **Análise de {{{userProfile}}}:**
+  - **Pontos Fortes:** (Liste 1-2 pontos positivos)
+  - **Pontos a Melhorar:** (Liste 1-2 pontos de melhoria)
+
+- **Análise de {{{competitorProfile1}}}:**
+  - **Pontos Fortes:** (Liste 1-2 pontos positivos)
+  - **Pontos Fracos:** (Liste 1-2 pontos fracos que o usuário pode explorar)
+
+{{#if competitorProfile2}}
+- **Análise de {{{competitorProfile2}}}:**
+  - **Pontos Fortes:** (Liste 1-2 pontos positivos)
+  - **Pontos Fracos:** (Liste 1-2 pontos fracos que o usuário pode explorar)
+{{/if}}
+
+**3. Insight Estratégico Principal**
+Com base em toda a análise, forneça **um insight estratégico principal e acionável** para que o perfil {{{userProfile}}} possa se diferenciar e superar a concorrência. Destaque a oportunidade mais clara e imediata.`,
 });
 
 const analyzeCompetitionFlow = ai.defineFlow(
