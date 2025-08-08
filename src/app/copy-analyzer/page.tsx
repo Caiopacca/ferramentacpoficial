@@ -21,7 +21,6 @@ export default function CopyAnalyzerPage() {
         </div>
         <header className="text-center mb-8 md:mb-12">
           <div className="flex justify-center items-center gap-4">
-            <Image src="https://firebasestorage.googleapis.com/v0/b/site-cp-marketing.firebasestorage.app/o/LOGO%20REDONDA%20EM%20SVG%20CP.svg?alt=media&token=973b78cf-9a80-4c4a-bac0-a66a058c392d" alt="Logo CP Marketing" width={50} height={50} className="rounded-md" />
             <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
                 Detector de Legendas Vendedoras
             </h1>
