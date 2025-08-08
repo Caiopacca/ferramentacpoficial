@@ -99,8 +99,8 @@ export default function ToolsPage() {
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Explore nossas ferramentas gratuitas de IA para otimizar seu marketing de conteúdo.
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Por ser tudo gerado por IA, pode conter erros.
+          <p className="mt-2 text-sm text-muted-foreground/80">
+            A IA pode cometer erros. Considere verificar informações importantes.
           </p>
         </header>
 
