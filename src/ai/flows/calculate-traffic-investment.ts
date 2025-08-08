@@ -17,7 +17,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-export const CalculateTrafficInvestmentInputSchema = z.object({
+const CalculateTrafficInvestmentInputSchema = z.object({
   salesGoal: z.number().positive('A meta de vendas deve ser um número positivo.'),
   avgTicket: z.number().positive('O ticket médio deve ser um número positivo.'),
   leadToCustomerRate: z.number().positive('A taxa de conversão de lead para cliente deve ser positiva.'),
@@ -26,7 +26,7 @@ export const CalculateTrafficInvestmentInputSchema = z.object({
 });
 export type CalculateTrafficInvestmentInput = z.infer<typeof CalculateTrafficInvestmentInputSchema>;
 
-export const CalculateTrafficInvestmentOutputSchema = z.object({
+const CalculateTrafficInvestmentOutputSchema = z.object({
   requiredLeads: z.number(),
   requiredVisitors: z.number(),
   requiredBudget: z.number(),
