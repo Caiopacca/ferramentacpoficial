@@ -14,12 +14,6 @@ export default function ToolsPage() {
       hint: 'instagram performance analysis',
     },
     {
-      href: '/competition-analyzer',
-      title: 'Radar de Concorrência',
-      description: 'Analise seu perfil do Instagram em comparação com seus concorrentes.',
-      hint: 'business competition analysis',
-    },
-    {
       href: '/bio-creator',
       title: 'Criador de Bio Magnética',
       description: 'Crie biografias otimizadas para o seu perfil do Instagram em segundos.',
@@ -30,6 +24,36 @@ export default function ToolsPage() {
       title: 'Fábrica de Conteúdo',
       description: 'Gere 7 dias de ideias de posts para seu nicho e objetivo com o poder da IA.',
       hint: 'social media marketing',
+    },
+    {
+      href: '/reel-script-writer',
+      title: 'Roteirista de Reels com IA',
+      description: 'Gere um roteiro de 15 segundos para um Reel com base em um tema e nicho.',
+      hint: 'video script writing',
+    },
+    {
+      href: '/traffic-calculator',
+      title: 'Calculadora de Tráfego Pago',
+      description: 'Descubra o investimento necessário em tráfego e o retorno esperado para atingir suas metas.',
+      hint: 'paid traffic calculator',
+    },
+    {
+      href: '/competition-analyzer',
+      title: 'Radar de Concorrência',
+      description: 'Analise seu perfil do Instagram em comparação com seus concorrentes.',
+      hint: 'business competition analysis',
+    },
+    {
+      href: '/hashtag-strategist',
+      title: 'Estrategista de Hashtags',
+      description: 'Gere 3 grupos de hashtags (nicho, volume, localização) para seus posts.',
+      hint: 'social media hashtags',
+    },
+    {
+      href: '/ad-analyzer',
+      title: 'Raio-X de Anúncios',
+      description: 'Avalie a coerência do seu anúncio (público, copy e criativo) antes de investir.',
+      hint: 'advertising campaign review',
     },
     {
       href: '/roi-calculator',
@@ -44,24 +68,6 @@ export default function ToolsPage() {
       hint: 'copywriting analysis text',
     },
     {
-      href: '/reel-script-writer',
-      title: 'Roteirista de Reels com IA',
-      description: 'Gere um roteiro de 15 segundos para um Reel com base em um tema e nicho.',
-      hint: 'video script writing',
-    },
-    {
-      href: '/ad-analyzer',
-      title: 'Raio-X de Anúncios',
-      description: 'Avalie a coerência do seu anúncio (público, copy e criativo) antes de investir.',
-      hint: 'advertising campaign review',
-    },
-    {
-      href: '/hashtag-strategist',
-      title: 'Estrategista de Hashtags',
-      description: 'Gere 3 grupos de hashtags (nicho, volume, localização) para seus posts.',
-      hint: 'social media hashtags',
-    },
-    {
       href: '/email-subject-generator',
       title: 'Gerador de Assuntos de E-mail',
       description: 'Crie 5 opções de títulos de e-mail persuasivos para prospecção fria.',
@@ -72,12 +78,6 @@ export default function ToolsPage() {
       title: 'Gerador de E-mail de Prospecção',
       description: 'Crie um corpo de e-mail persuasivo para prospecção fria com base no cargo e objetivo.',
       hint: 'email marketing cold',
-    },
-    {
-      href: '/traffic-calculator',
-      title: 'Calculadora de Tráfego Pago',
-      description: 'Descubra o investimento necessário em tráfego e o retorno esperado para atingir suas metas.',
-      hint: 'paid traffic calculator',
     },
   ];
 
