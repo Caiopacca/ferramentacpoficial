@@ -28,11 +28,16 @@ const LandingPageSchema = BaseSchema.extend({
     campaignType: z.literal('landingPage'),
     visitorToLeadRate: z.number().positive('A taxa de conversão de visitante para lead deve ser positiva.'),
     avgCpc: z.number().positive('O CPC médio deve ser um número positivo.'),
+    // avgCpl is not used for landingPage, but we add it as optional to have a single form type
+    avgCpl: z.number().optional(),
 });
 
 const DirectContactSchema = BaseSchema.extend({
     campaignType: z.literal('directContact'),
     avgCpl: z.number().positive('O CPL médio deve ser um número positivo.'),
+    // visitorToLeadRate and avgCpc are not used for directContact
+    visitorToLeadRate: z.number().optional(),
+    avgCpc: z.number().optional(),
 });
 
 const CalculateTrafficInvestmentInputSchema = z.discriminatedUnion("campaignType", [
@@ -75,11 +80,11 @@ const calculateTrafficInvestmentFlow = ai.defineFlow(
     let requiredVisitors: number | undefined = undefined;
 
     if (input.campaignType === 'landingPage') {
-        const visitorToLeadDecimal = input.visitorToLeadRate / 100;
+        const visitorToLeadDecimal = input.visitorToLeadRate! / 100;
         requiredVisitors = requiredLeads / visitorToLeadDecimal;
-        requiredBudget = requiredVisitors * input.avgCpc;
+        requiredBudget = requiredVisitors * input.avgCpc!;
     } else { // directContact
-        requiredBudget = requiredLeads * input.avgCpl;
+        requiredBudget = requiredLeads * input.avgCpl!;
     }
 
 

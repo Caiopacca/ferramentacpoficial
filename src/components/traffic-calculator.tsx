@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2 } from 'lucide-react';
+import { Loader2, DollarSign, Target, Users, LineChart, Briefcase } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Card } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 import { handleCalculateTrafficInvestment } from '@/app/actions';
 import type { CalculateTrafficInvestmentOutput } from '@/ai/flows/calculate-traffic-investment';
@@ -61,8 +61,12 @@ const formSchema = z.object({
     }
 });
 
+interface CalculationResult extends CalculateTrafficInvestmentOutput {
+    grossRevenue: number;
+}
+
 export function TrafficCalculator() {
-  const [result, setResult] = useState<CalculateTrafficInvestmentOutput | null>(null);
+  const [result, setResult] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -72,8 +76,8 @@ export function TrafficCalculator() {
       campaignType: 'landingPage',
       salesGoal: 20,
       avgTicket: 1000,
-      leadToCustomerRate: 10,
       visitorToLeadRate: 3,
+      leadToCustomerRate: 10,
       avgCpc: 1.50,
       avgCpl: 25,
     },
@@ -86,20 +90,12 @@ export function TrafficCalculator() {
     setResult(null);
 
     // This is a type guard to satisfy TypeScript
-    if ((values.campaignType === 'landingPage' && (values.visitorToLeadRate === undefined || values.avgCpc === undefined)) ||
-        (values.campaignType === 'directContact' && values.avgCpl === undefined)) {
-            toast({
-                title: 'Erro de Validação',
-                description: 'Por favor, preencha todos os campos necessários.',
-                variant: 'destructive',
-            });
-            setIsLoading(false);
-            return;
-    }
+    const validatedValues = form.getValues();
     
     try {
-      const response = await handleCalculateTrafficInvestment(values as any);
-      setResult(response);
+      const response = await handleCalculateTrafficInvestment(validatedValues as any);
+      const grossRevenue = (validatedValues.salesGoal || 0) * (validatedValues.avgTicket || 0);
+      setResult({ ...response, grossRevenue });
       toast({
         title: 'Cálculo Concluído!',
         description: 'Sua projeção de investimento está pronta.',
@@ -119,6 +115,24 @@ export function TrafficCalculator() {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   };
+
+  const formatNumber = (value: number) => {
+    return new Intl.NumberFormat('pt-BR').format(value);
+  }
+
+  const ResultCard = ({ icon, title, value, description }: { icon: React.ReactNode, title: string, value: string, description?: string }) => (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        {icon}
+      </CardHeader>
+      <CardContent>
+        <div className="text-2xl font-bold">{value}</div>
+        {description && <p className="text-xs text-muted-foreground">{description}</p>}
+      </CardContent>
+    </Card>
+  );
+
 
   return (
     <div>
@@ -274,29 +288,68 @@ export function TrafficCalculator() {
       <div className="mt-12">
         {isLoading && (
             <Card className="p-6">
-              <Skeleton className="h-8 w-1/3 mb-6" />
-              <div className="grid md:grid-cols-2 gap-4">
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-6 w-3/4" />
-              </div>
+                <h2 className="text-2xl font-bold text-primary mb-4">Analisando Cenário...</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[...Array(6)].map((_, i) => (
+                        <Card key={i}>
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <Skeleton className="h-5 w-24" />
+                                <Skeleton className="h-6 w-6" />
+                            </CardHeader>
+                            <CardContent>
+                                <Skeleton className="h-8 w-32" />
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
             </Card>
         )}
 
         {result && (
           <Card className="p-6">
-            <h2 className="text-2xl font-bold text-primary mb-4">Resultados</h2>
-            <div className="grid md:grid-cols-2 gap-4 text-lg">
-                <p><strong>Leads Necessários:</strong> {result.requiredLeads}</p>
-                {result.requiredVisitors && <p><strong>Visitantes Necessários:</strong> {result.requiredVisitors}</p>}
-                <p><strong>Orçamento Estimado:</strong> {formatCurrency(result.requiredBudget)}</p>
-                <p><strong>Lucro Líquido Esperado:</strong> {formatCurrency(result.expectedProfit)}</p>
-                <p><strong>ROI Estimado:</strong> {result.expectedRoi.toFixed(2)}%</p>
+            <h2 className="text-3xl font-bold text-primary mb-6">Projeção da Campanha</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <ResultCard
+                    icon={<DollarSign className="h-6 w-6 text-muted-foreground" />}
+                    title="Orçamento de Tráfego"
+                    value={formatCurrency(result.requiredBudget)}
+                    description="Investimento estimado para atingir a meta"
+                />
+                 {result.requiredVisitors && (
+                    <ResultCard
+                        icon={<Users className="h-6 w-6 text-muted-foreground" />}
+                        title="Visitantes Necessários"
+                        value={formatNumber(result.requiredVisitors)}
+                        description="Pessoas que precisam visitar sua página"
+                    />
+                 )}
+                <ResultCard
+                    icon={<Target className="h-6 w-6 text-muted-foreground" />}
+                    title="Leads Necessários"
+                    value={formatNumber(result.requiredLeads)}
+                    description="Contatos gerados para sua equipe"
+                />
+                <ResultCard
+                    icon={<Briefcase className="h-6 w-6 text-muted-foreground" />}
+                    title="Faturamento Bruto"
+                    value={formatCurrency(result.grossRevenue)}
+                    description="Receita total das vendas"
+                />
+                <ResultCard
+                    icon={<DollarSign className="h-6 w-6 text-green-500" />}
+                    title="Lucro Líquido Esperado"
+                    value={formatCurrency(result.expectedProfit)}
+                    description="Faturamento menos o investimento"
+                />
+                <ResultCard
+                    icon={<LineChart className="h-6 w-6 text-blue-500" />}
+                    title="ROI Estimado"
+                    value={`${result.expectedRoi.toFixed(2)}%`}
+                    description="Retorno sobre o Investimento"
+                />
             </div>
-            <p className="text-sm text-muted-foreground mt-4">
-              * O Lucro Líquido é calculado como (Faturamento Bruto) - Orçamento de Tráfego. O ROI é a relação entre o Lucro Líquido e o Orçamento.
+            <p className="text-sm text-muted-foreground mt-6">
+              * As projeções são estimativas baseadas nos dados fornecidos. O Lucro Líquido é calculado como (Faturamento Bruto - Orçamento de Tráfego). O ROI é a relação entre o Lucro Líquido e o Orçamento de Tráfego.
             </p>
           </Card>
         )}
