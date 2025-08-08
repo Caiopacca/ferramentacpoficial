@@ -10,7 +10,7 @@ export function CtaSection() {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl md:text-3xl text-primary">Sua empresa não cresce?</CardTitle>
         <CardDescription className="text-lg text-muted-foreground max-w-xl mx-auto">
-          Temos o mapa exato para mais vendas, leads e lucro. Fale com um especialista, de graça.
+          Temos o mapa exato para mais vendas, leads e lucro. Fale com um de nossos especialistas, e o melhor, é de graça.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center">
