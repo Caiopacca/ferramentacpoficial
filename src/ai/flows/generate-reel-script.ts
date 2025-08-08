@@ -32,10 +32,14 @@ export type GenerateReelScriptOutput = z.infer<
   typeof GenerateReelScriptOutputSchema
 >;
 
+const PromptInputSchema = GenerateReelScriptInputSchema.extend({
+    developmentTime: z.number(),
+});
+
 const generateReelScriptPrompt = ai.definePrompt({
   name: 'generateReelScriptPrompt',
   input: {
-    schema: GenerateReelScriptInputSchema,
+    schema: PromptInputSchema,
   },
   output: {
     schema: GenerateReelScriptOutputSchema,
@@ -49,7 +53,7 @@ Estruture a resposta em Markdown, usando os seguintes títulos exatamente como e
 **Gancho Viral (0-3s):**
 (Texto ou ação visual para prender a atenção imediatamente. Pense em uma frase polêmica, uma pergunta intrigante ou uma cena visualmente chocante.)
 
-**Desenvolvimento Rápido (4-{{#if (eq duration 15)}}12{{else}}25{{/if}}s):**
+**Desenvolvimento Rápido (4-{{{developmentTime}}}s):**
 (Conteúdo principal, explicado de forma clara e rápida. Use transições dinâmicas se for um vídeo com cenas. Se for um vídeo falado, use frases curtas e diretas.)
 
 **CTA - Chamada para Ação (Últimos 3s):**
@@ -65,8 +69,13 @@ const generateReelScriptFlow = ai.defineFlow(
     inputSchema: GenerateReelScriptInputSchema,
     outputSchema: GenerateReelScriptOutputSchema,
   },
-  async input => {
-    const {output} = await generateReelScriptPrompt(input);
+  async (input) => {
+    const developmentTime = input.duration === 15 ? 12 : 25;
+    
+    const {output} = await generateReelScriptPrompt({
+        ...input,
+        developmentTime,
+    });
     return output!;
   }
 );
