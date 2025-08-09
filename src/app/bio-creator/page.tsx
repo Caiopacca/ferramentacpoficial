@@ -13,7 +13,7 @@ export default function BioCreatorPage() {
     <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12 bg-background">
       <div className="w-full max-w-4xl">
         <div className="mb-8">
-          <Link href="/tools" passHref>
+          <Link href="/" passHref>
             <Button variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Voltar para Ferramentas
