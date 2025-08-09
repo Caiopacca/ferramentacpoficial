@@ -1,70 +1,63 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Script from 'next/script';
-import { Button } from './ui/button';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export function RdStationForm() {
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    // Handler to process the conversion event from RD Station
     const handleConversion = (event: Event) => {
-      // The event is a CustomEvent, and the form_id is in the detail property.
       const customEvent = event as CustomEvent;
       if (customEvent.detail?.form_id === 'form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6') {
-        setIsFormSubmitted(true);
+        router.push('/tools');
       }
     };
 
-    // We add the listener to the window object to capture the event dispatched by the RD Station script.
+    const scriptId = 'rdstation-forms-script';
+    const formId = 'form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6';
+    const formContainer = document.getElementById(formId);
+
+    const initializeForm = () => {
+      // @ts-ignore
+      if (window.RDStationForms) {
+        // @ts-ignore
+        new window.RDStationForms(formId, 'null').createForm();
+      }
+    };
+
+    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.src = 'https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js';
+      script.async = true;
+      script.onload = initializeForm;
+      document.body.appendChild(script);
+    } else {
+        // If script already exists, just initialize the form
+        initializeForm();
+    }
+
     window.addEventListener('submit_form_success', handleConversion);
 
-    // Cleanup function to remove the listener when the component unmounts.
     return () => {
       window.removeEventListener('submit_form_success', handleConversion);
+       if (script && script.parentElement && formContainer) {
+         // Clean up to avoid issues with Next.js HMR
+         const allRdstationScripts = document.querySelectorAll(`script[src*="rdstation-forms"]`);
+         allRdstationScripts.forEach(s => s.remove());
+      }
     };
-  }, []);
-
-  useEffect(() => {
-    // This effect runs when the script is loaded.
-    // It checks if the RD Station Forms object is available and creates the form.
-    if (isScriptLoaded && document.getElementById('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6')) {
-        // @ts-ignore
-        if (window.RDStationForms) {
-            // @ts-ignore
-            new window.RDStationForms('form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6', 'null').createForm();
-        }
-    }
-  }, [isScriptLoaded]);
+  }, [router]);
 
 
   return (
     <>
-      {!isFormSubmitted ? (
-        <>
-            <div role="main" id="form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6"></div>
-            <Script
-                id="rdstation-forms-script"
-                strategy="afterInteractive"
-                src="https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js"
-                onLoad={() => setIsScriptLoaded(true)}
-            />
-        </>
-      ) : (
-        <div className="flex flex-col items-center justify-center gap-4 py-8">
-            <h2 className="text-2xl font-bold text-primary">Obrigado!</h2>
-            <p className="text-muted-foreground text-center">Seu acesso está liberado. Clique no botão abaixo para explorar as ferramentas.</p>
-            <Link href="/tools" passHref>
-                <Button size="lg" className="mt-4">
-                    Acessar Ferramentas
-                </Button>
-            </Link>
-        </div>
-      )}
+      <div role="main" id="form-isca-ferramentas-gratuitas-3d422f4cbcae3b0a8fe6"></div>
     </>
   );
 }
