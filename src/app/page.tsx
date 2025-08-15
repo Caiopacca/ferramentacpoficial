@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { ArrowRight, Lock } from 'lucide-react';
+import { ArrowRight, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CtaSection } from '@/components/cta-section';
@@ -101,6 +101,11 @@ export default function ToolsPage() {
     setIsLoading(false);
   }, [router]);
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    router.push('/login');
+  };
+
   if (isLoading) {
     return (
         <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12 bg-background">
@@ -137,7 +142,11 @@ export default function ToolsPage() {
   return (
     <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12 bg-background">
       <div className="w-full max-w-7xl">
-        <header className="text-center mb-8 md:mb-12">
+        <header className="relative text-center mb-8 md:mb-12">
+          <Button onClick={handleLogout} variant="outline" className="absolute top-0 right-0">
+            <LogOut className="mr-2 h-4 w-4" />
+            Sair
+          </Button>
           <Image src="https://firebasestorage.googleapis.com/v0/b/site-cp-marketing.firebasestorage.app/o/LOGO%20REDONDA%20EM%20SVG%20CP.svg?alt=media&token=973b78cf-9a80-4c4a-bac0-a66a058c392d" alt="Logo CP Marketing" width={60} height={60} className="mx-auto mb-4 rounded-md" />
             <div className="flex justify-center items-center gap-4">
               <h1 className="text-4xl md:text-5xl font-bold text-primary tracking-tight">
@@ -175,3 +184,5 @@ export default function ToolsPage() {
     </main>
   );
 }
+
+    
