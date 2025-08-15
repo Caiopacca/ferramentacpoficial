@@ -44,9 +44,15 @@ export default function LoginPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
 
-    // Simulação de autenticação
-    // Em um aplicativo real, isso seria uma chamada para sua API
-    if (values.email === 'admin@cpmarketing.com' && values.password === 'CpMarketing@10') {
+    const storedUser = localStorage.getItem('registeredUser');
+    const defaultUser = { email: 'admin@cpmarketing.com', password: 'CpMarketing@10' };
+
+    let userToAuth = defaultUser;
+    if (storedUser) {
+      userToAuth = JSON.parse(storedUser);
+    }
+    
+    if (values.email === userToAuth.email && values.password === userToAuth.password) {
       localStorage.setItem('user', JSON.stringify({ email: values.email }));
       toast({
         title: 'Login bem-sucedido!',

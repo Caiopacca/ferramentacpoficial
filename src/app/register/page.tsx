@@ -45,8 +45,8 @@ export default function RegisterPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     
-    // Lógica de criação de conta (simulada)
-    console.log('Criando conta com:', values);
+    // Lógica de criação de conta (simulada com localStorage)
+    localStorage.setItem('registeredUser', JSON.stringify({ email: values.email, password: values.password }));
     
     // Simulação de uma chamada de API
     await new Promise(resolve => setTimeout(resolve, 1500));
