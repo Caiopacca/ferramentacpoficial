@@ -1,10 +1,15 @@
 
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Lock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CtaSection } from '@/components/cta-section';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const tools = [
   {
@@ -82,6 +87,53 @@ const tools = [
 ];
 
 export default function ToolsPage() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      setIsAuthenticated(true);
+    } else {
+      router.push('/login');
+    }
+    setIsLoading(false);
+  }, [router]);
+
+  if (isLoading) {
+    return (
+        <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12 bg-background">
+            <div className="w-full max-w-7xl">
+                <header className="text-center mb-8 md:mb-12">
+                    <Skeleton className="w-16 h-16 rounded-md mx-auto mb-4" />
+                    <Skeleton className="h-12 w-3/4 mx-auto mb-4" />
+                    <Skeleton className="h-6 w-1/2 mx-auto" />
+                </header>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    {[...Array(12)].map((_, i) => (
+                        <Card key={i} className="flex flex-col h-full">
+                            <CardHeader className="flex-grow">
+                                <Skeleton className="h-6 w-3/4 mb-2" />
+                                <Skeleton className="h-4 w-full" />
+                                <Skeleton className="h-4 w-full" />
+                                <Skeleton className="h-4 w-2/3" />
+                            </CardHeader>
+                            <CardFooter>
+                                <Skeleton className="h-10 w-full" />
+                            </CardFooter>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null; // ou um loader, já que o redirect está acontecendo
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center p-4 sm:p-8 md:p-12 bg-background">
       <div className="w-full max-w-7xl">
