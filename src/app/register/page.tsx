@@ -38,7 +38,7 @@ const formSchema = z.object({
   marketingExperience: z.string({ required_error: 'Por favor, selecione uma opção.'}),
   mainChallenge: z.string({ required_error: 'Por favor, selecione uma opção.'}),
   urgency: z.string({ required_error: 'Por favor, selecione uma opção.'}),
-  willInvest: z.string({ required_error: 'Por favor, selecione uma opção.'}),
+  willInvest: z.string().min(1, 'Este campo é obrigatório.'),
 });
 
 const billingOptions = [
@@ -90,6 +90,7 @@ export default function RegisterPage() {
       company: '',
       instagram: '',
       segment: '',
+      willInvest: '',
     },
   });
 
@@ -247,21 +248,12 @@ export default function RegisterPage() {
                             control={form.control}
                             name="willInvest"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                <FormLabel>Você está disposto (a) a investir no marketing da sua empresa?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
-                                        <FormItem className="flex items-center space-x-3 space-y-0">
-                                            <FormControl><RadioGroupItem value="Sim" /></FormControl>
-                                            <FormLabel className="font-normal">Sim</FormLabel>
-                                        </FormItem>
-                                         <FormItem className="flex items-center space-x-3 space-y-0">
-                                            <FormControl><RadioGroupItem value="Não" /></FormControl>
-                                            <FormLabel className="font-normal">Não</FormLabel>
-                                        </FormItem>
-                                    </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
+                                <FormItem>
+                                    <FormLabel>Você está disposto (a) a investir no marketing da sua empresa?*</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Sua resposta" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                         )} />
 
@@ -295,5 +287,3 @@ export default function RegisterPage() {
     </main>
   );
 }
-
-    
