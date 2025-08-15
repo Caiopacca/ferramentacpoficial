@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Lock } from 'lucide-react';
+import { Loader2, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -17,18 +17,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
 
 const formSchema = z.object({
   email: z.string().email('Por favor, insira um e-mail válido.'),
-  password: z.string().min(1, 'A senha é obrigatória.'),
 });
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -37,29 +35,24 @@ export default function LoginPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
+    
+    // Lógica de redefinição de senha (simulada)
+    console.log('Enviando link de redefinição para:', values.email);
+    
+    // Simulação de uma chamada de API
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // Simulação de autenticação
-    // Em um aplicativo real, isso seria uma chamada para sua API
-    if (values.email === 'admin@cpmarketing.com' && values.password === 'CpMarketing@10') {
-      localStorage.setItem('user', JSON.stringify({ email: values.email }));
-      toast({
-        title: 'Login bem-sucedido!',
-        description: 'Redirecionando para as ferramentas.',
-      });
-      router.push('/');
-    } else {
-      toast({
-        title: 'Erro de Login',
-        description: 'E-mail ou senha incorretos. Por favor, tente novamente.',
-        variant: 'destructive',
-      });
-    }
+    toast({
+      title: 'Link Enviado!',
+      description: 'Se o e-mail estiver cadastrado, você receberá um link para redefinir sua senha.',
+    });
+    
+    router.push('/login');
 
     setIsLoading(false);
   }
@@ -70,16 +63,16 @@ export default function LoginPage() {
             <header className="text-center mb-8">
                 <Image src="https://firebasestorage.googleapis.com/v0/b/site-cp-marketing.firebasestorage.app/o/LOGO%20REDONDA%20EM%20SVG%20CP.svg?alt=media&token=973b78cf-9a80-4c4a-bac0-a66a058c392d" alt="Logo CP Marketing" width={60} height={60} className="mx-auto mb-4 rounded-md" />
                 <h1 className="text-3xl font-bold text-primary tracking-tight">
-                    Acesso Restrito
+                    Redefinir Senha
                 </h1>
                 <p className="text-muted-foreground mt-2">
-                    Faça login para acessar a caixa de ferramentas.
+                    Insira seu e-mail para receber o link de redefinição.
                 </p>
             </header>
             <Card>
                 <CardHeader>
-                    <CardTitle>Login</CardTitle>
-                    <CardDescription>Insira suas credenciais para continuar.</CardDescription>
+                    <CardTitle>Esqueceu sua senha?</CardTitle>
+                    <CardDescription>Sem problemas. Nós te ajudamos a recuperá-la.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -97,46 +90,30 @@ export default function LoginPage() {
                             </FormItem>
                         )}
                         />
-                        <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Senha</FormLabel>
-                            <FormControl>
-                                <Input type="password" placeholder="********" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
                         <Button type="submit" disabled={isLoading} className="w-full">
                         {isLoading ? (
                             <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Entrando...
+                            Enviando...
                             </>
                         ) : (
                             <>
-                            <Lock className="mr-2 h-4 w-4" />
-                            Entrar
+                            <Send className="mr-2 h-4 w-4" />
+                            Enviar Link
                             </>
                         )}
                         </Button>
                     </form>
                     </Form>
                 </CardContent>
-                 <CardFooter className="flex-col items-start gap-4">
-                    <Separator />
-                    <div className="flex justify-between w-full text-sm">
-                        <Link href="/register" className="text-muted-foreground hover:text-primary transition-colors">
-                            Criar nova conta
+                <CardContent className="text-center">
+                    <p className="text-sm text-muted-foreground">
+                        Lembrou da senha?{' '}
+                        <Link href="/login" className="text-primary hover:underline">
+                            Voltar para o login
                         </Link>
-                        <Link href="/forgot-password" className="text-muted-foreground hover:text-primary transition-colors">
-                            Esqueceu sua senha?
-                        </Link>
-                    </div>
-                </CardFooter>
+                    </p>
+                </CardContent>
             </Card>
         </div>
     </main>
