@@ -23,22 +23,23 @@ import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import Link from 'next/link';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RdStationIntegration } from '@/components/rd-station-integration';
+
 
 const formSchema = z.object({
-  name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
-  phone: z.string().min(10, 'O telefone deve ter pelo menos 10 caracteres.'),
-  email: z.string().email('Por favor, insira um e-mail válido.'),
-  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres.'),
-  cityState: z.string().min(1, 'Este campo é obrigatório.'),
-  company: z.string().min(1, 'Este campo é obrigatório.'),
-  instagram: z.string().min(1, 'Este campo é obrigatório.').refine(val => val.startsWith('@'), { message: 'O perfil deve começar com @.' }),
-  segment: z.string().min(1, 'Este campo é obrigatório.'),
-  monthlyBilling: z.string({ required_error: 'Por favor, selecione uma opção.'}),
-  marketingExperience: z.string({ required_error: 'Por favor, selecione uma opção.'}),
-  mainChallenge: z.string({ required_error: 'Por favor, selecione uma opção.'}),
-  urgency: z.string({ required_error: 'Por favor, selecione uma opção.'}),
-  willInvest: z.string().min(1, 'Este campo é obrigatório.'),
+  name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.').describe('Nome do lead'),
+  phone: z.string().min(10, 'O telefone deve ter pelo menos 10 caracteres.').describe('Telefone do lead'),
+  email: z.string().email('Por favor, insira um e-mail válido.').describe('Email do lead'),
+  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres.').describe('Senha do usuário'),
+  cityState: z.string().min(1, 'Este campo é obrigatório.').describe('Cidade e Estado'),
+  company: z.string().min(1, 'Este campo é obrigatório.').describe('Empresa do lead'),
+  instagram: z.string().min(1, 'Este campo é obrigatório.').refine(val => val.startsWith('@'), { message: 'O perfil deve começar com @.' }).describe('Instagram do lead'),
+  segment: z.string().min(1, 'Este campo é obrigatório.').describe('Segmento da empresa'),
+  monthlyBilling: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Faturamento mensal'),
+  marketingExperience: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Experiência com marketing'),
+  mainChallenge: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Principal desafio de marketing'),
+  urgency: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Urgência para solução'),
+  willInvest: z.string().min(1, 'Este campo é obrigatório.').describe('Disponibilidade para investir'),
 });
 
 const billingOptions = [
@@ -73,13 +74,15 @@ const urgencyOptions = [
     'Não tenho pressa',
 ];
 
+type FormData = z.infer<typeof formSchema>;
 
 export default function RegisterPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [submissionData, setSubmissionData] = useState<FormData | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
@@ -94,26 +97,32 @@ export default function RegisterPage() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData) {
     setIsLoading(true);
     
-    // Logic for account creation (simulated with localStorage)
-    // We only store what's needed for login, but in a real app you'd send all `values`
+    // Armazena os dados para enviar ao RD Station
+    setSubmissionData(values);
+
+    // Salva os dados de login localmente
     localStorage.setItem('registeredUser', JSON.stringify({ email: values.email, password: values.password }));
     
-    // Simulate an API call
-    console.log('Registration Data:', values);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
+    // A simulação de API não é mais necessária aqui,
+    // o componente RdStationIntegration cuidará do envio.
+    
     toast({
       title: 'Conta Criada com Sucesso!',
-      description: 'Você será redirecionado para a tela de login.',
+      description: 'Enviando seus dados e redirecionando para o login...',
     });
-    
-    router.push('/login');
-
-    setIsLoading(false);
   }
+
+  const handleConversion = () => {
+    // Redireciona após a conversão no RD Station ter sido processada
+    setTimeout(() => {
+        router.push('/login');
+        setIsLoading(false);
+    }, 1500); // Dá um tempo para o envio ocorrer
+  };
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-background">
@@ -262,7 +271,7 @@ export default function RegisterPage() {
                         {isLoading ? (
                             <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Criando Conta...
+                            Finalizando Cadastro...
                             </>
                         ) : (
                             <>
@@ -283,6 +292,12 @@ export default function RegisterPage() {
                     </p>
                 </CardContent>
             </Card>
+            {submissionData && (
+                <RdStationIntegration 
+                    data={submissionData} 
+                    onConversion={handleConversion} 
+                />
+            )}
         </div>
     </main>
   );
