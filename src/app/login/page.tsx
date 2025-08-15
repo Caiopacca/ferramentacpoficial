@@ -76,7 +76,7 @@ export default function LoginPage() {
             <header className="text-center mb-8">
                 <Image src="https://firebasestorage.googleapis.com/v0/b/site-cp-marketing.firebasestorage.app/o/LOGO%20REDONDA%20EM%20SVG%20CP.svg?alt=media&token=973b78cf-9a80-4c4a-bac0-a66a058c392d" alt="Logo CP Marketing" width={60} height={60} className="mx-auto mb-4 rounded-md" />
                 <h1 className="text-3xl font-bold text-primary tracking-tight">
-                    Acesso Restrito
+                    Tenha acesso as nossas ferramentas de IA
                 </h1>
                 <p className="text-muted-foreground mt-2">
                     Faça login para acessar a caixa de ferramentas.
