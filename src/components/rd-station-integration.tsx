@@ -29,10 +29,11 @@ export function RdStationIntegration({ data, onConversion }: Props) {
   useEffect(() => {
     if (!data) return;
 
-    const conversionIdentifier = 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499';
+    // A API Key pública (token) e o identificador do formulário
     const rdStationToken = '51ed25b3ebd3700717ab2be8cc7015b7';
+    const conversionIdentifier = 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499';
 
-    // Agrupando as informações de qualificação em um único campo de texto
+    // Agrupando todas as informações de qualificação em um único campo de texto
     const qualificationDetails = `
 --- QUALIFICAÇÃO DO LEAD ---
 Faturamento Mensal: ${data.monthlyBilling}
@@ -43,20 +44,19 @@ Disposto(a) a investir: ${data.willInvest}
 Cidade/Estado: ${data.cityState}
 Segmento: ${data.segment}
 Empresa: ${data.company}
-    `.trim();
+    `.trim().replace(/^\s+/gm, ''); // Remove espaços extras e linhas em branco no início
 
-
-    // Mapeamento preciso e completo dos campos do formulário para os nomes de campo do RD Station
+    // Mapeamento dos campos para o payload da API do RD Station
     const payload = {
-        'conversion_identifier': conversionIdentifier,
-        'name': data.name,
-        'email': data.email,
-        'mobile_phone': data.phone,
-        'company': data.company,
-        'cf_instagram': data.instagram,
-        'cf_detalhes_do_lead': qualificationDetails, // Campo único com todos os detalhes
+      'conversion_identifier': conversionIdentifier,
+      'name': data.name,
+      'email': data.email,
+      'mobile_phone': data.phone, // Campo padrão para telefone
+      'cf_instagram': data.instagram, // Campo personalizado para Instagram
+      'cf_detalhes_do_lead': qualificationDetails, // Campo único com todos os outros detalhes
     };
     
+    // Estrutura do corpo da requisição para a API v2
     const requestBody = {
       "event_type": "CONVERSION",
       "event_family":"CDP",
@@ -77,17 +77,14 @@ Empresa: ${data.company}
 
         if (response.ok) {
           console.log('Lead enviado com sucesso para o RD Station!');
-          onConversion(); // Chama a função de callback para indicar sucesso
         } else {
           const errorData = await response.json();
           console.error('Erro ao enviar lead para o RD Station:', errorData);
-          // Mesmo com erro, chama onConversion para não travar o usuário
-          onConversion();
         }
       } catch (error) {
         console.error('Erro de rede ao tentar enviar lead para o RD Station:', error);
-        // Mesmo com erro, chama onConversion para não travar o usuário
-        onConversion();
+      } finally {
+        onConversion(); // Chama a função de callback para continuar o fluxo do usuário
       }
     };
 
