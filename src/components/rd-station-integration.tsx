@@ -17,7 +17,8 @@ interface SubmissionData {
   mainChallenge: string;
   urgency: string;
   willInvest: string;
-  [key: string]: any; // Permite outras propriedades
+  password?: string; // Senha não será enviada
+  [key: string]: any; 
 }
 
 interface Props {
@@ -29,31 +30,24 @@ export function RdStationIntegration({ data, onConversion }: Props) {
   useEffect(() => {
     if (!data) return;
 
-    // A API Key pública (token) e o identificador do formulário
     const rdStationToken = '51ed25b3ebd3700717ab2be8cc7015b7';
     const conversionIdentifier = 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499';
 
-    // Agrupando todas as informações de qualificação em um único campo de texto
-    const qualificationDetails = `
---- QUALIFICAÇÃO DO LEAD ---
-Faturamento Mensal: ${data.monthlyBilling}
-Experiência com Marketing: ${data.marketingExperience}
-Principal Desafio: ${data.mainChallenge}
-Urgência para Solução: ${data.urgency}
-Disposto(a) a investir: ${data.willInvest}
-Cidade/Estado: ${data.cityState}
-Segmento: ${data.segment}
-Empresa: ${data.company}
-    `.trim().replace(/^\s+/gm, ''); // Remove espaços extras e linhas em branco no início
-
-    // Mapeamento dos campos para o payload da API do RD Station
+    // Mapeamento preciso campo a campo para o payload da API do RD Station
     const payload = {
       'conversion_identifier': conversionIdentifier,
       'name': data.name,
       'email': data.email,
-      'mobile_phone': data.phone, // Campo padrão para telefone
-      'cf_instagram': data.instagram, // Campo personalizado para Instagram
-      'cf_detalhes_do_lead': qualificationDetails, // Campo único com todos os outros detalhes
+      'mobile_phone': data.phone,
+      'company': data.company,
+      'cf_instagram': data.instagram,
+      'cf_cidade_e_estado': data.cityState,
+      'cf_qual_o_segmento_da_sua_empresa': data.segment,
+      'cf_quanto_a_sua_empresa_fatura_por_mes': data.monthlyBilling,
+      'cf_ja_contou_com_o_trabalho_de_algum_profissional_de_marketing': data.marketingExperience,
+      'cf_qual_seu_principal_desafio_com_o_marketing_da_sua_empresa': data.mainChallenge,
+      'cf_qual_a_urgencia_para_solucionar_esse_desafio': data.urgency,
+      'cf_voce_esta_disposto_a_investir_no_marketing_da_sua_empresa': data.willInvest,
     };
     
     // Estrutura do corpo da requisição para a API v2
@@ -63,7 +57,6 @@ Empresa: ${data.company}
       "payload": payload
     };
 
-    // Função para enviar os dados para a API do RD Station
     const sendToRdStation = async () => {
       try {
         const response = await fetch(`https://api.rd.services/platform/conversions?api_key=${rdStationToken}`, {
@@ -84,7 +77,7 @@ Empresa: ${data.company}
       } catch (error) {
         console.error('Erro de rede ao tentar enviar lead para o RD Station:', error);
       } finally {
-        onConversion(); // Chama a função de callback para continuar o fluxo do usuário
+        onConversion(); 
       }
     };
 
@@ -92,6 +85,5 @@ Empresa: ${data.company}
 
   }, [data, onConversion]);
 
-  // Este componente não renderiza nada na tela
   return null;
 }
