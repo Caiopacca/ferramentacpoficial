@@ -42,11 +42,11 @@ export function RdStationIntegration({ data, onConversion }: Props) {
         'company': data.company,
         'cf_instagram': data.instagram,
         'cf_qual_o_segmento_da_sua_empresa': data.segment,
-        'cf_faturamento_mensal_api': data.monthlyBilling,
-        'cf_ja_trabalhou_com_mkt': data.marketingExperience,
-        'cf_desafio_de_marketing': data.mainChallenge,
-        'cf_urgencia': data.urgency,
-        'cf_disposto_a_investir': data.willInvest,
+        'cf_quanto_a_sua_empresa_fatura_por_mes': data.monthlyBilling,
+        'cf_ja_contou_com_o_trabalho_de_algum_profissional_de_marketing_digital_ou_agencia': data.marketingExperience,
+        'cf_qual_seu_principal_desafio_com_o_marketing_da_sua_empresa': data.mainChallenge,
+        'cf_qual_a_urgencia_para_solucionar_esse_desafio': data.urgency,
+        'cf_voce_esta_disposto_a_a_investir_no_marketing_da_sua_empresa': data.willInvest,
     };
     
     // Constrói o corpo da requisição no formato esperado pela API de conversão
