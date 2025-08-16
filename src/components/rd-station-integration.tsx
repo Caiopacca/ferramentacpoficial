@@ -37,14 +37,14 @@ export function RdStationIntegration({ data, onConversion }: Props) {
     const payload = {
         'name': data.name,
         'email': data.email,
-        'telefone': data.phone,
+        'mobile_phone': data.phone,
         'cf_cidade_estado': data.cityState,
         'company': data.company,
         'cf_instagram': data.instagram,
         'cf_segmento': data.segment,
-        'cf_faturamento_mensal': data.monthlyBilling,
-        'cf_experiencia_marketing': data.marketingExperience,
-        'cf_principal_desafio': data.mainChallenge,
+        'cf_faturamento_mensal_api': data.monthlyBilling,
+        'cf_experiencia_com_marketing': data.marketingExperience,
+        'cf_desafio_de_marketing': data.mainChallenge,
         'cf_urgencia': data.urgency,
         'cf_disposto_a_investir': data.willInvest,
     };
