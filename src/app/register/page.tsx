@@ -110,16 +110,33 @@ export default function RegisterPage() {
     // Salva os dados do usuário para o login local
     localStorage.setItem('registeredUser', JSON.stringify({ email: values.email, password: values.password }));
     
-    // Simulação do tempo de envio para a API
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+        // Envia o e-mail em segundo plano
+        await fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        });
 
-    toast({
-      title: 'Conta Criada com Sucesso!',
-      description: 'Você será redirecionado para a página de login.',
-    });
-    
-    router.push('/login');
-    setIsLoading(false);
+        toast({
+            title: 'Conta Criada com Sucesso!',
+            description: 'Você será redirecionado para a página de login.',
+        });
+        
+        router.push('/login');
+
+    } catch (error) {
+        console.error("Failed to send email or register user", error);
+        toast({
+            title: 'Erro no Cadastro',
+            description: 'Não foi possível finalizar seu cadastro. Por favor, tente novamente.',
+            variant: 'destructive',
+        });
+    } finally {
+        setIsLoading(false);
+    }
   }
 
   return (
