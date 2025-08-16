@@ -115,37 +115,32 @@ export default function RegisterPage() {
     // Salva os dados do usuário para o login local
     localStorage.setItem('registeredUser', JSON.stringify({ email: values.email, password: values.password }));
     
-    try {
-      // Envia o e-mail em segundo plano
-      const emailResponse = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (!emailResponse.ok) {
-        throw new Error('Falha ao enviar e-mail de notificação.');
+    // Envia o e-mail em segundo plano, mas não impede o fluxo do usuário se falhar
+    fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    }).then(async (response) => {
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Falha ao enviar e-mail de notificação em segundo plano:', errorData);
+      } else {
+        console.log('E-mail de notificação enviado com sucesso em segundo plano.');
       }
+    }).catch(error => {
+        console.error("Erro de rede ao tentar enviar e-mail de notificação:", error);
+    });
 
-      toast({
-        title: 'Conta Criada com Sucesso!',
-        description: 'Você será redirecionado para a página de login.',
-      });
-      
-      router.push('/login');
-
-    } catch (error) {
-      console.error("Failed to send email or register user", error);
-      toast({
-        title: 'Erro no Cadastro',
-        description: 'Não foi possível finalizar seu cadastro. Por favor, tente novamente.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    toast({
+      title: 'Conta Criada com Sucesso!',
+      description: 'Você será redirecionado para a página de login.',
+    });
+    
+    // Finaliza o processo principal para o usuário
+    router.push('/login');
+    setIsLoading(false);
   }
 
   return (
