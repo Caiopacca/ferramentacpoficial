@@ -23,7 +23,13 @@ import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import Link from 'next/link';
 import { RdStationIntegration } from '@/components/rd-station-integration';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const formSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.').describe('Nome do lead'),
@@ -163,25 +169,21 @@ export default function RegisterPage() {
                             control={form.control}
                             name="monthlyBilling"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                <FormLabel>Quanto a sua empresa fatura por mês?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    className="flex flex-col space-y-1"
-                                    >
-                                    {billingOptions.map(option => (
-                                        <FormItem key={option} className="flex items-center space-x-3 space-y-0">
-                                            <FormControl>
-                                                <RadioGroupItem value={option} />
-                                            </FormControl>
-                                            <FormLabel className="font-normal">{option}</FormLabel>
-                                        </FormItem>
-                                    ))}
-                                    </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
+                                <FormItem>
+                                    <FormLabel>Quanto a sua empresa fatura por mês?*</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {billingOptions.map(option => (
+                                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
                                 </FormItem>
                         )} />
 
@@ -189,25 +191,21 @@ export default function RegisterPage() {
                             control={form.control}
                             name="marketingExperience"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                <FormLabel>Já contou com o trabalho de algum profissional de marketing digital ou agência?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    className="flex flex-col space-y-1"
-                                    >
-                                    {experienceOptions.map(option => (
-                                        <FormItem key={option} className="flex items-center space-x-3 space-y-0">
-                                            <FormControl>
-                                                <RadioGroupItem value={option} />
-                                            </FormControl>
-                                            <FormLabel className="font-normal">{option}</FormLabel>
-                                        </FormItem>
-                                    ))}
-                                    </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
+                                <FormItem>
+                                    <FormLabel>Já contou com o trabalho de algum profissional de marketing digital ou agência?*</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {experienceOptions.map(option => (
+                                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
                                 </FormItem>
                         )} />
                         
@@ -215,25 +213,21 @@ export default function RegisterPage() {
                             control={form.control}
                             name="mainChallenge"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                <FormLabel>Qual seu principal desafio com o marketing da sua empresa?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    className="flex flex-col space-y-1"
-                                    >
-                                    {challengeOptions.map(option => (
-                                        <FormItem key={option} className="flex items-center space-x-3 space-y-0">
-                                            <FormControl>
-                                                <RadioGroupItem value={option} />
-                                            </FormControl>
-                                            <FormLabel className="font-normal">{option}</FormLabel>
-                                        </FormItem>
-                                    ))}
-                                    </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
+                                <FormItem>
+                                    <FormLabel>Qual seu principal desafio com o marketing da sua empresa?*</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {challengeOptions.map(option => (
+                                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
                                 </FormItem>
                         )} />
                         
@@ -241,24 +235,20 @@ export default function RegisterPage() {
                             control={form.control}
                             name="urgency"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
+                                <FormItem>
                                 <FormLabel>Qual a urgência para solucionar esse desafio?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    className="flex flex-col space-y-1"
-                                    >
-                                    {urgencyOptions.map(option => (
-                                        <FormItem key={option} className="flex items-center space-x-3 space-y-0">
-                                            <FormControl>
-                                                <RadioGroupItem value={option} />
-                                            </FormControl>
-                                            <FormLabel className="font-normal">{option}</FormLabel>
-                                        </FormItem>
-                                    ))}
-                                    </RadioGroup>
-                                </FormControl>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Selecione" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {urgencyOptions.map(option => (
+                                            <SelectItem key={option} value={option}>{option}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                                 <FormMessage />
                                 </FormItem>
                         )} />
