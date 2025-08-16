@@ -22,15 +22,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import Link from 'next/link';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { RdStationIntegration } from '@/components/rd-station-integration';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 
 const formSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.').describe('Nome do lead'),
   phone: z.string().min(10, 'O telefone deve ter pelo menos 10 caracteres.').describe('Telefone do lead'),
   email: z.string().email('Por favor, insira um e-mail válido.').describe('Email do lead'),
-  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres.').describe('Senha do usuário'),
   cityState: z.string().min(1, 'Este campo é obrigatório.').describe('Cidade e Estado'),
   company: z.string().min(1, 'Este campo é obrigatório.').describe('Empresa do lead'),
   instagram: z.string().min(1, 'Este campo é obrigatório.').refine(val => val.startsWith('@'), { message: 'O perfil deve começar com @.' }).describe('Instagram do lead'),
@@ -40,6 +45,7 @@ const formSchema = z.object({
   mainChallenge: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Principal desafio de marketing'),
   urgency: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Urgência para solução'),
   willInvest: z.string().min(1, 'Este campo é obrigatório.').describe('Disponibilidade para investir'),
+  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres.').describe('Senha do usuário'),
 });
 
 const billingOptions = [
@@ -144,28 +150,24 @@ export default function RegisterPage() {
                 <CardContent>
                     <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <div className="space-y-6">
-                            <FormField control={form.control} name="name" render={({ field }) => (
-                                <FormItem><FormLabel>Nome*</FormLabel><FormControl><Input placeholder="Seu nome completo" {...field} /></FormControl><FormMessage /></FormItem>
-                            )} />
-                             <FormField control={form.control} name="phone" render={({ field }) => (
-                                <FormItem><FormLabel>Telefone*</FormLabel><FormControl><Input placeholder="(XX) XXXXX-XXXX" {...field} /></FormControl><FormMessage /></FormItem>
-                            )} />
-                             <FormField control={form.control} name="email" render={({ field }) => (
-                                <FormItem><FormLabel>Email*</FormLabel><FormControl><Input type="email" placeholder="seuemail@exemplo.com" {...field} /></FormControl><FormMessage /></FormItem>
-                            )} />
-                            <FormField control={form.control} name="cityState" render={({ field }) => (
-                                <FormItem><FormLabel>Qual é a sua cidade e estado?*</FormLabel><FormControl><Input placeholder="Ex: Goiânia, GO" {...field} /></FormControl><FormMessage /></FormItem>
-                            )} />
-                            <FormField control={form.control} name="company" render={({ field }) => (
-                                <FormItem><FormLabel>Empresa*</FormLabel><FormControl><Input placeholder="Nome da sua empresa" {...field} /></FormControl><FormMessage /></FormItem>
-                            )} />
-                        </div>
-
+                        <FormField control={form.control} name="name" render={({ field }) => (
+                            <FormItem><FormLabel>Nome*</FormLabel><FormControl><Input placeholder="Seu nome completo" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                        <FormField control={form.control} name="phone" render={({ field }) => (
+                            <FormItem><FormLabel>Telefone*</FormLabel><FormControl><Input placeholder="(XX) XXXXX-XXXX" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                        <FormField control={form.control} name="email" render={({ field }) => (
+                            <FormItem><FormLabel>Email*</FormLabel><FormControl><Input type="email" placeholder="seuemail@exemplo.com" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                        <FormField control={form.control} name="cityState" render={({ field }) => (
+                            <FormItem><FormLabel>Qual é a sua cidade e estado?*</FormLabel><FormControl><Input placeholder="Ex: Goiânia, GO" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
+                        <FormField control={form.control} name="company" render={({ field }) => (
+                            <FormItem><FormLabel>Empresa*</FormLabel><FormControl><Input placeholder="Nome da sua empresa" {...field} /></FormControl><FormMessage /></FormItem>
+                        )} />
                         <FormField control={form.control} name="instagram" render={({ field }) => (
                             <FormItem><FormLabel>Qual é o @ do Instagram do seu negócio ou perfil pessoal mais ativo?*</FormLabel><FormControl><Input placeholder="@seu_negocio" {...field} /></FormControl><FormMessage /></FormItem>
                         )} />
-
                         <FormField control={form.control} name="segment" render={({ field }) => (
                             <FormItem><FormLabel>Qual é o segmento da sua empresa?*</FormLabel><FormControl><Input placeholder="Ex: Saúde, Varejo, Tecnologia" {...field} /></FormControl><FormMessage /></FormItem>
                         )} />
@@ -174,39 +176,43 @@ export default function RegisterPage() {
                             control={form.control}
                             name="monthlyBilling"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                <FormLabel>Quanto a sua empresa fatura por mês?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
-                                        {billingOptions.map(option => (
-                                            <FormItem key={option} className="flex items-center space-x-3 space-y-0">
-                                                <FormControl><RadioGroupItem value={option} /></FormControl>
-                                                <FormLabel className="font-normal">{option}</FormLabel>
-                                            </FormItem>
-                                        ))}
-                                    </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
+                                <FormItem>
+                                    <FormLabel>Quanto a sua empresa fatura por mês?*</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {billingOptions.map(option => (
+                                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
                                 </FormItem>
                         )} />
 
-                         <FormField
+                        <FormField
                             control={form.control}
                             name="marketingExperience"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                <FormLabel>Já contou com o trabalho de algum profissional de marketing digital ou agência?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
-                                        {experienceOptions.map(option => (
-                                            <FormItem key={option} className="flex items-center space-x-3 space-y-0">
-                                                <FormControl><RadioGroupItem value={option} /></FormControl>
-                                                <FormLabel className="font-normal">{option}</FormLabel>
-                                            </FormItem>
-                                        ))}
-                                    </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
+                                <FormItem>
+                                    <FormLabel>Já contou com o trabalho de algum profissional de marketing digital ou agência?*</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {experienceOptions.map(option => (
+                                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
                                 </FormItem>
                         )} />
 
@@ -214,19 +220,21 @@ export default function RegisterPage() {
                             control={form.control}
                             name="mainChallenge"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                <FormLabel>Qual seu principal desafio com o marketing da sua empresa?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
-                                        {challengeOptions.map(option => (
-                                            <FormItem key={option} className="flex items-center space-x-3 space-y-0">
-                                                <FormControl><RadioGroupItem value={option} /></FormControl>
-                                                <FormLabel className="font-normal">{option}</FormLabel>
-                                            </FormItem>
-                                        ))}
-                                    </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
+                                <FormItem>
+                                    <FormLabel>Qual seu principal desafio com o marketing da sua empresa?*</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {challengeOptions.map(option => (
+                                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
                                 </FormItem>
                         )} />
 
@@ -234,19 +242,21 @@ export default function RegisterPage() {
                             control={form.control}
                             name="urgency"
                             render={({ field }) => (
-                                <FormItem className="space-y-3">
-                                <FormLabel>Qual a urgência para solucionar esse desafio?*</FormLabel>
-                                <FormControl>
-                                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
-                                        {urgencyOptions.map(option => (
-                                            <FormItem key={option} className="flex items-center space-x-3 space-y-0">
-                                                <FormControl><RadioGroupItem value={option} /></FormControl>
-                                                <FormLabel className="font-normal">{option}</FormLabel>
-                                            </FormItem>
-                                        ))}
-                                    </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
+                                <FormItem>
+                                    <FormLabel>Qual a urgência para solucionar esse desafio?*</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {urgencyOptions.map(option => (
+                                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
                                 </FormItem>
                         )} />
 
