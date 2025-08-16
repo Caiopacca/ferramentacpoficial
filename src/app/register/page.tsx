@@ -42,7 +42,7 @@ const formSchema = z.object({
   marketingExperience: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Experiência com marketing'),
   mainChallenge: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Principal desafio de marketing'),
   urgency: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Urgência para solução'),
-  willInvest: z.string().min(1, 'Este campo é obrigatório.').describe('Disponibilidade para investir'),
+  willInvest: z.string({ required_error: 'Por favor, selecione uma opção.'}).describe('Disponibilidade para investir'),
   password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres.').describe('Senha do usuário'),
 });
 
@@ -78,6 +78,11 @@ const urgencyOptions = [
     'Não tenho pressa',
 ];
 
+const willInvestOptions = [
+    'Sim',
+    'Não',
+];
+
 type FormData = z.infer<typeof formSchema>;
 
 export default function RegisterPage() {
@@ -96,7 +101,7 @@ export default function RegisterPage() {
       company: '',
       instagram: '',
       segment: '',
-      willInvest: '',
+      willInvest: undefined,
       password: '',
     },
   });
@@ -279,9 +284,18 @@ export default function RegisterPage() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Você está disposto (a) a investir no marketing da sua empresa?*</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Sua resposta" {...field} />
-                                    </FormControl>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {willInvestOptions.map(option => (
+                                                <SelectItem key={option} value={option}>{option}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                 </FormItem>
                         )} />
