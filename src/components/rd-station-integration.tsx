@@ -29,40 +29,37 @@ export function RdStationIntegration({ data, onConversion }: Props) {
   useEffect(() => {
     if (!data) return;
 
+    const conversionIdentifier = 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499';
+    const rdStationToken = '51ed25b3ebd3700717ab2be8cc7015b7';
+
     // Mapeamento dos campos do formulário para os nomes de campo do RD Station
-    const mappedData: { [key: string]: any } = {
-        'nome': data.name,
-        'email': data.email,
-        'telefone': data.phone,
-        'cidade_estado': data.cityState,
-        'empresa': data.company,
-        'instagram': data.instagram,
-        'segmento': data.segment,
-        'faturamento_mensal': data.monthlyBilling,
-        'experiencia_marketing': data.marketingExperience,
-        'principal_desafio': data.mainChallenge,
-        'urgencia': data.urgency,
-        'disposto_a_investir': data.willInvest,
-        'token_rdstation': '51ed25b3ebd3700717ab2be8cc7015b7',
-        'identificador': 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499' 
-    };
+    const payload = [
+        { name: 'name', value: data.name },
+        { name: 'email', value: data.email },
+        { name: 'telefone', value: data.phone },
+        { name: 'cidade_estado', value: data.cityState },
+        { name: 'empresa', value: data.company },
+        { name: 'instagram', value: data.instagram },
+        { name: 'segmento', value: data.segment },
+        { name: 'faturamento_mensal', value: data.monthlyBilling },
+        { name: 'experiencia_marketing', value: data.marketingExperience },
+        { name: 'principal_desafio', value: data.mainChallenge },
+        { name: 'urgencia', value: data.urgency },
+        { name: 'disposto_a_investir', value: data.willInvest },
+    ];
 
     // Função para enviar os dados para a API do RD Station
     const sendToRdStation = async () => {
       try {
-        const response = await fetch('https://api.rd.services/platform/conversions', {
+        const response = await fetch(`https://api.rd.services/platform/forms/${conversionIdentifier}/rich_payload`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           },
           body: JSON.stringify({
-            event_type: 'CONVERSION',
-            event_family: 'CDP',
-            payload: {
-                conversion_identifier: 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499',
-                ...mappedData
-            }
+            token_rdstation: rdStationToken,
+            payload: payload
           })
         });
 
