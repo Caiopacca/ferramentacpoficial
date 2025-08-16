@@ -32,22 +32,29 @@ export function RdStationIntegration({ data, onConversion }: Props) {
     const conversionIdentifier = 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499';
     const rdStationToken = '51ed25b3ebd3700717ab2be8cc7015b7';
 
+    // Agrupando as informações de qualificação em um único campo de texto
+    const qualificationDetails = `
+--- QUALIFICAÇÃO DO LEAD ---
+Faturamento Mensal: ${data.monthlyBilling}
+Experiência com Marketing: ${data.marketingExperience}
+Principal Desafio: ${data.mainChallenge}
+Urgência para Solução: ${data.urgency}
+Disposto(a) a investir: ${data.willInvest}
+Cidade/Estado: ${data.cityState}
+Segmento: ${data.segment}
+Empresa: ${data.company}
+    `.trim();
+
+
     // Mapeamento preciso e completo dos campos do formulário para os nomes de campo do RD Station
     const payload = {
         'conversion_identifier': conversionIdentifier,
         'name': data.name,
         'email': data.email,
         'mobile_phone': data.phone,
-        'city': data.cityState.split(',')[0]?.trim(),
-        'state': data.cityState.split(',')[1]?.trim(),
         'company': data.company,
         'cf_instagram': data.instagram,
-        'cf_qual_o_segmento_da_sua_empresa': data.segment,
-        'cf_quanto_a_sua_empresa_fatura_por_mes': data.monthlyBilling,
-        'cf_ja_contou_com_o_trabalho_de_algum_profissional_de_marketing_digital_ou_agencia': data.marketingExperience,
-        'cf_qual_seu_principal_desafio_com_o_marketing_da_sua_empresa': data.mainChallenge,
-        'cf_qual_a_urgencia_para_solucionar_esse_desafio': data.urgency,
-        'cf_voce_esta_disposto_a_a_investir_no_marketing_da_sua_empresa': data.willInvest,
+        'cf_detalhes_do_lead': qualificationDetails, // Campo único com todos os detalhes
     };
     
     const requestBody = {
