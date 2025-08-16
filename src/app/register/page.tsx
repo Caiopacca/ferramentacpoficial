@@ -144,7 +144,7 @@ export default function RegisterPage() {
                 <CardContent>
                     <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <div className="grid md:grid-cols-2 gap-6">
+                        <div className="space-y-6">
                             <FormField control={form.control} name="name" render={({ field }) => (
                                 <FormItem><FormLabel>Nome*</FormLabel><FormControl><Input placeholder="Seu nome completo" {...field} /></FormControl><FormMessage /></FormItem>
                             )} />
@@ -153,9 +153,6 @@ export default function RegisterPage() {
                             )} />
                              <FormField control={form.control} name="email" render={({ field }) => (
                                 <FormItem><FormLabel>Email*</FormLabel><FormControl><Input type="email" placeholder="seuemail@exemplo.com" {...field} /></FormControl><FormMessage /></FormItem>
-                            )} />
-                            <FormField control={form.control} name="password" render={({ field }) => (
-                                <FormItem><FormLabel>Crie uma Senha*</FormLabel><FormControl><Input type="password" placeholder="Mínimo 6 caracteres" {...field} /></FormControl><FormMessage /></FormItem>
                             )} />
                             <FormField control={form.control} name="cityState" render={({ field }) => (
                                 <FormItem><FormLabel>Qual é a sua cidade e estado?*</FormLabel><FormControl><Input placeholder="Ex: Goiânia, GO" {...field} /></FormControl><FormMessage /></FormItem>
@@ -264,6 +261,10 @@ export default function RegisterPage() {
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
+                        )} />
+                        
+                        <FormField control={form.control} name="password" render={({ field }) => (
+                            <FormItem><FormLabel>Crie uma Senha*</FormLabel><FormControl><Input type="password" placeholder="Mínimo 6 caracteres" {...field} /></FormControl><FormMessage /></FormItem>
                         )} />
 
 
