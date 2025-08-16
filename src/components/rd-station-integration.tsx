@@ -32,35 +32,44 @@ export function RdStationIntegration({ data, onConversion }: Props) {
     const conversionIdentifier = 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499';
     const rdStationToken = '51ed25b3ebd3700717ab2be8cc7015b7';
 
-    // Mapeamento dos campos do formulário para os nomes de campo do RD Station
-    const payload = [
-        { name: 'name', value: data.name },
-        { name: 'email', value: data.email },
-        { name: 'telefone', value: data.phone },
-        { name: 'cidade_estado', value: data.cityState },
-        { name: 'empresa', value: data.company },
-        { name: 'instagram', value: data.instagram },
-        { name: 'segmento', value: data.segment },
-        { name: 'faturamento_mensal', value: data.monthlyBilling },
-        { name: 'experiencia_marketing', value: data.marketingExperience },
-        { name: 'principal_desafio', value: data.mainChallenge },
-        { name: 'urgencia', value: data.urgency },
-        { name: 'disposto_a_investir', value: data.willInvest },
-    ];
+    // Mapeamento preciso dos campos do formulário para os nomes de campo do RD Station
+    // Campos personalizados (custom fields) devem ter o prefixo "cf_"
+    const payload = {
+        'name': data.name,
+        'email': data.email,
+        'telefone': data.phone,
+        'cf_cidade_estado': data.cityState,
+        'company': data.company,
+        'cf_instagram': data.instagram,
+        'cf_segmento': data.segment,
+        'cf_faturamento_mensal': data.monthlyBilling,
+        'cf_experiencia_marketing': data.marketingExperience,
+        'cf_principal_desafio': data.mainChallenge,
+        'cf_urgencia': data.urgency,
+        'cf_disposto_a_investir': data.willInvest,
+    };
+    
+    // Constrói o corpo da requisição no formato esperado pela API de conversão
+    const requestBody = {
+      "event_type": "CONVERSION",
+      "event_family":"CDP",
+      "payload": {
+        "conversion_identifier": conversionIdentifier,
+        ...payload
+      }
+    };
+
 
     // Função para enviar os dados para a API do RD Station
     const sendToRdStation = async () => {
       try {
-        const response = await fetch(`https://api.rd.services/platform/forms/${conversionIdentifier}/rich_payload`, {
+        const response = await fetch(`https://api.rd.services/platform/conversions?api_key=${rdStationToken}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
           },
-          body: JSON.stringify({
-            token_rdstation: rdStationToken,
-            payload: payload
-          })
+          body: JSON.stringify(requestBody)
         });
 
         if (response.ok) {
