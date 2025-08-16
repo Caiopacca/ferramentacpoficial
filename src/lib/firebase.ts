@@ -5,12 +5,13 @@ import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  "projectId": "ferram-oficial-test2",
+  "appId": "1:981133857298:web:d58961e12323c2030a7ecb",
+  "storageBucket": "ferram-oficial-test2.firebasestorage.app",
+  "apiKey": "AIzaSyDf-TrubunHm1DwlPYrVw61eAPXB3F0-SU",
+  "authDomain": "ferram-oficial-test2.firebaseapp.com",
+  "measurementId": "",
+  "messagingSenderId": "981133857298"
 };
 
 // Initialize Firebase
