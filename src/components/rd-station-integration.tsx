@@ -44,7 +44,7 @@ export function RdStationIntegration({ data, onConversion }: Props) {
         'urgencia': data.urgency,
         'disposto_a_investir': data.willInvest,
         'token_rdstation': '51ed25b3ebd3700717ab2be8cc7015b7',
-        'identificador': 'form-ferramenta-contato-site-cp' 
+        'identificador': 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499' 
     };
 
     // Função para enviar os dados para a API do RD Station
@@ -60,7 +60,7 @@ export function RdStationIntegration({ data, onConversion }: Props) {
             event_type: 'CONVERSION',
             event_family: 'CDP',
             payload: {
-                conversion_identifier: 'form-ferramenta-contato-site-cp',
+                conversion_identifier: 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499',
                 ...mappedData
             }
           })
