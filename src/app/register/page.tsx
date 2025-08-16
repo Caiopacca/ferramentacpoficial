@@ -113,30 +113,38 @@ export default function RegisterPage() {
     setIsLoading(true);
     
     try {
-      // 1. Criar usuário no Firebase Auth
+      // 1. Criar usuário no Firebase Auth (etapa principal)
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
 
-      // 2. Salvar informações adicionais no Firestore
-      const { password, ...firestoreData } = values; // Remove a senha dos dados a serem salvos
-      await setDoc(doc(db, "users", user.uid), firestoreData);
-
-      // 3. Preparar dados para integrações (RD Station e E-mail)
-      setSubmissionData(values);
-
-      // 4. Disparar e-mail de notificação (sem bloquear o fluxo)
-      fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      }).catch(error => console.error("Erro de rede ao enviar e-mail:", error));
-      
+      // Após o sucesso do cadastro, mostre a mensagem e redirecione.
+      // As operações secundárias (Firestore, Email, RD) acontecerão em segundo plano.
       toast({
         title: 'Conta Criada com Sucesso!',
         description: 'Você será redirecionado para a página de login.',
       });
-      
       router.push('/login');
+      
+      // 2. Operações secundárias em segundo plano (não bloqueiam o usuário)
+      // Prepara os dados para Firestore e outras integrações
+      const { password, ...firestoreData } = values;
+
+      // Salva no Firestore
+      setDoc(doc(db, "users", user.uid), firestoreData).catch(error => {
+        console.error("Erro ao salvar dados no Firestore:", error);
+      });
+
+      // Prepara para RD Station
+      setSubmissionData(values);
+
+      // Envia e-mail de notificação
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      }).catch(error => {
+        console.error("Erro de rede ao enviar e-mail de notificação:", error);
+      });
 
     } catch (error: any) {
       let errorMessage = 'Ocorreu um erro ao criar a conta. Tente novamente.';
@@ -144,7 +152,10 @@ export default function RegisterPage() {
         errorMessage = 'Este e-mail já está cadastrado.';
       } else if (error.code === 'auth/weak-password') {
         errorMessage = 'A senha é muito fraca. Tente uma senha mais forte.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'O e-mail fornecido não é válido.';
       }
+      console.error("Erro no cadastro (Firebase Auth):", error);
       toast({
         title: 'Erro no Cadastro',
         description: errorMessage,
