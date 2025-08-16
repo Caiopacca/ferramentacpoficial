@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, UserPlus } from 'lucide-react';
+import { Loader2, UserPlus, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -30,6 +30,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+  } from '@/components/ui/alert-dialog';
 
 const formSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.').describe('Nome do lead'),
@@ -86,6 +95,8 @@ export default function RegisterPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [submissionData, setSubmissionData] = useState<FormData | null>(null);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [mailtoLink, setMailtoLink] = useState('');
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -102,25 +113,59 @@ export default function RegisterPage() {
     },
   });
 
+  function generateMailtoLink(values: FormData) {
+    const recipientEmail = "seu-email-aqui@exemplo.com"; // IMPORTANTE: Troque pelo seu email
+    const subject = encodeURIComponent("Novo Lead do Site CP Marketing");
+    const body = encodeURIComponent(
+      `Um novo lead se cadastrou através das ferramentas de IA.
+
+Aqui estão os detalhes:
+--------------------------------------------------
+Nome: ${values.name}
+Telefone: ${values.phone}
+Email: ${values.email}
+Cidade/Estado: ${values.cityState}
+Empresa: ${values.company}
+Instagram: ${values.instagram}
+Segmento: ${values.segment}
+--------------------------------------------------
+QUALIFICAÇÃO
+--------------------------------------------------
+Faturamento Mensal: ${values.monthlyBilling}
+Experiência com Marketing: ${values.marketingExperience}
+Principal Desafio: ${values.mainChallenge}
+Urgência: ${values.urgency}
+Disposto(a) a investir: ${values.willInvest}
+--------------------------------------------------
+`
+    );
+    return `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+  }
+
+
   async function onSubmit(values: FormData) {
     setIsLoading(true);
-    
-    setSubmissionData(values);
+    setSubmissionData(values); // Para a integração RD Station (mesmo que falhe)
 
     localStorage.setItem('registeredUser', JSON.stringify({ email: values.email, password: values.password }));
     
+    const link = generateMailtoLink(values);
+    setMailtoLink(link);
+
     toast({
       title: 'Conta Criada com Sucesso!',
-      description: 'Enviando seus dados e redirecionando para o login...',
+      description: 'Agora, por favor, envie os dados para nós por e-mail.',
     });
+
+    setIsAlertOpen(true);
+    // Não paramos o loading aqui, ele continua até o usuário fechar o alerta
   }
 
-  const handleConversion = () => {
-    setTimeout(() => {
-        router.push('/login');
-        setIsLoading(false);
-    }, 1500);
-  };
+  const handleAlertAction = () => {
+    setIsAlertOpen(false);
+    setIsLoading(false);
+    router.push('/login');
+  }
 
 
   return (
@@ -275,7 +320,7 @@ export default function RegisterPage() {
                         {isLoading ? (
                             <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Finalizando Cadastro...
+                            Aguardando envio do e-mail...
                             </>
                         ) : (
                             <>
@@ -296,13 +341,37 @@ export default function RegisterPage() {
                     </p>
                 </CardContent>
             </Card>
+
+            {/* Alerta para guiar o envio do e-mail */}
+            <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                    <AlertDialogTitle>Passo Final: Envie-nos seus dados</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Para garantir que recebamos suas informações, por favor, clique no botão abaixo para abrir seu aplicativo de e-mail e nos enviar os dados do seu cadastro.
+                    </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="sm:justify-center">
+                        <Button asChild size="lg">
+                            <a href={mailtoLink} onClick={handleAlertAction}>
+                                <Mail className="mr-2 h-4 w-4" />
+                                Abrir e-mail e ir para Login
+                            </a>
+                        </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+            {/* A integração com RD Station ainda tenta ser executada */}
             {submissionData && (
                 <RdStationIntegration 
                     data={submissionData} 
-                    onConversion={handleConversion} 
+                    onConversion={() => console.log('Tentativa de conversão RD Station finalizada.')} 
                 />
             )}
         </div>
     </main>
   );
 }
+
+    
