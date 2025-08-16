@@ -29,6 +29,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { auth, db } from '@/lib/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
 const formSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.').describe('Nome do lead'),
@@ -109,38 +112,47 @@ export default function RegisterPage() {
   async function onSubmit(values: FormData) {
     setIsLoading(true);
     
-    // Armazena os dados para o componente de integração RD Station
-    setSubmissionData(values);
+    try {
+      // 1. Criar usuário no Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+      const user = userCredential.user;
 
-    // Salva os dados do usuário para o login local
-    localStorage.setItem('registeredUser', JSON.stringify({ email: values.email, password: values.password }));
-    
-    // Envia o e-mail em segundo plano, mas não impede o fluxo do usuário se falhar
-    fetch('/api/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    }).then(async (response) => {
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Falha ao enviar e-mail de notificação em segundo plano:', errorData);
-      } else {
-        console.log('E-mail de notificação enviado com sucesso em segundo plano.');
+      // 2. Salvar informações adicionais no Firestore
+      const { password, ...firestoreData } = values; // Remove a senha dos dados a serem salvos
+      await setDoc(doc(db, "users", user.uid), firestoreData);
+
+      // 3. Preparar dados para integrações (RD Station e E-mail)
+      setSubmissionData(values);
+
+      // 4. Disparar e-mail de notificação (sem bloquear o fluxo)
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      }).catch(error => console.error("Erro de rede ao enviar e-mail:", error));
+      
+      toast({
+        title: 'Conta Criada com Sucesso!',
+        description: 'Você será redirecionado para a página de login.',
+      });
+      
+      router.push('/login');
+
+    } catch (error: any) {
+      let errorMessage = 'Ocorreu um erro ao criar a conta. Tente novamente.';
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'Este e-mail já está cadastrado.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'A senha é muito fraca. Tente uma senha mais forte.';
       }
-    }).catch(error => {
-        console.error("Erro de rede ao tentar enviar e-mail de notificação:", error);
-    });
-
-    toast({
-      title: 'Conta Criada com Sucesso!',
-      description: 'Você será redirecionado para a página de login.',
-    });
-    
-    // Finaliza o processo principal para o usuário
-    router.push('/login');
-    setIsLoading(false);
+      toast({
+        title: 'Erro no Cadastro',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

@@ -21,6 +21,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import Link from 'next/link';
+import { auth } from '@/lib/firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 const formSchema = z.object({
   email: z.string().email('Por favor, insira um e-mail válido.'),
@@ -41,20 +43,22 @@ export default function ForgotPasswordPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     
-    // Lógica de redefinição de senha (simulada)
-    console.log('Enviando link de redefinição para:', values.email);
-    
-    // Simulação de uma chamada de API
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    toast({
-      title: 'Link Enviado!',
-      description: 'Se o e-mail estiver cadastrado, você receberá um link para redefinir sua senha.',
-    });
-    
-    router.push('/login');
-
-    setIsLoading(false);
+    try {
+      await sendPasswordResetEmail(auth, values.email);
+      toast({
+        title: 'Link Enviado!',
+        description: 'Se o e-mail estiver cadastrado, você receberá um link para redefinir sua senha.',
+      });
+      router.push('/login');
+    } catch (error: any) {
+      toast({
+        title: 'Erro ao Enviar',
+        description: 'Não foi possível enviar o e-mail de redefinição. Verifique o e-mail e tente novamente.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

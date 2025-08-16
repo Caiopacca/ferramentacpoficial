@@ -22,6 +22,8 @@ import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const formSchema = z.object({
   email: z.string().email('Por favor, insira um e-mail válido.'),
@@ -44,30 +46,28 @@ export default function LoginPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
 
-    const storedUser = localStorage.getItem('registeredUser');
-    const defaultUser = { email: 'admin@cpmarketing.com', password: 'CpMarketing@10' };
-
-    let userToAuth = defaultUser;
-    if (storedUser) {
-      userToAuth = JSON.parse(storedUser);
-    }
-    
-    if (values.email === userToAuth.email && values.password === userToAuth.password) {
-      localStorage.setItem('user', JSON.stringify({ email: values.email }));
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
       toast({
         title: 'Login bem-sucedido!',
         description: 'Redirecionando para as ferramentas.',
       });
       router.push('/');
-    } else {
+    } catch (error: any) {
+      let errorMessage = 'E-mail ou senha incorretos. Por favor, tente novamente.';
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+        errorMessage = 'E-mail ou senha inválidos.';
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = 'Acesso temporariamente desabilitado devido a muitas tentativas. Tente novamente mais tarde.';
+      }
       toast({
         title: 'Erro de Login',
-        description: 'E-mail ou senha incorretos. Por favor, tente novamente.',
+        description: errorMessage,
         variant: 'destructive',
       });
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }
 
   return (
