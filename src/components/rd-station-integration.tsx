@@ -32,13 +32,14 @@ export function RdStationIntegration({ data, onConversion }: Props) {
     const conversionIdentifier = 'form-ferramenta-contato-site-cp-f840bb662d9ce9115499';
     const rdStationToken = '51ed25b3ebd3700717ab2be8cc7015b7';
 
-    // Mapeamento preciso dos campos do formulário para os nomes de campo do RD Station
-    // Campos personalizados (custom fields) devem ter o prefixo "cf_"
+    // Mapeamento preciso e completo dos campos do formulário para os nomes de campo do RD Station
     const payload = {
+        'conversion_identifier': conversionIdentifier,
         'name': data.name,
         'email': data.email,
         'mobile_phone': data.phone,
-        'cf_cidade_estado': data.cityState,
+        'city': data.cityState.split(',')[0]?.trim(),
+        'state': data.cityState.split(',')[1]?.trim(),
         'company': data.company,
         'cf_instagram': data.instagram,
         'cf_qual_o_segmento_da_sua_empresa': data.segment,
@@ -49,16 +50,11 @@ export function RdStationIntegration({ data, onConversion }: Props) {
         'cf_voce_esta_disposto_a_a_investir_no_marketing_da_sua_empresa': data.willInvest,
     };
     
-    // Constrói o corpo da requisição no formato esperado pela API de conversão
     const requestBody = {
       "event_type": "CONVERSION",
       "event_family":"CDP",
-      "payload": {
-        "conversion_identifier": conversionIdentifier,
-        ...payload
-      }
+      "payload": payload
     };
-
 
     // Função para enviar os dados para a API do RD Station
     const sendToRdStation = async () => {
