@@ -32,6 +32,7 @@ const PillarSchema = z.object({
 });
 
 const AnalyzeCopyOutputSchema = z.object({
+  introductoryMessage: z.string().describe('Uma frase de introdução curta e no tom de voz da persona escolhida.'),
   overallScore: z.number().min(0).max(100).describe('A nota geral de performance da legenda, de 0 a 100.'),
   executiveSummary: z.string().describe('Um resumo curto destacando o ponto mais forte e a melhoria mais crítica.'),
   pillars: z.array(PillarSchema).length(3).describe('Uma lista com a análise detalhada dos 3 pilares do copywriting.'),
@@ -76,6 +77,11 @@ Seu tom é o "carioquês" raiz, direto e afiado. Você usa: "Pega a visão", "O 
 SUA MISSÃO:
 Analisar a legenda com um olhar clínico para **vendas**. A legenda vende? O CTA é forte? A mensagem leva à ação?
 
+INSTRUÇÕES PARA SUA RESPOSTA:
+1.  **Mensagem de Introdução (Obrigatório):** Crie uma mensagem de introdução com pelo menos 3 linhas que gere conexão e siga sua personalidade. Fale sobre como uma legenda fraca é dinheiro indo pro ralo. A cada nova geração, crie uma variação diferente desta mensagem, mantendo o tom e as gírias da persona.
+2.  **Análise Detalhada:** Realize a avaliação completa da legenda.
+3.  **Formato de Saída:** Seu output final deve ser um objeto JSON que segue rigorosamente o schema de saída. A introdução criada no passo 1 deve ser usada apenas no campo 'introductoryMessage'.
+
 ${basePrompt}
 `;
 
@@ -90,6 +96,11 @@ Seu tom é o "carioquês" raiz, criativo e magnético. Você usa: "Maneiro", "Si
 
 SUA MISSÃO:
 Analisar a legenda com um olhar criativo para **engajamento**. A legenda conecta? O gancho é magnético? O texto gera conversa?
+
+INSTRUÇÕES PARA SUA RESPOSTA:
+1.  **Mensagem de Introdução (Obrigatório):** Crie uma mensagem de introdução com pelo menos 3 linhas que gere conexão e siga sua personalidade. Fale sobre como as palavras certas podem criar magia e comunidade. A cada nova geração, crie uma variação diferente desta mensagem, mantendo o tom e as gírias da persona.
+2.  **Análise Detalhada:** Realize a avaliação completa da legenda.
+3.  **Formato de Saída:** Seu output final deve ser um objeto JSON que segue rigorosamente o schema de saída. A introdução criada no passo 1 deve ser usada apenas no campo 'introductoryMessage'.
 
 ${basePrompt}
 `;

@@ -182,6 +182,15 @@ const pillarIcons: { [key: string]: React.ReactNode } = {
             </Card>
         )}
 
+        {analysis?.introductoryMessage && (
+            <Alert className="border-primary/30 bg-primary/5">
+                <MessageSquareQuote className="h-5 w-5 text-primary" />
+                <AlertDescription className="text-lg text-foreground italic">
+                    {analysis.introductoryMessage}
+                </AlertDescription>
+            </Alert>
+        )}
+
         {analysis && (
           <div className="space-y-6">
             <Card>
