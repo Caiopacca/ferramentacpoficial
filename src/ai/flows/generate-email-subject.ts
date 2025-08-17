@@ -8,8 +8,8 @@
  *
  * @exports {
  *   generateEmailSubject: (input: GenerateEmailSubjectInput) => Promise<GenerateEmailSubjectOutput>;
- *   GenerateEmailSubjectInput: The input type for the generateEmailSubject function.
- *   GenerateEmailSubjectOutput: The return type for the generateEmailSubject function.
+ *   GenerateEmailSubjectInput: The input type for the generateEmailSubject function;
+ *   GenerateEmailSubjectOutput: The return type for the generateEmailSubject function;
  * }
  */
 
@@ -28,6 +28,7 @@ export type GenerateEmailSubjectInput = z.infer<
 >;
 
 const GenerateEmailSubjectOutputSchema = z.object({
+  introductoryMessage: z.string().describe('Uma frase de introdução curta e no tom de voz da persona escolhida.'),
   subjects: z
     .array(z.string())
     .length(5)
@@ -38,22 +39,17 @@ export type GenerateEmailSubjectOutput = z.infer<
 >;
 
 const basePrompt = `
-Sua missão é gerar 5 opções de assuntos que garantam uma alta taxa de abertura.
-
 **Destinatário:** {{{jobTitle}}}
 **Objetivo do E-mail:** {{{objective}}}
 
-**Instruções para os Títulos:**
-1.  **Seja Magnético, Não Vendedor:** O título não deve parecer uma venda. Ele precisa despertar curiosidade, gerar urgência ou ser ultra-específico.
-2.  **Use Gatilhos Mentais:** Incorpore gatilhos como:
-    *   **Curiosidade:** "Uma pergunta sobre [tópico relevante para o cargo]"
-    *   **Especificidade:** "Ideia para otimizar [área específica] em 10 minutos"
-    *   **Prova Social:** "Como a [Empresa Conhecida] resolveu [problema comum]"
-    *   **Urgência/Exclusividade:** "Convite para [cargo]"
-3.  **Curto e Direto:** Idealmente, menos de 6 palavras. Otimizado para visualização em mobile.
-4.  **Personalização Implícita:** O título deve fazer o {{{jobTitle}}} sentir que o e-mail foi pensado para ele, mesmo sem usar o nome.
-
-Gere 5 opções de alto impacto, prontas para usar. Cada assunto deve ser um item no array de strings de saída.
+**Instruções para a Resposta:**
+1.  **Mensagem de Introdução (Obrigatório):** Crie uma mensagem de introdução com pelo menos 3 linhas, no seu tom de voz, explicando a importância de um assunto de e-mail matador. A cada nova geração, crie uma variação diferente desta mensagem.
+2.  **Criação dos Títulos:** Gere 5 opções de assuntos de alto impacto, prontos para usar. Cada assunto deve ser um item no array de strings 'subjects'.
+    - **Seja Magnético, Não Vendedor:** O título não deve parecer uma venda. Ele precisa despertar curiosidade, gerar urgência ou ser ultra-específico.
+    - **Use Gatilhos Mentais:** Incorpore gatilhos como Curiosidade, Especificidade, Prova Social ou Urgência.
+    - **Curto e Direto:** Idealmente, menos de 6 palavras. Otimizado para mobile.
+    - **Personalização Implícita:** O título deve fazer o {{{jobTitle}}} sentir que o e-mail foi pensado para ele, mesmo sem usar o nome.
+3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída.
 `;
 
 const bizuBasePrompt = `

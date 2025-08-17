@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Copy, Check, Zap, Search } from 'lucide-react';
+import { Loader2, Copy, Check, Zap, Search, MessageSquareQuote } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,6 +29,7 @@ import type { GenerateEmailSubjectOutput, GenerateEmailSubjectInput } from '@/ai
 import { handleGenerateEmailSubject } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import { Alert, AlertDescription } from './ui/alert';
 
 const formSchema = z.object({
   jobTitle: z.string({ required_error: 'Por favor, selecione um cargo.' }),
@@ -228,7 +229,7 @@ export function EmailSubjectGenerator() {
         </Form>
       </Card>
 
-      <div className="mt-12">
+      <div className="mt-12 space-y-6">
         {isLoading && (
           <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -237,6 +238,15 @@ export function EmailSubjectGenerator() {
               </Card>
             ))}
           </div>
+        )}
+
+        {result?.introductoryMessage && (
+            <Alert className="border-primary/30 bg-primary/5">
+                <MessageSquareQuote className="h-5 w-5 text-primary" />
+                <AlertDescription className="text-lg text-foreground italic">
+                    {result.introductoryMessage}
+                </AlertDescription>
+            </Alert>
         )}
 
         {result && (
