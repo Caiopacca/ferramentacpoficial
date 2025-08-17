@@ -104,8 +104,8 @@ export function ContentGenerator() {
       <Card className="p-6 md:p-8">
         <div className="text-center mb-6">
             <h2 className="text-xl font-bold text-foreground">Escolha seu especialista</h2>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto mt-1">
-                Para um conteúdo com a cara do Rio, escolha um papo reto e estratégico com o <strong className="text-primary">Bizu</strong> ou uma ideia criativa e cheia de bossa com a <strong className="text-foreground">Resenha</strong>.
+            <p className="text-muted-foreground text-sm max-w-xl mx-auto mt-1">
+                Para um conteúdo com a cara do Rio, escolha seu especialista. Prefere um papo reto e estratégico? Vá de <strong className="text-primary">Bizu</strong>. Quer uma ideia mais criativa e cheia de bossa? A <strong className="text-foreground">Resenha</strong> resolve.
             </p>
         </div>
         <Form {...form}>
