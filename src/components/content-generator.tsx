@@ -200,7 +200,7 @@ export function ContentGenerator() {
         {ideas?.introductoryMessage && (
             <Alert className="border-primary/30 bg-primary/5">
                 <MessageSquareQuote className="h-5 w-5 text-primary" />
-                <AlertDescription className="text-primary italic">
+                <AlertDescription className="text-foreground italic text-base">
                     {ideas.introductoryMessage}
                 </AlertDescription>
             </Alert>
