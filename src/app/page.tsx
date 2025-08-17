@@ -171,34 +171,34 @@ export default function ToolsPage() {
         </header>
 
         <Card className="mb-12 bg-card-foreground/5 border-primary/20">
-          <CardHeader>
-            <CardTitle className="text-center text-3xl font-bold">Conheça Nossos Especialistas de IA</CardTitle>
-            <CardDescription className="text-center text-muted-foreground text-lg">
-              Duas personalidades, um objetivo: acelerar seus resultados.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid md:grid-cols-2 gap-8 p-6">
-            <div className="flex flex-col items-center text-center p-6 bg-card rounded-lg">
-                <div className="p-3 bg-[#FF6A00]/20 rounded-full mb-4">
-                    <Zap className="h-8 w-8 text-[#FF6A00]" />
+            <CardHeader>
+                <CardTitle className="text-center text-2xl font-bold">Conheça Nossos Especialistas de IA</CardTitle>
+                <CardDescription className="text-center text-muted-foreground">
+                Duas personalidades, um objetivo: acelerar seus resultados.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="grid md:grid-cols-2 gap-6 p-6">
+                <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg">
+                    <div className="p-2 bg-primary/20 rounded-full mb-3">
+                        <Zap className="h-6 w-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground">O Bizu</h3>
+                    <p className="font-semibold text-primary/90 text-sm mb-2">O Estrategista</p>
+                    <p className="text-muted-foreground text-sm">
+                        Carioca, papo reto e focado em conversão. O Bizu analisa seus dados com um olhar clínico para performance, clareza e resultados financeiros. Ideal para quem busca a rota mais rápida para o lucro.
+                    </p>
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">O Bizu</h3>
-                <p className="font-semibold text-[#FF6A00] mb-2">O Estrategista</p>
-                <p className="text-muted-foreground">
-                    Carioca, papo reto e focado em conversão. O Bizu analisa seus dados com um olhar clínico para performance, clareza e resultados financeiros. Ideal para quem busca a rota mais rápida para o lucro.
-                </p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 bg-card rounded-lg">
-                <div className="p-3 bg-primary/20 rounded-full mb-4">
-                    <Lightbulb className="h-8 w-8 text-primary" />
+                <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg">
+                    <div className="p-2 bg-primary/20 rounded-full mb-3">
+                        <Lightbulb className="h-6 w-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground">A Resenha</h3>
+                    <p className="font-semibold text-primary/90 text-sm mb-2">A Criativa</p>
+                    <p className="text-muted-foreground text-sm">
+                        Também carioca, mas com foco em criatividade e conexão. A Resenha avalia sua comunicação, storytelling e o poder da sua marca de criar uma comunidade. Ideal para quem quer construir um legado e uma audiência fiel.
+                    </p>
                 </div>
-                <h3 className="text-2xl font-bold text-foreground">A Resenha</h3>
-                <p className="font-semibold text-primary mb-2">A Criativa</p>
-                <p className="text-muted-foreground">
-                    Também carioca, mas com foco em criatividade e conexão. A Resenha avalia sua comunicação, storytelling e o poder da sua marca de criar uma comunidade. Ideal para quem quer construir um legado e uma audiência fiel.
-                </p>
-            </div>
-          </CardContent>
+            </CardContent>
         </Card>
 
 
