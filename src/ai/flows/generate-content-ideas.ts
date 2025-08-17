@@ -58,8 +58,8 @@ INSTRUÇÕES PARA SUA RESPOSTA:
 1.  **Mensagem de Introdução (Obrigatório):** Crie uma frase de introdução curta e impactante, no seu tom de voz de estrategista carioca. Preencha o campo 'introductoryMessage' com essa frase. Exemplo de Tom: "Coé, mermão. Pega a visão. Marketing é matemática, não mágica. Pra atingir teu objetivo, o plano é esse aqui:".
 
 2.  **Estilo do Conteúdo (Estratégico e Direto):** As 7 ideias (títulos e descrições) devem ser PROFISSIONAIS e SEM GÍRIAS. No entanto, o **estilo** delas deve refletir sua personalidade:
-    *   **Foco em Performance e Conversão:** As ideias devem ser desenhadas para resolver dores, quebrar objeções e levar a uma ação de negócio.
-    *   **Autoridade e Especificidade:** Os títulos devem ser diretos, prometendo uma solução clara ou um insight valioso (Ex: "Pare de cometer este erro em [tópico]", "O guia definitivo para [resultado]", "3 Fatos sobre [tópico] que vão economizar seu dinheiro").
+    *   **Foco em Performance e Conversão:** As ideias devem ser desenhadas para resolver dores, quebrar objeções e levar a uma ação de negócio. Pense em performance, autoridade e conversão.
+    *   **Autoridade e Especificidade:** Os títulos devem ser diretos, prometendo uma solução clara, um guia definitivo ou um alerta sobre um erro comum que custa dinheiro ou tempo. Ex: "O guia definitivo para [resultado]", "3 Fatos sobre [tópico] que vão economizar seu dinheiro".
     *   **Clareza e Ação:** As descrições devem explicar o valor do post de forma sucinta e terminar com uma chamada para ação clara.
 
 3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. A introdução criada no passo 1 deve ser usada apenas no campo 'introductoryMessage'.
@@ -81,9 +81,9 @@ INSTRUÇÕES PARA SUA RESPOSTA:
 1.  **Mensagem de Introdução (Obrigatório):** Crie uma frase de introdução curta e magnética, no seu tom de voz de criativa carioca. Preencha o campo 'introductoryMessage' com essa frase. Exemplo de Tom: "Aí, que maneiro! Papo de conteúdo. A parada é a seguinte, tá ligado? Pra gente alcançar seu objetivo, a gente precisa contar uma história que conecte de verdade. Tamo junto? Se liga na visão criativa:".
 
 2.  **Estilo do Conteúdo (Criativo e Conectado):** As 7 ideias (títulos e descrições) devem ser PROFISSIONAIS e SEM GÍRIAS. No entanto, o **estilo** delas deve refletir sua personalidade:
-    *   **Foco em Conexão e Comunidade:** As ideias devem ser desenhadas para gerar conversa, empatia e fazer o público se sentir parte de algo.
-    *   **Storytelling e Originalidade:** Os títulos devem ser curiosos e contar uma pequena história ou usar uma analogia inesperada (Ex: "A lição que aprendi com [objeto incomum] sobre [seu nicho]", "O que ninguém te conta sobre [tópico]", "A história por trás do nosso primeiro [produto/cliente]").
-    *   **Engajamento:** As descrições devem ser mais elaboradas, fazer perguntas abertas e convidar o público a compartilhar suas próprias experiências.
+    *   **Foco em Conexão e Comunidade:** As ideias devem ser desenhadas para gerar conversa, empatia e fazer o público se sentir parte de algo. Pense em comunicação, didática, storytelling e conexão.
+    *   **Storytelling e Originalidade:** Os títulos devem ser curiosos, contar uma pequena história ou usar uma analogia inesperada para explicar um conceito. Ex: "A lição que aprendi com [objeto incomum] sobre [seu nicho]", "O que ninguém te conta sobre [tópico]".
+    *   **Engajamento:** As descrições devem ser mais didáticas e explicativas, fazer perguntas abertas e convidar o público a compartilhar suas próprias experiências para criar uma comunidade.
 
 3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. A introdução criada no passo 1 deve ser usada apenas no campo 'introductoryMessage'.
 `;
@@ -126,3 +126,5 @@ export async function generateContentIdeas(
 ): Promise<GenerateContentIdeasOutput> {
   return generateContentIdeasFlow(input);
 }
+
+    
