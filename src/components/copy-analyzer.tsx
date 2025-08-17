@@ -26,6 +26,7 @@ import { handleAnalyzeCopy } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Alert, AlertDescription } from './ui/alert';
 
 const formSchema = z.object({
   caption: z.string().min(10, 'A legenda deve ter pelo menos 10 caracteres.'),
@@ -161,7 +162,7 @@ const pillarIcons: { [key: string]: React.ReactNode } = {
         </Form>
       </Card>
 
-      <div className="mt-12">
+      <div className="mt-12 space-y-6">
         {isLoading && (
             <Card className="p-6">
                 <CardHeader>
@@ -259,3 +260,5 @@ const pillarIcons: { [key: string]: React.ReactNode } = {
     </div>
   );
 }
+
+    

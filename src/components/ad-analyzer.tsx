@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Users, FileText, Image as ImageIcon, ArrowRight, Award, CheckCircle, TrendingUp, Zap, Search } from 'lucide-react';
+import { Loader2, Users, FileText, Image as ImageIcon, ArrowRight, Award, CheckCircle, TrendingUp, Zap, Search, MessageSquareQuote } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 
@@ -27,6 +27,7 @@ import { handleAnalyzeAd } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Alert, AlertDescription } from './ui/alert';
 
 const formSchema = z.object({
   targetAudience: z.string().min(10, 'Descreva seu público com pelo menos 10 caracteres.'),
@@ -197,7 +198,7 @@ export function AdAnalyzer() {
         </Form>
       </Card>
 
-      <div className="mt-12">
+      <div className="mt-12 space-y-6">
         {isLoading && (
             <Card className="p-6">
                 <CardHeader>
@@ -295,3 +296,5 @@ export function AdAnalyzer() {
     </div>
   );
 }
+
+    
