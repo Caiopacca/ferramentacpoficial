@@ -101,13 +101,13 @@ export function ContentGenerator() {
 
   return (
     <div className="space-y-8">
+      <div className="text-center">
+          <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+              Para um conteúdo com a cara do Rio, escolha seu especialista. Prefere um papo reto e estratégico? Vá de <strong className="text-primary">Bizu</strong>. Quer uma ideia mais criativa e cheia de bossa? A <strong className="text-foreground">Resenha</strong> resolve.
+          </p>
+      </div>
       <Card className="p-6 md:p-8">
-        <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
-                Para um conteúdo com a cara do Rio, escolha seu especialista. Prefere um papo reto e estratégico? Vá de <strong className="text-primary">Bizu</strong>. Quer uma ideia mais criativa e cheia de bossa? A <strong className="text-foreground">Resenha</strong> resolve.
-            </p>
-        </div>
         <Form {...form}>
           <form className="space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
@@ -158,48 +158,48 @@ export function ContentGenerator() {
                 )}
               />
             </div>
-            <div className="flex justify-center">
-                <div className="inline-grid grid-cols-2 gap-4">
-                    <Button
-                        type="button"
-                        onClick={() => handleButtonClick('bizu')}
-                        disabled={isLoading}
-                        size="lg"
-                        className="bg-[#FF6A00]/90"
-                    >
-                        {isLoading && activePersona === 'bizu' ? (
-                        <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Gerando...
-                        </>
-                        ) : (
-                        <div className="flex items-center justify-center gap-2">
-                            <Zap size={20} />
-                            <span>Quero que o Bizu crie conteúdos</span>
-                        </div>
-                        )}
-                    </Button>
-                    <Button
-                        type="button"
-                        onClick={() => handleButtonClick('resenha')}
-                        disabled={isLoading}
-                        className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
-                        size="lg"
-                    >
-                        {isLoading && activePersona === 'resenha' ? (
-                        <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Contando a Resenha...
-                        </>
-                        ) : (
-                        <div className="flex items-center justify-center gap-2">
-                            <Search size={20} />
-                            <span>Quero que a Resenha crie conteúdos</span>
-                        </div>
-                        )}
-                    </Button>
-                </div>
-          </div>
+            <div className="flex justify-center pt-4">
+              <div className="inline-grid grid-cols-2 gap-4">
+                  <Button
+                      type="button"
+                      onClick={() => handleButtonClick('bizu')}
+                      disabled={isLoading}
+                      size="lg"
+                      className="bg-[#FF6A00]/90"
+                  >
+                      {isLoading && activePersona === 'bizu' ? (
+                      <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Gerando...
+                      </>
+                      ) : (
+                      <div className="flex items-center justify-center gap-2">
+                          <Zap size={20} />
+                          <span>Quero que o Bizu crie conteúdos</span>
+                      </div>
+                      )}
+                  </Button>
+                  <Button
+                      type="button"
+                      onClick={() => handleButtonClick('resenha')}
+                      disabled={isLoading}
+                      className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
+                      size="lg"
+                  >
+                      {isLoading && activePersona === 'resenha' ? (
+                      <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Contando a Resenha...
+                      </>
+                      ) : (
+                      <div className="flex items-center justify-center gap-2">
+                          <Search size={20} />
+                          <span>Quero que a Resenha crie conteúdos</span>
+                      </div>
+                      )}
+                  </Button>
+              </div>
+            </div>
           </form>
         </Form>
       </Card>
