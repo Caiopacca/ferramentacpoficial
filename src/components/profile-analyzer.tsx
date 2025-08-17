@@ -97,13 +97,7 @@ export function ProfileAnalyzer() {
 
 
   return (
-    <div className="space-y-8">
-       <div className="text-center mt-6">
-        <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
-            O Bizu e a Resenha são estrategistas de marketing, cariocas da gema, prontos para te ajudar. Prefere um papo reto e estratégico? Vá de Bizu. Quer uma ideia mais criativa e magnética? A Resenha resolve.
-        </p>
-      </div>
+    <div className="space-y-6">
       <Card>
         <CardHeader>
             <CardTitle>Analisador de Perfil</CardTitle>
