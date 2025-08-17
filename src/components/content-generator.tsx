@@ -100,14 +100,14 @@ export function ContentGenerator() {
 
 
   return (
-    <div className="space-y-8">
+    <div>
       <div className="text-center">
           <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
             Para um conteúdo com a cara do Rio, escolha seu especialista. Prefere um papo reto e estratégico? Vá de <strong className="text-primary">Bizu</strong>. Quer uma ideia mais criativa e cheia de bossa? A <strong className="text-foreground">Resenha</strong> resolve.
           </p>
       </div>
-      <Card className="p-6 md:p-8">
+      <Card className="p-6 md:p-8 mt-8">
         <Form {...form}>
           <form className="space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
