@@ -179,21 +179,21 @@ export default function ToolsPage() {
             </CardHeader>
             <CardContent className="grid md:grid-cols-2 gap-6 p-6">
                 <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg">
-                    <div className="p-2 bg-primary/20 rounded-full mb-3">
-                        <Zap className="h-6 w-6 text-primary" />
+                    <div className="p-1 bg-primary/20 rounded-full mb-3">
+                        <Zap className="h-5 w-5 text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold text-foreground">O Bizu</h3>
-                    <p className="font-semibold text-primary/90 text-sm mb-2">O Estrategista</p>
+                    <h3 className="text-lg font-bold text-foreground">O Bizu</h3>
+                    <p className="font-semibold text-primary/90 text-xs mb-2">O Estrategista</p>
                     <p className="text-muted-foreground text-sm">
                         Carioca, papo reto e focado em conversão. O Bizu analisa seus dados com um olhar clínico para performance, clareza e resultados financeiros. Ideal para quem busca a rota mais rápida para o lucro.
                     </p>
                 </div>
                 <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg">
-                    <div className="p-2 bg-primary/20 rounded-full mb-3">
-                        <Lightbulb className="h-6 w-6 text-primary" />
+                    <div className="p-1 bg-primary/20 rounded-full mb-3">
+                        <Lightbulb className="h-5 w-5 text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold text-foreground">A Resenha</h3>
-                    <p className="font-semibold text-primary/90 text-sm mb-2">A Criativa</p>
+                    <h3 className="text-lg font-bold text-foreground">A Resenha</h3>
+                    <p className="font-semibold text-primary/90 text-xs mb-2">A Criativa</p>
                     <p className="text-muted-foreground text-sm">
                         Também carioca, mas com foco em criatividade e conexão. A Resenha avalia sua comunicação, storytelling e o poder da sua marca de criar uma comunidade. Ideal para quem quer construir um legado e uma audiência fiel.
                     </p>
