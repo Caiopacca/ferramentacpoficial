@@ -152,12 +152,12 @@ export function ContentGenerator() {
                 )}
               />
             </div>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} className="w-auto bg-[#FF6A00] hover:bg-[#E75A00] text-white rounded-xl px-5 py-3 font-semibold shadow-md focus:outline-none focus:ring-2 ring-orange-400">
                 {isLoading && activePersona === 'bizu' ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Mandando o Bizu...
+                    Gerando...
                   </>
                 ) : (
                   <div className="flex items-center gap-2">
