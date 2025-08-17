@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import type { AnalyzeProfileOutput } from '@/ai/flows/analyze-profile';
+import type { AnalyzeProfileOutput, AnalyzeProfileInput } from '@/ai/flows/analyze-profile';
 import { handleAnalyzeProfile } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
@@ -39,27 +39,36 @@ const formSchema = z.object({
     .refine(val => val.startsWith('@'), { message: 'O perfil deve começar com @.'}),
 });
 
+type FormData = z.infer<typeof formSchema>;
+type Persona = 'bizu' | 'resenha';
+
+
 export function ProfileAnalyzer() {
   const [analysis, setAnalysis] = useState<AnalyzeProfileOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [activePersona, setActivePersona] = useState<Persona | null>(null);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData, persona: Persona) {
     setIsLoading(true);
+    setActivePersona(persona);
     setAnalysis(null);
+
+    const payload: AnalyzeProfileInput = { ...values, persona };
+
     try {
-      const result = await handleAnalyzeProfile(values);
+      const result = await handleAnalyzeProfile(payload);
       setAnalysis(result);
       toast({
         title: 'Análise Concluída!',
-        description: 'Seu diagnóstico de perfil está pronto.',
+        description: `O ${persona === 'bizu' ? 'Bizu' : 'Resenha'} concluiu o diagnóstico do seu perfil.`,
       });
     } catch (error) {
       console.error(error);
@@ -71,8 +80,14 @@ export function ProfileAnalyzer() {
       });
     } finally {
       setIsLoading(false);
+      setActivePersona(null);
     }
   }
+
+  const handleButtonClick = (persona: Persona) => {
+    form.handleSubmit((values) => onSubmit(values, persona))();
+  };
+
 
     const getPillarScoreColor = (score: number) => {
         if (score >= 8) return 'bg-green-500/20 text-green-400';
@@ -90,7 +105,7 @@ export function ProfileAnalyzer() {
         </CardHeader>
         <CardContent>
             <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form className="space-y-6">
                 <FormField
                 control={form.control}
                 name="username"
@@ -104,16 +119,34 @@ export function ProfileAnalyzer() {
                     </FormItem>
                 )}
                 />
-                <Button type="submit" disabled={isLoading} size="lg">
-                {isLoading ? (
-                    <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Analisando Perfil...
-                    </>
-                ) : (
-                    'Analisar Meu Perfil'
-                )}
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} className="w-full" size="lg">
+                    {isLoading && activePersona === 'bizu' ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Analisando...
+                      </>
+                    ) : (
+                      <div className="text-center">
+                        <div>Analisar Meu Perfil</div>
+                        <div className="text-xs font-normal opacity-80">(Bizu)</div>
+                      </div>
+                    )}
+                  </Button>
+                  <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} variant="outline" className="w-full" size="lg">
+                    {isLoading && activePersona === 'resenha' ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Analisando...
+                      </>
+                    ) : (
+                        <div className="text-center">
+                            <div>Analisar Meu Perfil</div>
+                            <div className="text-xs font-normal opacity-80">(Resenha)</div>
+                        </div>
+                    )}
+                  </Button>
+                </div>
             </form>
             </Form>
         </CardContent>
@@ -208,3 +241,5 @@ export function ProfileAnalyzer() {
     </div>
   );
 }
+
+    

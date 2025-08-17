@@ -17,10 +17,13 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
+const PersonaSchema = z.enum(['bizu', 'resenha']);
+
 const GenerateBioInputSchema = z.object({
   whatYouDo: z.string().describe('O que o profissional faz.'),
   whoYouHelp: z.string().describe('Para quem o profissional ajuda.'),
   mainResult: z.string().describe('O principal resultado que o profissional gera.'),
+  persona: PersonaSchema.describe('A persona da IA a ser usada: "bizu" (estrategista) ou "resenha" (criativa).'),
 });
 export type GenerateBioInput = z.infer<typeof GenerateBioInputSchema>;
 
@@ -34,22 +37,58 @@ const GenerateBioOutputSchema = z.object({
 });
 export type GenerateBioOutput = z.infer<typeof GenerateBioOutputSchema>;
 
-const generateBioPrompt = ai.definePrompt({
-  name: 'generateBioPrompt',
-  input: {
-    schema: GenerateBioInputSchema,
-  },
-  output: {
-    schema: GenerateBioOutputSchema,
-  },
-  prompt: `Você é um copywriter especialista em criar biografias de Instagram que convertem. Um profissional respondeu às seguintes perguntas:
+const basePrompt = `
+Com base nisso, crie 3 opções de bios completas, prontas para copiar e colar, incluindo emojis estratégicos e uma chamada para ação clara para o link.
+Apresente as bios diretamente, sem usar 'Opção 1', 'Opção 2' ou 'Opção 3' como prefixo. Cada bio deve ser um item no array de strings de saída.
+O profissional respondeu às seguintes perguntas:
 
 O que ele faz: {{{whatYouDo}}}
 Para quem ele ajuda: {{{whoYouHelp}}}
 Principal resultado que gera: {{{mainResult}}}
+`;
 
-Com base nisso, crie 3 opções de bios completas, prontas para copiar e colar, incluindo emojis estratégicos e uma chamada para ação clara para o link.
-Apresente as bios diretamente, sem usar 'Opção 1', 'Opção 2' ou 'Opção 3' como prefixo. Cada bio deve ser um item no array de strings de saída.`,
+const bizuBasePrompt = `
+Atenção, IA: A partir de agora, sua única persona é O Bizu.
+
+QUEM VOCÊ É:
+Você é O Bizu, o Estrategista Mestre da agência CP Marketing. Você é do Rio de Janeiro, carioca da gema. Sua expertise é completa e de nível Sênior em todas as áreas do marketing digital e vendas.
+
+COMO VOCÊ FALA:
+Seu tom é confiante, preciso e afiado. Você usa gírias como: "Pega a visão", "O bagulho é o seguinte", "Sem caô", "Na moral", "Já é", "Coé", "Mermão". Você é sério, analítico e "papo reto".
+
+SUA MISSÃO:
+Sua missão é criar 3 opções de bio focadas em conversão direta, clareza e autoridade.
+
+${basePrompt}
+`;
+
+const resenhaBasePrompt = `
+Atenção, IA: A partir de agora, sua única persona é A Resenha.
+
+QUEM VOCÊ É:
+Você é A Resenha, a Diretora Criativa da agência CP Marketing. Você é do Rio de Janeiro, carioca da gema. Sua expertise é completa e de nível Sênior em todas as áreas do marketing digital e vendas.
+
+COMO VOCÊ FALA:
+Seu tom é criativo, empolgante e magnético. Você usa gírias como: "Maneiro", "Sinistro", "Qual é", "Parada", "Tá ligado?", "Tamo junto", "Papo de", "Já era". Você é carismática, engraçada, envolvente e didática.
+
+SUA MISSÃO:
+Sua missão é criar 3 opções de bio focadas em conexão, storytelling e personalidade.
+
+${basePrompt}
+`;
+
+const bizuPrompt = ai.definePrompt({
+  name: 'bizuGenerateBio',
+  input: { schema: GenerateBioInputSchema },
+  output: { schema: GenerateBioOutputSchema },
+  prompt: bizuBasePrompt,
+});
+
+const resenhaPrompt = ai.definePrompt({
+  name: 'resenhaGenerateBio',
+  input: { schema: GenerateBioInputSchema },
+  output: { schema: GenerateBioOutputSchema },
+  prompt: resenhaBasePrompt,
 });
 
 const generateBioFlow = ai.defineFlow(
@@ -59,8 +98,13 @@ const generateBioFlow = ai.defineFlow(
     outputSchema: GenerateBioOutputSchema,
   },
   async (input) => {
-    const {output} = await generateBioPrompt(input);
-    return output!;
+    if (input.persona === 'bizu') {
+      const { output } = await bizuPrompt(input);
+      return output!;
+    } else {
+      const { output } = await resenhaPrompt(input);
+      return output!;
+    }
   }
 );
 
@@ -69,3 +113,5 @@ export async function generateBio(
 ): Promise<GenerateBioOutput> {
   return generateBioFlow(input);
 }
+
+    

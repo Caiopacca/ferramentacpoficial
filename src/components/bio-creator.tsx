@@ -17,9 +17,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import type { GenerateBioOutput } from '@/ai/flows/generate-bio';
+import type { GenerateBioOutput, GenerateBioInput } from '@/ai/flows/generate-bio';
 import { handleGenerateBio } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
@@ -30,12 +29,16 @@ const formSchema = z.object({
   mainResult: z.string().min(1, 'Este campo é obrigatório.'),
 });
 
+type FormData = z.infer<typeof formSchema>;
+type Persona = 'bizu' | 'resenha';
+
 export function BioCreator() {
   const [bios, setBios] = useState<GenerateBioOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [activePersona, setActivePersona] = useState<Persona | null>(null);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       whatYouDo: '',
@@ -44,15 +47,19 @@ export function BioCreator() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData, persona: Persona) {
     setIsLoading(true);
+    setActivePersona(persona);
     setBios(null);
+    
+    const payload: GenerateBioInput = { ...values, persona };
+
     try {
-      const result = await handleGenerateBio(values);
+      const result = await handleGenerateBio(payload);
       setBios(result);
       toast({
         title: 'Bios Geradas!',
-        description: 'Suas 3 opções de bio estão prontas.',
+        description: `O ${persona === 'bizu' ? 'Bizu' : 'Resenha'} preparou 3 opções de bio para você.`,
       });
     } catch (error) {
       console.error(error);
@@ -64,8 +71,14 @@ export function BioCreator() {
       });
     } finally {
       setIsLoading(false);
+      setActivePersona(null);
     }
   }
+
+  const handleButtonClick = (persona: Persona) => {
+    form.handleSubmit((values) => onSubmit(values, persona))();
+  };
+
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -79,7 +92,7 @@ export function BioCreator() {
     <div>
       <Card className="p-6 md:p-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form className="space-y-6">
             <FormField
               control={form.control}
               name="whatYouDo"
@@ -119,16 +132,34 @@ export function BioCreator() {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isLoading} className="w-full md:w-auto" size="lg">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Gerando...
-                </>
-              ) : (
-                'Gerar Bios'
-              )}
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} className="w-full" size="lg">
+                {isLoading && activePersona === 'bizu' ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Gerando...
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <div>Gerar Bios</div>
+                    <div className="text-xs font-normal opacity-80">(Bizu)</div>
+                  </div>
+                )}
+              </Button>
+              <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} variant="outline" className="w-full" size="lg">
+                {isLoading && activePersona === 'resenha' ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Gerando...
+                  </>
+                ) : (
+                    <div className="text-center">
+                        <div>Gerar Bios</div>
+                        <div className="text-xs font-normal opacity-80">(Resenha)</div>
+                    </div>
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
       </Card>
@@ -171,3 +202,5 @@ export function BioCreator() {
     </div>
   );
 }
+
+    
