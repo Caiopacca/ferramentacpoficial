@@ -101,36 +101,13 @@ export function ContentGenerator() {
 
   return (
     <div className="space-y-8">
-       <Card className="bg-card-foreground/5">
-        <CardHeader>
-          <CardTitle>Escolha seu Especialista</CardTitle>
-          <CardDescription>
-            Selecione a personalidade da IA para gerar suas ideias de conteúdo.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid md:grid-cols-2 gap-6">
-          <div className="flex flex-col items-center text-center p-4 rounded-lg">
-            <div className="p-3 rounded-full bg-primary/10 mb-3">
-              <Zap className="h-6 w-6 text-primary" />
-            </div>
-            <h3 className="font-bold text-lg text-primary">O Bizu</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              Para quem busca uma abordagem direta, estratégica e focada em conversão e resultados de negócio.
-            </p>
-          </div>
-          <div className="flex flex-col items-center text-center p-4 rounded-lg">
-            <div className="p-3 rounded-full bg-secondary mb-3">
-               <Search className="h-6 w-6 text-foreground" />
-            </div>
-            <h3 className="font-bold text-lg">A Resenha</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              Para quem quer construir uma marca forte com criatividade, conexão e narrativas que geram comunidade.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-      
       <Card className="p-6 md:p-8">
+        <div className="text-center mb-6">
+            <h2 className="text-xl font-bold text-foreground">Escolha seu especialista</h2>
+            <p className="text-muted-foreground text-sm max-w-lg mx-auto mt-1">
+                Para um conteúdo com a cara do Rio, escolha um papo reto e estratégico com o <strong className="text-primary">Bizu</strong> ou uma ideia criativa e cheia de bossa com a <strong className="text-foreground">Resenha</strong>.
+            </p>
+        </div>
         <Form {...form}>
           <form className="space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
@@ -182,46 +159,46 @@ export function ContentGenerator() {
               />
             </div>
             <div className="flex justify-center">
-              <div className="inline-grid grid-cols-2 gap-4">
-                  <Button
-                      type="button"
-                      onClick={() => handleButtonClick('bizu')}
-                      disabled={isLoading}
-                      size="lg"
-                      className="border-4 border-black font-bold px-3 bg-[#FF6A00]/90"
-                  >
-                      {isLoading && activePersona === 'bizu' ? (
-                      <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Gerando...
-                      </>
-                      ) : (
-                      <div className="flex items-center justify-center gap-2">
-                          <Zap size={20} />
-                          <span>Quero que o Bizu crie conteúdos</span>
-                      </div>
-                      )}
-                  </Button>
-                  <Button
-                      type="button"
-                      onClick={() => handleButtonClick('resenha')}
-                      disabled={isLoading}
-                      className="bg-black border-2 border-primary text-primary hover:bg-primary/10 font-bold px-3"
-                      size="lg"
-                  >
-                      {isLoading && activePersona === 'resenha' ? (
-                      <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Contando a Resenha...
-                      </>
-                      ) : (
-                      <div className="flex items-center justify-center gap-2">
-                          <Search size={20} />
-                          <span>Quero que a Resenha crie conteúdos</span>
-                      </div>
-                      )}
-                  </Button>
-              </div>
+                <div className="inline-grid grid-cols-2 gap-4">
+                    <Button
+                        type="button"
+                        onClick={() => handleButtonClick('bizu')}
+                        disabled={isLoading}
+                        size="lg"
+                        className="border-4 border-black font-bold px-5 bg-[#FF6A00]/90"
+                    >
+                        {isLoading && activePersona === 'bizu' ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Gerando...
+                        </>
+                        ) : (
+                        <div className="flex items-center justify-center gap-2">
+                            <Zap size={20} />
+                            <span>Quero que o Bizu crie conteúdos</span>
+                        </div>
+                        )}
+                    </Button>
+                    <Button
+                        type="button"
+                        onClick={() => handleButtonClick('resenha')}
+                        disabled={isLoading}
+                        className="bg-black border-2 border-primary text-primary hover:bg-primary/10 font-bold px-5"
+                        size="lg"
+                    >
+                        {isLoading && activePersona === 'resenha' ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Contando a Resenha...
+                        </>
+                        ) : (
+                        <div className="flex items-center justify-center gap-2">
+                            <Search size={20} />
+                            <span>Quero que a Resenha crie conteúdos</span>
+                        </div>
+                        )}
+                    </Button>
+                </div>
           </div>
           </form>
         </Form>
