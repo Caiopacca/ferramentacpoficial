@@ -170,14 +170,14 @@ export default function ToolsPage() {
           </p>
         </header>
 
-        <Card className="mb-12 bg-card-foreground/5 border-primary/20">
+        <Card className="mb-8 bg-card-foreground/5 border-primary/20">
             <CardHeader>
-                <CardTitle className="text-center text-2xl font-bold">Conheça Nossos Especialistas de IA</CardTitle>
+                <CardTitle className="text-center text-2xl font-bold">Conheça Nossos Especialistas de Marketing IA</CardTitle>
                 <CardDescription className="text-center text-muted-foreground">
                 Duas personalidades, um objetivo: acelerar seus resultados.
                 </CardDescription>
             </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-6 p-6">
+            <CardContent className="grid md:grid-cols-2 gap-6 p-4 pt-2">
                 <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg">
                     <div className="p-1 bg-primary/20 rounded-full mb-3">
                         <Zap className="h-5 w-5 text-primary" />
