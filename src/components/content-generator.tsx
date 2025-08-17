@@ -153,7 +153,7 @@ export function ContentGenerator() {
               />
             </div>
             <div className="flex justify-center gap-4 justify-items-stretch">
-              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} size="lg" className="font-bold px-3 bg-[#FF6A00]/90">
+              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} size="lg" className="font-bold px-3 bg-[#FF6A00]/90 border-2 border-black">
                 {isLoading && activePersona === 'bizu' ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
