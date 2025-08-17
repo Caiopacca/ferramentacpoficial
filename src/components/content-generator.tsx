@@ -152,45 +152,47 @@ export function ContentGenerator() {
                 )}
               />
             </div>
-            <div className="flex justify-center gap-4">
-              <Button
-                type="button"
-                onClick={() => handleButtonClick('bizu')}
-                disabled={isLoading}
-                size="lg"
-                className="flex-1 font-bold px-3 bg-[#FF6A00]/90 border-4 border-black"
-              >
-                {isLoading && activePersona === 'bizu' ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Gerando...
-                  </>
-                ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    <Zap size={20} />
-                    <span>Quero que o Bizu crie conteúdos</span>
-                  </div>
-                )}
-              </Button>
-              <Button
-                type="button"
-                onClick={() => handleButtonClick('resenha')}
-                disabled={isLoading}
-                className="flex-1 bg-black border-2 border-primary text-primary hover:bg-primary/10 font-bold px-3"
-                size="lg"
-              >
-                {isLoading && activePersona === 'resenha' ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Contando a Resenha...
-                  </>
-                ) : (
-                   <div className="flex items-center justify-center gap-2">
-                    <Search size={20} />
-                    <span>Quero que a Resenha crie conteúdos</span>
-                  </div>
-                )}
-              </Button>
+            <div className="flex justify-center">
+                <div className="inline-grid grid-cols-2 gap-4">
+                    <Button
+                        type="button"
+                        onClick={() => handleButtonClick('bizu')}
+                        disabled={isLoading}
+                        size="lg"
+                        className="bg-[#FF6A00]/90 border-4 border-black font-bold px-3"
+                    >
+                        {isLoading && activePersona === 'bizu' ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Gerando...
+                        </>
+                        ) : (
+                        <div className="flex items-center justify-center gap-2">
+                            <Zap size={20} />
+                            <span>Quero que o Bizu crie conteúdos</span>
+                        </div>
+                        )}
+                    </Button>
+                    <Button
+                        type="button"
+                        onClick={() => handleButtonClick('resenha')}
+                        disabled={isLoading}
+                        className="bg-black border-2 border-primary text-primary hover:bg-primary/10 font-bold px-3"
+                        size="lg"
+                    >
+                        {isLoading && activePersona === 'resenha' ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Contando a Resenha...
+                        </>
+                        ) : (
+                        <div className="flex items-center justify-center gap-2">
+                            <Search size={20} />
+                            <span>Quero que a Resenha crie conteúdos</span>
+                        </div>
+                        )}
+                    </Button>
+                </div>
             </div>
           </form>
         </Form>
