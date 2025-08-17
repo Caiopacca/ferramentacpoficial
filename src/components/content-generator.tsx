@@ -104,7 +104,7 @@ export function ContentGenerator() {
       <div className="text-center">
           <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
-              Para um conteúdo com a cara do Rio, escolha seu especialista. Prefere um papo reto e estratégico? Vá de <strong className="text-primary">Bizu</strong>. Quer uma ideia mais criativa e cheia de bossa? A <strong className="text-foreground">Resenha</strong> resolve.
+            Para um conteúdo com a cara do Rio, escolha seu especialista. Prefere um papo reto e estratégico? Vá de <strong className="text-primary">Bizu</strong>. Quer uma ideia mais criativa e cheia de bossa? A <strong className="text-foreground">Resenha</strong> resolve.
           </p>
       </div>
       <Card className="p-6 md:p-8">
@@ -175,7 +175,7 @@ export function ContentGenerator() {
                       ) : (
                       <div className="flex items-center justify-center gap-2">
                           <Zap size={20} />
-                          <span>Quero que o Bizu crie conteúdos</span>
+                          <span className="font-bold">Quero que o Bizu crie conteúdos</span>
                       </div>
                       )}
                   </Button>
@@ -194,7 +194,7 @@ export function ContentGenerator() {
                       ) : (
                       <div className="flex items-center justify-center gap-2">
                           <Search size={20} />
-                          <span>Quero que a Resenha crie conteúdos</span>
+                          <span className="font-bold">Quero que a Resenha crie conteúdos</span>
                       </div>
                       )}
                   </Button>
