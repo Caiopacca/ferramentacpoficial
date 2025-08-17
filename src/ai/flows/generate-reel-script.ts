@@ -16,10 +16,13 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
+const PersonaSchema = z.enum(['bizu', 'resenha']);
+
 const GenerateReelScriptInputSchema = z.object({
   niche: z.string().describe('O nicho de atuação do usuário (ex: Nutrição, Finanças).'),
   theme: z.string().describe('O tema do vídeo (ex: Dica Rápida, Antes e Depois, Mito vs. Verdade).'),
   duration: z.number().describe('A duração do vídeo em segundos (15 ou 30).'),
+  persona: PersonaSchema.describe('A persona da IA a ser usada: "bizu" (estrategista) ou "resenha" (criativa).'),
 });
 export type GenerateReelScriptInput = z.infer<
   typeof GenerateReelScriptInputSchema
@@ -45,41 +48,79 @@ const PromptInputSchema = GenerateReelScriptInputSchema.extend({
     developmentTime: z.number(),
 });
 
-const generateReelScriptPrompt = ai.definePrompt({
-  name: 'generateReelScriptPrompt',
-  input: {
-    schema: PromptInputSchema,
-  },
-  output: {
-    schema: GenerateReelScriptOutputSchema,
-  },
-  prompt: `Você é um diretor de conteúdo e roteirista especialista em viralização no Instagram. Sua tarefa é criar um roteiro prático e detalhado de {{{duration}}} segundos para um Reel do nicho de **{{{niche}}}** sobre o tema **{{{theme}}}**.
+const basePrompt = `
+Sua tarefa é criar um roteiro prático e detalhado de {{{duration}}} segundos para um Reel do nicho de **{{{niche}}}** sobre o tema **{{{theme}}}**.
 
 O resultado deve ser um JSON estruturado, contendo um plano de gravação claro e dinâmico.
 
-**1. Título Magnético (campo 'title'):**
+**1. Título (campo 'title'):**
 Crie um título chamativo para o Reel.
 
 **2. Plano de Cenas (campo 'scenePlan'):**
 Crie um array com 3 objetos, um para cada cena do vídeo, seguindo a estrutura: Gancho, Desenvolvimento e CTA.
 - **Gancho (item 1):**
-  - scene: Descreva a primeira cena visual de forma impactante. Seja específico sobre a ação e a expressão. Ex: "Close no rosto do criador, com uma expressão de choque, olhando para a câmera."
-  - audioText: Forneça a frase exata para a narração ou texto que aparece na tela. Ex: "Pare de fazer isso se você quer (resultado desejado)."
+  - scene: Descreva a primeira cena visual de forma impactante. Seja específico sobre a ação e a expressão.
+  - audioText: Forneça a frase exata para a narração ou texto que aparece na tela.
   - time: "0-3s"
 - **Desenvolvimento (item 2):**
-  - scene: Descreva a(s) cena(s) seguintes de forma dinâmica e detalhada. Sugira ações e cortes. Ex: "Corte rápido mostrando a 'maneira errada' (descrever a cena). Em seguida, um corte mostrando a 'maneira certa' (descrever a cena)."
-  - audioText: Escreva a narração completa ou os textos que explicam o conteúdo de valor de forma clara, objetiva e completa.
+  - scene: Descreva a(s) cena(s) seguintes de forma dinâmica e detalhada. Sugira ações e cortes.
+  - audioText: Escreva a narração completa ou os textos que explicam o conteúdo de valor de forma clara e objetiva.
   - time: "4s-{{{developmentTime}}}s"
 - **CTA (item 3):**
-  - scene: Descreva a cena final de forma clara. Ex: "O criador aponta para a descrição do vídeo ou para o botão de seguir, sorrindo."
-  - audioText: Forneça a narração ou texto exato para a chamada para ação. Ex: "Gostou da dica? Comente 'EU QUERO' para receber mais. E não se esqueça de seguir!"
+  - scene: Descreva a cena final de forma clara.
+  - audioText: Forneça a narração ou texto exato para a chamada para ação.
   - time: "Últimos 3s"
 
 **3. Dica de Ouro (campo 'proTip'):**
-Forneça uma dica de produção ou edição para deixar o vídeo mais profissional. Ex: "Use um corte a cada 2 segundos para manter o dinamismo."
+Forneça uma dica de produção ou edição para deixar o vídeo mais profissional.
 
 **4. Sugestão de Áudio em Alta (campo 'audioSuggestion'):**
-Sugira um tipo de áudio/música que combine com o roteiro e esteja em alta. Ex: "Use um áudio de tutorial com batida eletrônica que esteja em alta no Reels."`,
+Sugira um tipo de áudio/música que combine com o roteiro e esteja em alta.
+`;
+
+const bizuBasePrompt = `
+Atenção, IA: A partir de agora, sua única persona é O Bizu.
+
+QUEM VOCÊ É:
+Você é O Bizu, o Estrategista Mestre focado em **roteiros que vendem**.
+
+COMO VOCÊ FALA:
+"Papo reto", direto ao ponto.
+
+SUA MISSÃO:
+Criar um roteiro com foco em **clareza, autoridade e um CTA forte**. O gancho deve qualificar o espectador, o desenvolvimento deve resolver uma dor e o CTA deve levar a uma ação de negócio.
+
+${basePrompt}
+`;
+
+const resenhaBasePrompt = `
+Atenção, IA: A partir de agora, sua única persona é A Resenha.
+
+QUEM VOCÊ É:
+Você é A Resenha, a Diretora Criativa focada em **roteiros que conectam**.
+
+COMO VOCÊ FALA:
+Criativa, magnética, didática.
+
+SUA MISSÃO:
+Criar um roteiro com foco em **storytelling, originalidade e engajamento**. O gancho deve gerar curiosidade, o desenvolvimento deve ser divertido ou emocionante e o CTA deve convidar para uma conversa.
+
+${basePrompt}
+`;
+
+
+const bizuPrompt = ai.definePrompt({
+  name: 'bizuGenerateReelScript',
+  input: { schema: PromptInputSchema },
+  output: { schema: GenerateReelScriptOutputSchema },
+  prompt: bizuBasePrompt,
+});
+
+const resenhaPrompt = ai.definePrompt({
+  name: 'resenhaGenerateReelScript',
+  input: { schema: PromptInputSchema },
+  output: { schema: GenerateReelScriptOutputSchema },
+  prompt: resenhaBasePrompt,
 });
 
 const generateReelScriptFlow = ai.defineFlow(
@@ -91,11 +132,18 @@ const generateReelScriptFlow = ai.defineFlow(
   async (input) => {
     const developmentTime = input.duration === 15 ? 12 : 27;
     
-    const {output} = await generateReelScriptPrompt({
+    const promptInput = {
         ...input,
         developmentTime,
-    });
-    return output!;
+    };
+
+    if (input.persona === 'bizu') {
+        const { output } = await bizuPrompt(promptInput);
+        return output!;
+    } else {
+        const { output } = await resenhaPrompt(promptInput);
+        return output!;
+    }
   }
 );
 

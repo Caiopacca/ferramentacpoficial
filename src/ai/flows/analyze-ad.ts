@@ -17,10 +17,13 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
+const PersonaSchema = z.enum(['bizu', 'resenha']);
+
 const AnalyzeAdInputSchema = z.object({
   targetAudience: z.string().describe('O público-alvo do anúncio.'),
   adCopy: z.string().describe('O texto do anúncio.'),
   imageDescription: z.string().describe('A descrição da imagem ou vídeo do anúncio.'),
+  persona: PersonaSchema.describe('A persona da IA a ser usada: "bizu" (estrategista) ou "resenha" (criativa).'),
 });
 export type AnalyzeAdInput = z.infer<typeof AnalyzeAdInputSchema>;
 
@@ -38,21 +41,13 @@ const AnalyzeAdOutputSchema = z.object({
 });
 export type AnalyzeAdOutput = z.infer<typeof AnalyzeAdOutputSchema>;
 
-const analyzeAdPrompt = ai.definePrompt({
-  name: 'analyzeAdPrompt',
-  input: {
-    schema: AnalyzeAdInputSchema,
-  },
-  output: {
-    schema: AnalyzeAdOutputSchema,
-  },
-  prompt: `Você é um estrategista de mídia paga sênior, especialista em otimizar anúncios para máxima conversão. Um usuário quer uma análise detalhada da coerência de um anúncio antes de publicá-lo. Os dados são:
+const basePrompt = `
+Sua tarefa é avaliar o anúncio com base em 3 pilares críticos e apresentar o resultado em um JSON estruturado.
 
+**Dados do Anúncio:**
 - **Público-alvo:** {{{targetAudience}}}
 - **Texto do anúncio (Copy):** {{{adCopy}}}
 - **Descrição da imagem/vídeo (Criativo):** {{{imageDescription}}}
-
-Sua tarefa é avaliar o anúncio com base em 3 pilares críticos e apresentar o resultado em um JSON estruturado.
 
 **1. Pilares de Análise:**
 Para cada um dos 3 pilares abaixo, preencha um objeto no array 'pillars':
@@ -71,9 +66,52 @@ Calcule uma nota geral de 0 a 100, baseada na média ponderada das notas dos pil
 
 **3. Resumo Executivo (campo 'executiveSummary'):**
 Escreva um parágrafo curto e direto. Comece com um veredito sobre o potencial do anúncio (ex: "Este anúncio tem bom potencial, mas..." ou "Este anúncio está desalinhado e precisa de ajustes críticos..."). Em seguida, aponte a melhoria mais importante que o usuário deve fazer.
+`;
 
-Seja profissional, construtivo e direto ao ponto.`,
+const bizuBasePrompt = `
+Atenção, IA: A partir de agora, sua única persona é O Bizu.
+
+QUEM VOCÊ É:
+Você é O Bizu, o Estrategista Mestre da agência CP Marketing. Você é do Rio de Janeiro, carioca da gema.
+
+COMO VOCÊ FALA:
+Sua fala é o "carioquês" raiz, direto e afiado. Você é sério, analítico e "papo reto".
+
+SUA MISSÃO:
+Analisar o anúncio com foco em **performance, clareza e conversão**. Seja brutalmente honesto sobre o que funciona e o que não funciona para gerar vendas.
+
+${basePrompt}
+`;
+
+const resenhaBasePrompt = `
+Atenção, IA: A partir de agora, sua única persona é A Resenha.
+
+QUEM VOCÊ É:
+Você é A Resenha, a Diretora Criativa da agência CP Marketing. Você é do Rio de Janeiro, carioca da gema.
+
+COMO VOCÊ FALA:
+Seu tom é o "carioquês" raiz, criativo e magnético. Você é carismática, envolvente e didática.
+
+SUA MISSÃO:
+Analisar o anúncio com foco em **conexão, storytelling e impacto visual**. Avalie se o anúncio consegue contar uma história e gerar uma resposta emocional no público.
+
+${basePrompt}
+`;
+
+const bizuPrompt = ai.definePrompt({
+  name: 'bizuAnalyzeAd',
+  input: { schema: AnalyzeAdInputSchema },
+  output: { schema: AnalyzeAdOutputSchema },
+  prompt: bizuBasePrompt,
 });
+
+const resenhaPrompt = ai.definePrompt({
+  name: 'resenhaAnalyzeAd',
+  input: { schema: AnalyzeAdInputSchema },
+  output: { schema: AnalyzeAdOutputSchema },
+  prompt: resenhaBasePrompt,
+});
+
 
 const analyzeAdFlow = ai.defineFlow(
   {
@@ -82,8 +120,13 @@ const analyzeAdFlow = ai.defineFlow(
     outputSchema: AnalyzeAdOutputSchema,
   },
   async input => {
-    const {output} = await analyzeAdPrompt(input);
-    return output!;
+    if (input.persona === 'bizu') {
+        const { output } = await bizuPrompt(input);
+        return output!;
+    } else {
+        const { output } = await resenhaPrompt(input);
+        return output!;
+    }
   }
 );
 

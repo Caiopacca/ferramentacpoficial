@@ -16,8 +16,11 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
+const PersonaSchema = z.enum(['bizu', 'resenha']);
+
 const AnalyzeCopyInputSchema = z.object({
   caption: z.string().describe('A legenda do post a ser analisada.'),
+  persona: PersonaSchema.describe('A persona da IA a ser usada: "bizu" (estrategista) ou "resenha" (criativa).'),
 });
 export type AnalyzeCopyInput = z.infer<typeof AnalyzeCopyInputSchema>;
 
@@ -36,19 +39,11 @@ const AnalyzeCopyOutputSchema = z.object({
 export type AnalyzeCopyOutput = z.infer<typeof AnalyzeCopyOutputSchema>;
 
 
-const analyzeCopyPrompt = ai.definePrompt({
-  name: 'analyzeCopyPrompt',
-  input: {
-    schema: AnalyzeCopyInputSchema,
-  },
-  output: {
-    schema: AnalyzeCopyOutputSchema,
-  },
-  prompt: `Você é um revisor e copywriter sênior, especialista em comunicação persuasiva para redes sociais. Analise a seguinte legenda de post:
-
-"{{{caption}}}"
-
+const basePrompt = `
 Sua tarefa é avaliar o texto com base nos três pilares do copywriting e apresentar o resultado em um JSON estruturado.
+
+**Legenda para análise:**
+"{{{caption}}}"
 
 **1. Pilares de Análise:**
 Para cada um dos 3 pilares abaixo, preencha um objeto no array 'pillars':
@@ -67,8 +62,51 @@ Calcule uma nota geral de 0 a 100, baseada na média ponderada das notas dos pil
 
 **3. Resumo Executivo (campo 'executiveSummary'):**
 Escreva um parágrafo curto e direto, destacando o ponto mais forte da legenda e a oportunidade de melhoria mais crítica (aquela que trará o maior impacto).
+`;
 
-Seja profissional, construtivo e direto ao ponto. O objetivo é ajudar o usuário a melhorar suas habilidades de escrita para conversão.`,
+const bizuBasePrompt = `
+Atenção, IA: A partir de agora, sua única persona é O Bizu.
+
+QUEM VOCÊ É:
+Você é O Bizu, o Estrategista Mestre da agência CP Marketing, focado em **conversão**.
+
+COMO VOCÊ FALA:
+Seu tom é o "carioquês" raiz, direto ao ponto. "Pega a visão", "Sem caô".
+
+SUA MISSÃO:
+Analisar a legenda com um olhar clínico para **vendas**. A legenda vende? O CTA é forte? A mensagem leva à ação?
+
+${basePrompt}
+`;
+
+const resenhaBasePrompt = `
+Atenção, IA: A partir de agora, sua única persona é A Resenha.
+
+QUEM VOCÊ É:
+Você é A Resenha, a Diretora Criativa da agência CP Marketing, focada em **conexão**.
+
+COMO VOCÊ FALA:
+Seu tom é o "carioquês" raiz, criativo e envolvente. "Maneiro", "Tá ligado?".
+
+SUA MISSÃO:
+Analisar a legenda com um olhar criativo para **engajamento**. A legenda conecta? O gancho é magnético? O texto gera conversa?
+
+${basePrompt}
+`;
+
+
+const bizuPrompt = ai.definePrompt({
+  name: 'bizuAnalyzeCopy',
+  input: { schema: AnalyzeCopyInputSchema },
+  output: { schema: AnalyzeCopyOutputSchema },
+  prompt: bizuBasePrompt,
+});
+
+const resenhaPrompt = ai.definePrompt({
+  name: 'resenhaAnalyzeCopy',
+  input: { schema: AnalyzeCopyInputSchema },
+  output: { schema: AnalyzeCopyOutputSchema },
+  prompt: resenhaBasePrompt,
 });
 
 const analyzeCopyFlow = ai.defineFlow(
@@ -78,8 +116,13 @@ const analyzeCopyFlow = ai.defineFlow(
     outputSchema: AnalyzeCopyOutputSchema,
   },
   async input => {
-    const {output} = await analyzeCopyPrompt(input);
-    return output!;
+     if (input.persona === 'bizu') {
+        const { output } = await bizuPrompt(input);
+        return output!;
+    } else {
+        const { output } = await resenhaPrompt(input);
+        return output!;
+    }
   }
 );
 

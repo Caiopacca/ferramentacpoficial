@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Zap, CheckCircle, AlertTriangle, ArrowRight, TrendingUp, Award, MessageSquareQuote } from 'lucide-react';
+import { Loader2, Zap, CheckCircle, ArrowRight, TrendingUp, Award, MessageSquareQuote, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 
@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import type { AnalyzeCopyOutput } from '@/ai/flows/analyze-copy';
+import type { AnalyzeCopyOutput, AnalyzeCopyInput } from '@/ai/flows/analyze-copy';
 import { handleAnalyzeCopy } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
@@ -31,23 +31,32 @@ const formSchema = z.object({
   caption: z.string().min(10, 'A legenda deve ter pelo menos 10 caracteres.'),
 });
 
+type FormData = z.infer<typeof formSchema>;
+type Persona = 'bizu' | 'resenha';
+
+
 export function CopyAnalyzer() {
   const [analysis, setAnalysis] = useState<AnalyzeCopyOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [activePersona, setActivePersona] = useState<Persona | null>(null);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       caption: '',
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData, persona: Persona) {
     setIsLoading(true);
+    setActivePersona(persona);
     setAnalysis(null);
+
+    const payload: AnalyzeCopyInput = { ...values, persona };
+
     try {
-      const result = await handleAnalyzeCopy(values);
+      const result = await handleAnalyzeCopy(payload);
       setAnalysis(result);
       toast({
         title: 'Análise Concluída!',
@@ -63,8 +72,13 @@ export function CopyAnalyzer() {
       });
     } finally {
       setIsLoading(false);
+      setActivePersona(null);
     }
   }
+
+  const handleButtonClick = (persona: Persona) => {
+    form.handleSubmit((values) => onSubmit(values, persona))();
+  };
 
   const getPillarScoreColor = (score: number) => {
     if (score >= 8) return 'bg-green-500/20 text-green-400';
@@ -80,10 +94,16 @@ const pillarIcons: { [key: string]: React.ReactNode } = {
 
 
   return (
-    <div>
+    <div className="space-y-6">
+       <div className="text-center">
+          <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+            O Bizu e a Resenha são estrategistas de marketing, cariocas da gema, prontos para te ajudar. Prefere um papo reto e estratégico? Vá de Bizu. Quer uma ideia mais criativa e magnética? a Resenha resolve.
+          </p>
+      </div>
       <Card className="p-6 md:p-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form className="space-y-6">
             <FormField
               control={form.control}
               name="caption"
@@ -101,16 +121,48 @@ const pillarIcons: { [key: string]: React.ReactNode } = {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isLoading} className="w-full md:w-auto" size="lg">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Analisando Legenda...
-                </>
-              ) : (
-                'Analisar Minha Legenda'
-              )}
-            </Button>
+            <div className="flex justify-center pt-4">
+              <div className="inline-grid grid-cols-2 gap-4">
+                  <Button
+                      type="button"
+                      onClick={() => handleButtonClick('bizu')}
+                      disabled={isLoading}
+                      size="lg"
+                      className="bg-[#FF6A00]/90"
+                  >
+                      {isLoading && activePersona === 'bizu' ? (
+                      <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Analisando...
+                      </>
+                      ) : (
+                      <div className="flex items-center justify-center gap-2">
+                          <Zap size={20} />
+                          <span className="font-bold">Análise do Bizu</span>
+                      </div>
+                      )}
+                  </Button>
+                  <Button
+                      type="button"
+                      onClick={() => handleButtonClick('resenha')}
+                      disabled={isLoading}
+                      className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
+                      size="lg"
+                  >
+                      {isLoading && activePersona === 'resenha' ? (
+                      <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Analisando...
+                      </>
+                      ) : (
+                      <div className="flex items-center justify-center gap-2">
+                          <Search size={20} />
+                          <span className="font-bold">Análise da Resenha</span>
+                      </div>
+                      )}
+                  </Button>
+              </div>
+            </div>
           </form>
         </Form>
       </Card>

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Copy, Check } from 'lucide-react';
+import { Loader2, Copy, Check, Zap, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import type { GenerateEmailSubjectOutput } from '@/ai/flows/generate-email-subject';
+import type { GenerateEmailSubjectOutput, GenerateEmailSubjectInput } from '@/ai/flows/generate-email-subject';
 import { handleGenerateEmailSubject } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
@@ -53,13 +53,18 @@ const objectives = [
     { value: 'Fazer networking', label: 'Fazer networking' },
 ];
 
+type FormData = z.infer<typeof formSchema>;
+type Persona = 'bizu' | 'resenha';
+
+
 export function EmailSubjectGenerator() {
   const [result, setResult] = useState<GenerateEmailSubjectOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [activePersona, setActivePersona] = useState<Persona | null>(null);
   const { toast } = useToast();
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       jobTitle: '',
@@ -67,12 +72,16 @@ export function EmailSubjectGenerator() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData, persona: Persona) {
     setIsLoading(true);
+    setActivePersona(persona);
     setResult(null);
     setCopiedIndex(null);
+
+    const payload: GenerateEmailSubjectInput = { ...values, persona };
+
     try {
-      const response = await handleGenerateEmailSubject(values);
+      const response = await handleGenerateEmailSubject(payload);
       setResult(response);
       toast({
         title: 'Assuntos Gerados!',
@@ -88,8 +97,13 @@ export function EmailSubjectGenerator() {
       });
     } finally {
       setIsLoading(false);
+      setActivePersona(null);
     }
   }
+
+  const handleButtonClick = (persona: Persona) => {
+    form.handleSubmit((values) => onSubmit(values, persona))();
+  };
 
   const handleCopy = (text: string, index: number) => {
     navigator.clipboard.writeText(text);
@@ -102,10 +116,16 @@ export function EmailSubjectGenerator() {
   };
 
   return (
-    <div>
+    <div className="space-y-6">
+       <div className="text-center">
+          <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+            O Bizu e a Resenha são estrategistas de marketing, cariocas da gema, prontos para te ajudar. Prefere um papo reto e estratégico? Vá de Bizu. Quer uma ideia mais criativa e magnética? a Resenha resolve.
+          </p>
+      </div>
       <Card className="p-6 md:p-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form className="space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
               <FormField
                 control={form.control}
@@ -168,16 +188,48 @@ export function EmailSubjectGenerator() {
                 )}
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="w-full md:w-auto" size="lg">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Gerando Assuntos...
-                </>
-              ) : (
-                'Gerar 5 Opções'
-              )}
-            </Button>
+            <div className="flex justify-center pt-4">
+              <div className="inline-grid grid-cols-2 gap-4">
+                  <Button
+                      type="button"
+                      onClick={() => handleButtonClick('bizu')}
+                      disabled={isLoading}
+                      size="lg"
+                      className="bg-[#FF6A00]/90"
+                  >
+                      {isLoading && activePersona === 'bizu' ? (
+                      <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Gerando...
+                      </>
+                      ) : (
+                      <div className="flex items-center justify-center gap-2">
+                          <Zap size={20} />
+                          <span className="font-bold">Títulos do Bizu</span>
+                      </div>
+                      )}
+                  </Button>
+                  <Button
+                      type="button"
+                      onClick={() => handleButtonClick('resenha')}
+                      disabled={isLoading}
+                      className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
+                      size="lg"
+                  >
+                      {isLoading && activePersona === 'resenha' ? (
+                      <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Gerando...
+                      </>
+                      ) : (
+                      <div className="flex items-center justify-center gap-2">
+                          <Search size={20} />
+                          <span className="font-bold">Títulos da Resenha</span>
+                      </div>
+                      )}
+                  </Button>
+              </div>
+            </div>
           </form>
         </Form>
       </Card>

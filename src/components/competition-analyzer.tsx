@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Zap, Search } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import type { AnalyzeCompetitionOutput } from '@/ai/flows/analyze-competition';
+import type { AnalyzeCompetitionOutput, AnalyzeCompetitionInput } from '@/ai/flows/analyze-competition';
 import { handleAnalyzeCompetition } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
@@ -39,12 +39,17 @@ const formSchema = z.object({
     .refine(val => !val || val.startsWith('@'), { message: 'O perfil deve começar com @.'}),
 });
 
+type FormData = z.infer<typeof formSchema>;
+type Persona = 'bizu' | 'resenha';
+
+
 export function CompetitionAnalyzer() {
   const [analysis, setAnalysis] = useState<AnalyzeCompetitionOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [activePersona, setActivePersona] = useState<Persona | null>(null);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       userProfile: '',
@@ -53,11 +58,15 @@ export function CompetitionAnalyzer() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData, persona: Persona) {
     setIsLoading(true);
+    setActivePersona(persona);
     setAnalysis(null);
+
+    const payload: AnalyzeCompetitionInput = { ...values, persona };
+
     try {
-      const result = await handleAnalyzeCompetition(values);
+      const result = await handleAnalyzeCompetition(payload);
       setAnalysis(result);
       toast({
         title: 'Análise Concluída!',
@@ -73,14 +82,25 @@ export function CompetitionAnalyzer() {
       });
     } finally {
       setIsLoading(false);
+      setActivePersona(null);
     }
   }
 
+  const handleButtonClick = (persona: Persona) => {
+    form.handleSubmit((values) => onSubmit(values, persona))();
+  };
+
   return (
-    <div>
+    <div className="space-y-6">
+      <div className="text-center">
+          <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+            O Bizu e a Resenha são estrategistas de marketing, cariocas da gema, prontos para te ajudar. Prefere um papo reto e estratégico? Vá de Bizu. Quer uma ideia mais criativa e magnética? a Resenha resolve.
+          </p>
+      </div>
       <Card className="p-6 md:p-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form className="space-y-8">
             <div className="grid md:grid-cols-3 gap-8">
               <FormField
                 control={form.control}
@@ -122,16 +142,48 @@ export function CompetitionAnalyzer() {
                 )}
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="w-full md:w-auto" size="lg">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Analisando...
-                </>
-              ) : (
-                'Analisar Concorrentes'
-              )}
-            </Button>
+            <div className="flex justify-center pt-4">
+              <div className="inline-grid grid-cols-2 gap-4">
+                  <Button
+                      type="button"
+                      onClick={() => handleButtonClick('bizu')}
+                      disabled={isLoading}
+                      size="lg"
+                      className="bg-[#FF6A00]/90"
+                  >
+                      {isLoading && activePersona === 'bizu' ? (
+                      <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Analisando...
+                      </>
+                      ) : (
+                      <div className="flex items-center justify-center gap-2">
+                          <Zap size={20} />
+                          <span className="font-bold">Análise do Bizu</span>
+                      </div>
+                      )}
+                  </Button>
+                  <Button
+                      type="button"
+                      onClick={() => handleButtonClick('resenha')}
+                      disabled={isLoading}
+                      className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
+                      size="lg"
+                  >
+                      {isLoading && activePersona === 'resenha' ? (
+                      <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Analisando...
+                      </>
+                      ) : (
+                      <div className="flex items-center justify-center gap-2">
+                          <Search size={20} />
+                          <span className="font-bold">Análise da Resenha</span>
+                      </div>
+                      )}
+                  </Button>
+              </div>
+            </div>
           </form>
         </Form>
       </Card>
