@@ -101,10 +101,10 @@ export function ContentGenerator() {
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
+      <div className="text-center mt-6">
           <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
-            O Bizu e a Resenha são estrategistas de marketing, cariocas da gema, prontos para te ajudar. Prefere um papo reto e estratégico? Vá de Bizu. Quer uma ideia mais criativa e boladona? a Resenha resolve.
+            O Bizu e a Resenha são estrategistas de marketing, cariocas da gema, prontos para te ajudar. Prefere um papo reto e estratégico? Vá de Bizu. Quer uma ideia mais criativa e magnética? a Resenha resolve.
           </p>
       </div>
       <Card className="p-6 md:p-8 mt-8">
