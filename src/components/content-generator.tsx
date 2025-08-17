@@ -152,7 +152,7 @@ export function ContentGenerator() {
                 )}
               />
             </div>
-            <div className="grid grid-cols-2 justify-center gap-4">
+            <div className="flex justify-center gap-4">
               <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} size="lg" className="font-bold px-4">
                 {isLoading && activePersona === 'bizu' ? (
                   <>
