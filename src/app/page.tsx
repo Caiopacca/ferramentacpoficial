@@ -4,8 +4,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { ArrowRight, LogOut } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter, CardContent } from '@/components/ui/card';
+import { ArrowRight, LogOut, Zap, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CtaSection } from '@/components/cta-section';
@@ -169,6 +169,38 @@ export default function ToolsPage() {
             A IA pode cometer erros. Considere verificar informações importantes.
           </p>
         </header>
+
+        <Card className="mb-12 bg-card-foreground/5 border-primary/20">
+          <CardHeader>
+            <CardTitle className="text-center text-3xl font-bold">Conheça Nossos Especialistas de IA</CardTitle>
+            <CardDescription className="text-center text-muted-foreground text-lg">
+              Duas personalidades, um objetivo: acelerar seus resultados.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid md:grid-cols-2 gap-8 p-6">
+            <div className="flex flex-col items-center text-center p-6 bg-card rounded-lg">
+                <div className="p-3 bg-[#FF6A00]/20 rounded-full mb-4">
+                    <Zap className="h-8 w-8 text-[#FF6A00]" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground">O Bizu</h3>
+                <p className="font-semibold text-[#FF6A00] mb-2">O Estrategista</p>
+                <p className="text-muted-foreground">
+                    Carioca, papo reto e focado em conversão. O Bizu analisa seus dados com um olhar clínico para performance, clareza e resultados financeiros. Ideal para quem busca a rota mais rápida para o lucro.
+                </p>
+            </div>
+            <div className="flex flex-col items-center text-center p-6 bg-card rounded-lg">
+                <div className="p-3 bg-primary/20 rounded-full mb-4">
+                    <Lightbulb className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground">A Resenha</h3>
+                <p className="font-semibold text-primary mb-2">A Criativa</p>
+                <p className="text-muted-foreground">
+                    Também carioca, mas com foco em criatividade e conexão. A Resenha avalia sua comunicação, storytelling e o poder da sua marca de criar uma comunidade. Ideal para quem quer construir um legado e uma audiência fiel.
+                </p>
+            </div>
+          </CardContent>
+        </Card>
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {tools.map((tool) => (
