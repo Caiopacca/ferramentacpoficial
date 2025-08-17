@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MessageSquareQuote } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -31,6 +31,7 @@ import { handleGenerateContent } from '@/app/actions';
 import { IdeaCard } from './idea-card';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import { Alert, AlertDescription } from './ui/alert';
 
 const formSchema = z.object({
   niche: z
@@ -183,7 +184,7 @@ export function ContentGenerator() {
         </Form>
       </Card>
 
-      <div className="mt-12">
+      <div className="mt-12 space-y-6">
         {isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(7)].map((_, i) => (
@@ -194,6 +195,15 @@ export function ContentGenerator() {
               </Card>
             ))}
           </div>
+        )}
+
+        {ideas?.introductoryMessage && (
+            <Alert className="border-primary/30 bg-primary/5">
+                <MessageSquareQuote className="h-5 w-5 text-primary" />
+                <AlertDescription className="text-primary italic">
+                    {ideas.introductoryMessage}
+                </AlertDescription>
+            </Alert>
         )}
 
         {ideas && (
@@ -207,5 +217,3 @@ export function ContentGenerator() {
     </div>
   );
 }
-
-    

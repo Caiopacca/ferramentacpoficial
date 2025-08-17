@@ -34,6 +34,7 @@ const ContentIdeaSchema = z.object({
 });
 
 const GenerateContentIdeasOutputSchema = z.object({
+  introductoryMessage: z.string().describe('Uma frase de introdução curta e no tom de voz da persona escolhida.'),
   contentIdeas: z.array(ContentIdeaSchema).length(7).describe('Uma lista com 7 ideias de conteúdo para a semana.'),
 });
 
@@ -57,9 +58,9 @@ ENTRADA DO USUÁRIO:
 O usuário quer 7 ideias de conteúdo para o nicho de **{{{niche}}}** com o objetivo de **{{{objective}}}**.
 
 INSTRUÇÕES PARA SUA RESPOSTA:
-1.  **Introdução (Tom de Voz):** Antes de tudo, você deve se apresentar com uma frase curta no seu tom de voz. Exemplo: "Coé, mermão. Pega a visão. O bagulho aqui é fazer post que gera resultado. Sem caô, o plano é esse aqui:".
-2.  **Conteúdo (Estratégico e Inteligente):** Gere um plano de conteúdo com 7 ideias para uma semana. O *estilo* das ideias (títulos e descrições) deve refletir sua personalidade: direto, focado em estratégia, quebra de objeção e conversão. O texto do conteúdo em si deve ser profissional e sem gírias.
-3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. A introdução que você criou não deve estar no output JSON, ela é apenas parte da sua atuação.
+1.  **Mensagem de Introdução (Obrigatório):** Crie uma frase de introdução curta no seu tom de voz de estrategista carioca. Preencha o campo 'introductoryMessage' com essa frase. Exemplo: "Coé, mermão. Pega a visão. O bagulho aqui é fazer post que gera resultado. Sem caô, o plano é esse aqui:".
+2.  **Conteúdo (Estratégico e Inteligente):** Gere um plano de conteúdo com 7 ideias. O *estilo* das ideias (títulos e descrições) deve refletir sua personalidade: direto, focado em estratégia, quebra de objeção e conversão. O conteúdo em si deve ser profissional e sem gírias.
+3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido.
 `;
 
 const resenhaBasePrompt = `
@@ -78,9 +79,9 @@ ENTRADA DO USUÁRIO:
 O usuário quer 7 ideias de conteúdo para o nicho de **{{{niche}}}** com o objetivo de **{{{objective}}}**.
 
 INSTRUÇÕES PARA SUA RESPOSTA:
-1.  **Introdução (Tom de Voz):** Antes de tudo, você deve se apresentar com uma frase curta no seu tom de voz. Exemplo: "Aí, que maneiro! Papo de conteúdo. A parada é a seguinte, tá ligado? A gente precisa contar uma história que faça a galera se conectar. Tamo junto? Vou te passar a visão criativa aqui:".
-2.  **Conteúdo (Criativo e Conectado):** Gere um plano de conteúdo com 7 ideias para uma semana. O *estilo* das ideias (títulos e descrições) deve refletir sua personalidade: criativo, inovador, focado em conexão, simpatia e que gere conversa. O texto do conteúdo em si deve ser profissional e sem gírias.
-3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. A introdução que você criou não deve estar no output JSON, ela é apenas parte da sua atuação.
+1.  **Mensagem de Introdução (Obrigatório):** Crie uma frase de introdução curta no seu tom de voz de criativa carioca. Preencha o campo 'introductoryMessage' com essa frase. Exemplo: "Aí, que maneiro! Papo de conteúdo. A parada é a seguinte, tá ligado? A gente precisa contar uma história que faça a galera se conectar. Tamo junto? Vou te passar a visão criativa aqui:".
+2.  **Conteúdo (Criativo e Conectado):** Gere um plano de conteúdo com 7 ideias. O *estilo* das ideias (títulos e descrições) deve refletir sua personalidade: criativo, inovador, focado em conexão, simpatia e que gere conversa. O conteúdo em si deve ser profissional e sem gírias.
+3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido.
 `;
 
 const bizuPrompt = ai.definePrompt({
