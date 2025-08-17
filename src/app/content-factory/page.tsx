@@ -26,7 +26,7 @@ export default function ContentFactoryPage() {
                 Fábrica de Conteúdo CP Marketing
             </h1>
           <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-3xl mx-auto whitespace-nowrap">
-            Selecione seu nicho e objetivo para receber 7 dias de ideias de posts geradas por nossa Inteligência Artificial.
+            Selecione seu nicho e objetivo para receber 7 dias de ideias de posts geradas por nossa IA.
           </p>
            <p className="mt-2 text-sm text-muted-foreground/80 mx-auto">
             A IA pode cometer erros. Considere verificar informações importantes.
