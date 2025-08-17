@@ -28,6 +28,7 @@ export type GenerateColdEmailInput = z.infer<
 >;
 
 const GenerateColdEmailOutputSchema = z.object({
+  introductoryMessage: z.string().describe('Uma frase de introdução curta e no tom de voz da persona escolhida.'),
   emailBody: z.string().describe('O corpo do e-mail de prospecção fria.'),
 });
 export type GenerateColdEmailOutput = z.infer<
@@ -35,22 +36,24 @@ export type GenerateColdEmailOutput = z.infer<
 >;
 
 const basePrompt = `
-Sua tarefa é criar um corpo de e-mail frio, curto, profissional e altamente persuasivo.
+**Dados:**
+- **Destinatário:** {{{jobTitle}}}
+- **Objetivo do E-mail:** {{{objective}}}
 
-O e-mail é enviado pela 'CP Marketing', uma agência focada em otimizar o marketing de conteúdo e gerar resultados de negócio.
-
-**Destinatário:** {{{jobTitle}}}
-**Objetivo do E-mail:** {{{objective}}}
+**Sua tarefa é dupla:**
+1.  **CRIAR INTRODUÇÃO (obrigatório):** Crie uma mensagem de introdução de 3 linhas, no seu tom de voz, que fale sobre prospecção por e-mail. A cada nova geração, crie uma variação diferente desta mensagem.
+2.  **CRIAR CORPO DO E-MAIL:** Crie um corpo de e-mail frio, curto, profissional e altamente persuasivo, pronto para copiar e colar.
 
 **Instruções para o Corpo do E-mail:**
-1.  **Saudação:** Comece com uma saudação profissional, como "Olá [Nome],".
-2.  **Gancho Rápido:** Inicie com uma observação relevante e concisa sobre o mercado ou um desafio comum enfrentado por um(a) {{{jobTitle}}}. Isso mostra que você fez sua pesquisa.
-3.  **Apresentação e Solução:** Apresente a CP Marketing de forma sucinta e conecte-a a uma solução para o desafio mencionado. Fale sobre benefícios, não sobre características.
-4.  **Prova Social (Curta):** Mencione brevemente um resultado ou tipo de cliente que gera credibilidade (ex: "Ajudamos empresas como a sua a...").
-5.  **Chamada para Ação (CTA) Clara e Leve:** O CTA deve ser de baixa fricção. Em vez de "Comprar agora", use algo alinhado ao objetivo: {{{objective}}}. Por exemplo, "Teria 15 minutos na próxima semana para uma breve chamada?".
+1.  **Saudação:** Comece com "Olá [Nome],".
+2.  **Gancho Rápido:** Inicie com uma observação relevante sobre o mercado ou um desafio comum enfrentado por um(a) {{{jobTitle}}}.
+3.  **Apresentação e Solução:** Apresente a CP Marketing (agência focada em otimizar marketing de conteúdo) e conecte-a a uma solução.
+4.  **Prova Social (Curta):** Mencione um resultado breve (ex: "Ajudamos empresas como a sua a...").
+5.  **CTA (Chamada para Ação):** Deve ser de baixa fricção e alinhado ao objetivo: {{{objective}}}.
 6.  **Encerramento:** Use um encerramento profissional.
 
-O texto final deve ser limpo, pronto para ser copiado e colado.
+**Formato de Saída:**
+Seu output final deve ser um objeto JSON que segue rigorosamente o schema de saída. A introdução criada no passo 1 deve ser usada apenas no campo 'introductoryMessage'. O corpo do e-mail criado no passo 2 deve ser usado no campo 'emailBody'.
 `;
 
 const bizuBasePrompt = `
