@@ -102,9 +102,9 @@ export function ContentGenerator() {
   return (
     <div className="space-y-8">
       <Card className="p-6 md:p-8">
-        <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-foreground">Escolha seu especialista</h2>
-            <p className="text-muted-foreground text-sm max-w-xl mx-auto mt-1">
+        <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
                 Para um conteúdo com a cara do Rio, escolha seu especialista. Prefere um papo reto e estratégico? Vá de <strong className="text-primary">Bizu</strong>. Quer uma ideia mais criativa e cheia de bossa? A <strong className="text-foreground">Resenha</strong> resolve.
             </p>
         </div>
@@ -165,7 +165,7 @@ export function ContentGenerator() {
                         onClick={() => handleButtonClick('bizu')}
                         disabled={isLoading}
                         size="lg"
-                        className="border-4 border-black font-bold px-5 bg-[#FF6A00]/90"
+                        className="bg-[#FF6A00]/90"
                     >
                         {isLoading && activePersona === 'bizu' ? (
                         <>
@@ -183,7 +183,7 @@ export function ContentGenerator() {
                         type="button"
                         onClick={() => handleButtonClick('resenha')}
                         disabled={isLoading}
-                        className="bg-black border-2 border-primary text-primary hover:bg-primary/10 font-bold px-5"
+                        className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
                         size="lg"
                     >
                         {isLoading && activePersona === 'resenha' ? (
