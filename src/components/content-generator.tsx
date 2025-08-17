@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import type { GenerateContentIdeasOutput } from '@/ai/flows/generate-content-ideas';
+import type { GenerateContentIdeasOutput, GenerateContentIdeasInput } from '@/ai/flows/generate-content-ideas';
 import { handleGenerateContent } from '@/app/actions';
 import { IdeaCard } from './idea-card';
 import { Card } from './ui/card';
@@ -41,6 +41,9 @@ const formSchema = z.object({
     .min(1, 'Por favor, selecione um objetivo.'),
 });
 
+type FormData = z.infer<typeof formSchema>;
+type Persona = 'bizu' | 'resenha';
+
 const objectives = [
   { value: 'Atrair Clientes', label: 'Atrair Clientes' },
   { value: 'Gerar Autoridade', label: 'Gerar Autoridade' },
@@ -51,9 +54,10 @@ const objectives = [
 export function ContentGenerator() {
   const [ideas, setIdeas] = useState<GenerateContentIdeasOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [activePersona, setActivePersona] = useState<Persona | null>(null);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       niche: '',
@@ -61,15 +65,19 @@ export function ContentGenerator() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: FormData, persona: Persona) {
     setIsLoading(true);
+    setActivePersona(persona);
     setIdeas(null);
+
+    const payload: GenerateContentIdeasInput = { ...values, persona };
+
     try {
-      const result = await handleGenerateContent(values);
+      const result = await handleGenerateContent(payload);
       setIdeas(result);
       toast({
         title: 'Sucesso!',
-        description: 'Seu plano de conteúdo para 7 dias está pronto.',
+        description: `O ${persona === 'bizu' ? 'Bizu' : 'Resenha'} preparou seu plano de conteúdo.`,
       });
     } catch (error) {
       console.error(error);
@@ -81,14 +89,20 @@ export function ContentGenerator() {
       });
     } finally {
       setIsLoading(false);
+      setActivePersona(null);
     }
   }
+
+  const handleButtonClick = (persona: Persona) => {
+    form.handleSubmit((values) => onSubmit(values, persona))();
+  };
+
 
   return (
     <div>
       <Card className="p-6 md:p-8">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form className="space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
               <FormField
                 control={form.control}
@@ -137,16 +151,34 @@ export function ContentGenerator() {
                 )}
               />
             </div>
-            <Button type="submit" disabled={isLoading} className="w-full md:w-auto" size="lg">
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Gerando ideias...
-                </>
-              ) : (
-                'Gerar Plano de 7 Dias'
-              )}
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} className="w-full" size="lg">
+                {isLoading && activePersona === 'bizu' ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Mandando o Bizu...
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <div>Gerar Plano de 7 Dias</div>
+                    <div className="text-xs font-normal opacity-80">(Bizu)</div>
+                  </div>
+                )}
+              </Button>
+              <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} variant="outline" className="w-full" size="lg">
+                {isLoading && activePersona === 'resenha' ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Contando a Resenha...
+                  </>
+                ) : (
+                    <div className="text-center">
+                        <div>Gerar Plano de 7 Dias</div>
+                        <div className="text-xs font-normal opacity-80">(Resenha)</div>
+                    </div>
+                )}
+              </Button>
+            </div>
           </form>
         </Form>
       </Card>
@@ -175,3 +207,5 @@ export function ContentGenerator() {
     </div>
   );
 }
+
+    

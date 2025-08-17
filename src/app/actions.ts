@@ -206,3 +206,5 @@ export async function handleCalculateTrafficInvestment(
         throw new Error('Failed to calculate traffic investment. Please try again.');
     }
 }
+
+    
