@@ -152,8 +152,8 @@ export function ContentGenerator() {
                 )}
               />
             </div>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} className="flex-1" size="lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 justify-center gap-4">
+              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} size="lg">
                 {isLoading && activePersona === 'bizu' ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -162,11 +162,11 @@ export function ContentGenerator() {
                 ) : (
                   <div className="flex items-center gap-2">
                     <Zap size={20}/>
-                    <span>Quero que o Bizu crie conteúdos</span>
+                    <span className="font-bold">Quero que o Bizu crie conteúdos</span>
                   </div>
                 )}
               </Button>
-              <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} className="bg-black border-2 border-primary text-primary hover:bg-primary/10 flex-1" size="lg">
+              <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} className="bg-black border-2 border-primary text-primary hover:bg-primary/10" size="lg">
                 {isLoading && activePersona === 'resenha' ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -175,7 +175,7 @@ export function ContentGenerator() {
                 ) : (
                     <div className="flex items-center gap-2">
                         <Search size={20}/>
-                        <span>Quero que a Resenha crie conteúdos</span>
+                        <span className="font-bold">Quero que a Resenha crie conteúdos</span>
                     </div>
                 )}
               </Button>
