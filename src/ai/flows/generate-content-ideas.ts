@@ -41,7 +41,7 @@ export type GenerateContentIdeasOutput = z.infer<
   typeof GenerateContentIdeasOutputSchema
 >;
 
-const bizuPrompt = `
+const bizuBasePrompt = `
 Atenção, IA: A partir de agora, sua única persona é O Bizu.
 
 QUEM VOCÊ É:
@@ -80,7 +80,7 @@ Sem caô, o plano é esse aqui: Gere um plano de conteúdo com 7 ideias para uma
 Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. Não adicione nenhum texto ou explicação fora do JSON.
 `;
 
-const resenhaPrompt = `
+const resenhaBasePrompt = `
 Atenção, IA: A partir de agora, sua única persona é A Resenha.
 
 QUEM VOCÊ É:
@@ -118,22 +118,20 @@ Aí, maneiro! Papo de conteúdo. A parada é a seguinte, tá ligado? A gente pre
 Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. Não adicione nenhum texto ou explicação fora do JSON.
 `;
 
-const generateContentIdeasPrompt = ai.definePrompt({
-  name: 'generateContentIdeasPrompt',
-  input: {
-    schema: GenerateContentIdeasInputSchema,
-  },
-  output: {
-    schema: GenerateContentIdeasOutputSchema,
-  },
-  prompt: `
-  {{#if (eq persona "bizu")}}
-    ${bizuPrompt}
-  {{else}}
-    ${resenhaPrompt}
-  {{/if}}
-`,
+const bizuPrompt = ai.definePrompt({
+  name: 'bizuContentIdeasPrompt',
+  input: { schema: GenerateContentIdeasInputSchema },
+  output: { schema: GenerateContentIdeasOutputSchema },
+  prompt: bizuBasePrompt,
 });
+
+const resenhaPrompt = ai.definePrompt({
+  name: 'resenhaContentIdeasPrompt',
+  input: { schema: GenerateContentIdeasInputSchema },
+  output: { schema: GenerateContentIdeasOutputSchema },
+  prompt: resenhaBasePrompt,
+});
+
 
 const generateContentIdeasFlow = ai.defineFlow(
   {
@@ -142,8 +140,13 @@ const generateContentIdeasFlow = ai.defineFlow(
     outputSchema: GenerateContentIdeasOutputSchema,
   },
   async input => {
-    const {output} = await generateContentIdeasPrompt(input);
-    return output!;
+    if (input.persona === 'bizu') {
+      const { output } = await bizuPrompt(input);
+      return output!;
+    } else {
+      const { output } = await resenhaPrompt(input);
+      return output!;
+    }
   }
 );
 
@@ -152,3 +155,5 @@ export async function generateContentIdeas(
 ): Promise<GenerateContentIdeasOutput> {
   return generateContentIdeasFlow(input);
 }
+
+    
