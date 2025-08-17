@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Copy } from 'lucide-react';
+import { Loader2, Copy, Zap, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -132,30 +132,30 @@ export function BioCreator() {
                 </FormItem>
               )}
             />
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} className="w-full" size="lg">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} className="w-auto bg-[#FF6A00] hover:bg-[#E75A00] text-white rounded-xl px-5 py-3 font-semibold shadow-md focus:outline-none focus:ring-2 ring-orange-400">
                 {isLoading && activePersona === 'bizu' ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Gerando...
                   </>
                 ) : (
-                  <div className="text-center">
-                    <div>Gerar Bios</div>
-                    <div className="text-xs font-normal opacity-80">(Bizu)</div>
+                  <div className="flex items-center gap-2">
+                    <Zap size={20}/>
+                    <span className="text-lg">Bizu</span>
                   </div>
                 )}
               </Button>
-              <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} variant="outline" className="w-full" size="lg">
+              <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} className="w-auto bg-[#1B1B1B] border border-[#FF6A00] text-[#FF6A00] hover:bg-orange-500/10 rounded-2xl px-5 py-3 font-semibold focus:outline-none focus:ring-2 ring-orange-400">
                 {isLoading && activePersona === 'resenha' ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Gerando...
                   </>
                 ) : (
-                    <div className="text-center">
-                        <div>Gerar Bios</div>
-                        <div className="text-xs font-normal opacity-80">(Resenha)</div>
+                    <div className="flex items-center gap-2">
+                        <Search size={20} />
+                        <span className="text-lg">Resenha</span>
                     </div>
                 )}
               </Button>
@@ -202,5 +202,3 @@ export function BioCreator() {
     </div>
   );
 }
-
-    
