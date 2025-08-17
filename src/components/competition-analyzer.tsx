@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Zap, Search } from 'lucide-react';
+import { Loader2, Zap, Search, MessageSquareQuote } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,7 @@ import type { AnalyzeCompetitionOutput, AnalyzeCompetitionInput } from '@/ai/flo
 import { handleAnalyzeCompetition } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import { Alert, AlertDescription } from './ui/alert';
 
 const formSchema = z.object({
   userProfile: z
@@ -182,7 +183,7 @@ export function CompetitionAnalyzer() {
         </Form>
       </Card>
 
-      <div className="mt-12">
+      <div className="mt-12 space-y-6">
         {isLoading && (
             <Card className="p-6">
                 <Skeleton className="h-8 w-1/3 mb-4" />
@@ -193,6 +194,15 @@ export function CompetitionAnalyzer() {
                 <Skeleton className="h-4 w-full mb-2" />
                 <Skeleton className="h-4 w-2/3 mb-2" />
             </Card>
+        )}
+
+        {analysis?.introductoryMessage && (
+            <Alert className="border-primary/30 bg-primary/5">
+                <MessageSquareQuote className="h-5 w-5 text-primary" />
+                <AlertDescription className="text-lg text-foreground italic">
+                    {analysis.introductoryMessage}
+                </AlertDescription>
+            </Alert>
         )}
 
         {analysis && (
