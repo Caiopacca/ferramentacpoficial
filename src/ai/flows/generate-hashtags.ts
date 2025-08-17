@@ -29,23 +29,25 @@ const GenerateHashtagsInputSchema = z.object({
 export type GenerateHashtagsInput = z.infer<typeof GenerateHashtagsInputSchema>;
 
 const GenerateHashtagsOutputSchema = z.object({
+  introductoryMessage: z.string().describe('Uma frase de introdução curta e no tom de voz da persona escolhida.'),
   strategy: z.string().describe('A estratégia completa de hashtags em formato Markdown, com os grupos relevantes.'),
   hashtagsForCopying: z.string().describe('Uma string única com todas as hashtags geradas, separadas por espaço.'),
 });
 export type GenerateHashtagsOutput = z.infer<typeof GenerateHashtagsOutputSchema>;
 
 const basePrompt = `
-Sua tarefa é dupla:
-1. Gerar uma estratégia de hashtags em formato Markdown com até três grupos distintos e atuais, conforme os dados fornecidos.
-2. Gerar uma string única contendo todas as hashtags geradas, prontas para copiar e colar.
-
 **Dados:**
 - Nicho: **{{{keyword}}}**
 {{#if city}}- Local: **{{{city}}}/{{{state}}}**{{/if}}
 {{#if isNational}}- Atendimento: **Nacional**{{/if}}
 
-**Instruções para a String de Cópia (campo 'hashtagsForCopying'):**
-Junte todas as hashtags geradas abaixo em uma única string, separadas por um espaço. Ex: "#hashtag1 #hashtag2 #hashtag3"
+**Sua tarefa é tripla:**
+1.  **CRIAR INTRODUÇÃO (obrigatório):** Crie uma mensagem de introdução de 3 linhas, no seu tom de voz, que fale sobre o poder das hashtags. A cada nova geração, crie uma variação diferente desta mensagem.
+2.  **GERAR ESTRATÉGIA:** Gerar uma estratégia de hashtags em formato Markdown com até três grupos distintos e atuais, conforme os dados fornecidos.
+3.  **GERAR STRING PARA CÓPIA:** Junte todas as hashtags geradas em uma única string, separadas por um espaço. Ex: "#hashtag1 #hashtag2 #hashtag3".
+
+**Formato de Saída:**
+Seu output final deve ser um objeto JSON que segue rigorosamente o schema de saída.
 `;
 
 const bizuBasePrompt = `
