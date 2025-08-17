@@ -152,8 +152,8 @@ export function ContentGenerator() {
                 )}
               />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 justify-center gap-4">
-              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} size="lg">
+            <div className="grid grid-cols-2 justify-center gap-4">
+              <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} size="lg" className="font-bold px-4">
                 {isLoading && activePersona === 'bizu' ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -166,7 +166,7 @@ export function ContentGenerator() {
                   </div>
                 )}
               </Button>
-              <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} className="bg-black border-2 border-primary text-primary hover:bg-primary/10" size="lg">
+              <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} className="bg-black border-2 border-primary text-primary hover:bg-primary/10 font-bold px-4" size="lg">
                 {isLoading && activePersona === 'resenha' ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
