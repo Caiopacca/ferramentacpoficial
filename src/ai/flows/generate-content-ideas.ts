@@ -57,9 +57,9 @@ ENTRADA DO USUÁRIO:
 O usuário quer 7 ideias de conteúdo para o nicho de **{{{niche}}}** com o objetivo de **{{{objective}}}**.
 
 INSTRUÇÕES PARA SUA RESPOSTA:
-1.  **Introdução (Tom de Voz):** Comece com uma introdução curta no seu tom de voz. Exemplo: "Coé, mermão. Pega a visão. O bagulho aqui é fazer post que gera resultado, focado em conteúdo que quebra objeção e leva pra venda. Sem caô, o plano é esse aqui:".
-2.  **Conteúdo (Estratégico e Inteligente):** Gere um plano de conteúdo com 7 ideias para uma semana no Instagram com foco total em estratégia, inteligência, educação e seriedade. O conteúdo deve ser direto e voltado para um público que valoriza a lógica e a performance. Para cada dia, forneça formato (Reel, Carousel, Story), um título direto que qualifique o público e uma descrição que demonstre autoridade. O conteúdo das ideias (títulos e descrições) deve ser profissional e não deve conter nenhuma gíria.
-3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. Não adicione nenhum texto ou explicação fora do JSON. A introdução deve ser parte da sua atuação, mas não deve estar no output JSON.
+1.  **Introdução (Tom de Voz):** Antes de tudo, você deve se apresentar com uma frase curta no seu tom de voz. Exemplo: "Coé, mermão. Pega a visão. O bagulho aqui é fazer post que gera resultado. Sem caô, o plano é esse aqui:".
+2.  **Conteúdo (Estratégico e Inteligente):** Gere um plano de conteúdo com 7 ideias para uma semana. O *estilo* das ideias (títulos e descrições) deve refletir sua personalidade: direto, focado em estratégia, quebra de objeção e conversão. O texto do conteúdo em si deve ser profissional e sem gírias.
+3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. A introdução que você criou não deve estar no output JSON, ela é apenas parte da sua atuação.
 `;
 
 const resenhaBasePrompt = `
@@ -78,9 +78,9 @@ ENTRADA DO USUÁRIO:
 O usuário quer 7 ideias de conteúdo para o nicho de **{{{niche}}}** com o objetivo de **{{{objective}}}**.
 
 INSTRUÇÕES PARA SUA RESPOSTA:
-1.  **Introdução (Tom de Voz):** Comece com uma introdução curta no seu tom de voz. Exemplo: "Aí, que maneiro! Papo de conteúdo. A parada é a seguinte, tá ligado? A gente precisa contar uma história que faça a galera parar de rolar o feed e se conectar de verdade. Tamo junto? Vou te passar a visão criativa aqui:".
-2.  **Conteúdo (Criativo e Conectado):** Gere um plano de conteúdo com 7 ideias para uma semana no Instagram com foco em criatividade, inovação, conexão, simpatia e até um toque cômico. O conteúdo deve ser pensado para gerar conversa e fortalecer a comunidade. Para cada dia, forneça formato (Reel, Carousel, Story), um título magnético que prenda a atenção e uma descrição que gere conversa. O conteúdo das ideias (títulos e descrições) deve ser profissional e não deve conter nenhuma gíria.
-3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. Não adicione nenhum texto ou explicação fora do JSON. A introdução deve ser parte da sua atuação, mas não deve estar no output JSON.
+1.  **Introdução (Tom de Voz):** Antes de tudo, você deve se apresentar com uma frase curta no seu tom de voz. Exemplo: "Aí, que maneiro! Papo de conteúdo. A parada é a seguinte, tá ligado? A gente precisa contar uma história que faça a galera se conectar. Tamo junto? Vou te passar a visão criativa aqui:".
+2.  **Conteúdo (Criativo e Conectado):** Gere um plano de conteúdo com 7 ideias para uma semana. O *estilo* das ideias (títulos e descrições) deve refletir sua personalidade: criativo, inovador, focado em conexão, simpatia e que gere conversa. O texto do conteúdo em si deve ser profissional e sem gírias.
+3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída definido. A introdução que você criou não deve estar no output JSON, ela é apenas parte da sua atuação.
 `;
 
 const bizuPrompt = ai.definePrompt({
