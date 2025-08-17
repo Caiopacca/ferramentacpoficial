@@ -35,6 +35,7 @@ const SceneSchema = z.object({
 });
 
 const GenerateReelScriptOutputSchema = z.object({
+  introductoryMessage: z.string().describe('Uma frase de introdução curta e no tom de voz da persona escolhida.'),
   title: z.string().describe('Um título chamativo e magnético para o Reel.'),
   scenePlan: z.array(SceneSchema).length(3).describe('Uma lista com as 3 cenas do roteiro (Gancho, Desenvolvimento, CTA).'),
   proTip: z.string().describe('Uma dica de produção ou edição para deixar o vídeo mais profissional.'),
@@ -49,33 +50,23 @@ const PromptInputSchema = GenerateReelScriptInputSchema.extend({
 });
 
 const basePrompt = `
-Sua tarefa é criar um roteiro prático e detalhado de {{{duration}}} segundos para um Reel do nicho de **{{{niche}}}** sobre o tema **{{{theme}}}**.
+**Sua tarefa:** Criar um roteiro prático e detalhado de {{{duration}}} segundos para um Reel do nicho de **{{{niche}}}** sobre o tema **{{{theme}}}**.
 
-O resultado deve ser um JSON estruturado, contendo um plano de gravação claro e dinâmico.
+**Instruções para a Resposta:**
+1.  **Mensagem de Introdução (Obrigatório):** Crie uma mensagem de introdução com pelo menos 3 linhas, no seu tom de voz, dando uma dica rápida sobre a importância de roteiros para vídeos. A cada nova geração, crie uma variação diferente desta mensagem, mantendo o tom e as gírias da persona.
 
-**1. Título (campo 'title'):**
-Crie um título chamativo para o Reel.
+2.  **Criação do Roteiro:** Desenvolva um roteiro completo seguindo os critérios abaixo.
 
-**2. Plano de Cenas (campo 'scenePlan'):**
-Crie um array com 3 objetos, um para cada cena do vídeo, seguindo a estrutura: Gancho, Desenvolvimento e CTA.
-- **Gancho (item 1):**
-  - scene: Descreva a primeira cena visual de forma impactante. Seja específico sobre a ação e a expressão.
-  - audioText: Forneça a frase exata para a narração ou texto que aparece na tela.
-  - time: "0-3s"
-- **Desenvolvimento (item 2):**
-  - scene: Descreva a(s) cena(s) seguintes de forma dinâmica e detalhada. Sugira ações e cortes.
-  - audioText: Escreva a narração completa ou os textos que explicam o conteúdo de valor de forma clara e objetiva.
-  - time: "4s-{{{developmentTime}}}s"
-- **CTA (item 3):**
-  - scene: Descreva a cena final de forma clara.
-  - audioText: Forneça a narração ou texto exato para a chamada para ação.
-  - time: "Últimos 3s"
+3.  **Formato de Saída:** Sua resposta final deve ser um objeto JSON que segue rigorosamente o schema de saída.
 
-**3. Dica de Ouro (campo 'proTip'):**
-Forneça uma dica de produção ou edição para deixar o vídeo mais profissional.
-
-**4. Sugestão de Áudio em Alta (campo 'audioSuggestion'):**
-Sugira um tipo de áudio/música que combine com o roteiro e esteja em alta.
+**Critérios para o Roteiro:**
+- **Título (campo 'title'):** Crie um título chamativo para o Reel.
+- **Plano de Cenas (campo 'scenePlan'):** Crie um array com 3 objetos (Gancho, Desenvolvimento, CTA).
+  - **Gancho (item 1):** Cena visual impactante, texto/narração para os primeiros 3 segundos.
+  - **Desenvolvimento (item 2):** Cena dinâmica, conteúdo de valor claro e objetivo. Tempo: "4s-{{{developmentTime}}}s".
+  - **CTA (item 3):** Cena final clara com chamada para ação. Tempo: "Últimos 3s".
+- **Dica de Ouro (campo 'proTip'):** Uma dica de produção/edição.
+- **Sugestão de Áudio (campo 'audioSuggestion'):** Sugestão de áudio/música em alta.
 `;
 
 const bizuBasePrompt = `

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Zap, Search } from 'lucide-react';
+import { Loader2, Zap, Search, MessageSquareQuote } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -31,6 +31,7 @@ import { handleGenerateReelScript } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 import { ScriptResultDisplay } from './script-result-display';
+import { Alert, AlertDescription } from './ui/alert';
 
 const formSchema = z.object({
   niche: z
@@ -63,6 +64,7 @@ export function ReelScriptGenerator() {
   const [result30s, setResult30s] = useState<GenerateReelScriptOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activePersona, setActivePersona] = useState<Persona | null>(null);
+  const [introMessage, setIntroMessage] = useState<string | null>(null);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
@@ -78,11 +80,13 @@ export function ReelScriptGenerator() {
     setActivePersona(persona);
     setResult15s(null);
     setResult30s(null);
+    setIntroMessage(null);
 
     try {
       const payload15: GenerateReelScriptInput = { ...values, persona, duration: 15 };
       const res15 = await handleGenerateReelScript(payload15);
       setResult15s(res15);
+      setIntroMessage(res15.introductoryMessage); // Pega a intro do primeiro resultado
       
       const payload30: GenerateReelScriptInput = { ...values, persona, duration: 30 };
       const res30 = await handleGenerateReelScript(payload30);
@@ -218,6 +222,15 @@ export function ReelScriptGenerator() {
                 <Skeleton className="h-12 w-full" />
                 <Skeleton className="h-12 w-full" />
             </Card>
+        )}
+        
+        {introMessage && (
+            <Alert className="border-primary/30 bg-primary/5">
+                <MessageSquareQuote className="h-5 w-5 text-primary" />
+                <AlertDescription className="text-lg text-foreground italic">
+                    {introMessage}
+                </AlertDescription>
+            </Alert>
         )}
 
         {result15s && (

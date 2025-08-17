@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Copy, Zap, Search } from 'lucide-react';
+import { Loader2, Copy, Zap, Search, MessageSquareQuote } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +22,7 @@ import type { GenerateBioOutput, GenerateBioInput } from '@/ai/flows/generate-bi
 import { handleGenerateBio } from '@/app/actions';
 import { Card } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import { Alert, AlertDescription } from './ui/alert';
 
 const formSchema = z.object({
   whatYouDo: z.string().min(1, 'Este campo é obrigatório.'),
@@ -178,7 +179,7 @@ export function BioCreator() {
         </Form>
       </Card>
 
-      <div className="mt-12">
+      <div className="mt-12 space-y-6">
         {isLoading && (
           <div className="space-y-4">
             <Card className="p-6">
@@ -191,6 +192,15 @@ export function BioCreator() {
               <Skeleton className="h-24 w-full" />
             </Card>
           </div>
+        )}
+
+        {bios?.introductoryMessage && (
+            <Alert className="border-primary/30 bg-primary/5">
+                <MessageSquareQuote className="h-5 w-5 text-primary" />
+                <AlertDescription className="text-lg text-foreground italic">
+                    {bios.introductoryMessage}
+                </AlertDescription>
+            </Alert>
         )}
 
         {bios && (

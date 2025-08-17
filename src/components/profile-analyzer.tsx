@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Zap, Search } from 'lucide-react';
+import { Loader2, Zap, Search, MessageSquareQuote } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
   Accordion,
@@ -31,6 +31,7 @@ import { handleAnalyzeProfile } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 import { Progress } from './ui/progress';
+import { Alert, AlertDescription } from './ui/alert';
 
 const formSchema = z.object({
   username: z
@@ -166,7 +167,7 @@ export function ProfileAnalyzer() {
         </CardContent>
       </Card>
 
-      <div className="mt-6">
+      <div className="mt-6 space-y-6">
         {isLoading && (
             <Card>
                 <CardHeader>
@@ -192,8 +193,17 @@ export function ProfileAnalyzer() {
             </Card>
         )}
 
+        {analysis?.introductoryMessage && (
+            <Alert className="border-primary/30 bg-primary/5">
+                <MessageSquareQuote className="h-5 w-5 text-primary" />
+                <AlertDescription className="text-lg text-foreground italic">
+                    {analysis.introductoryMessage}
+                </AlertDescription>
+            </Alert>
+        )}
+
         {analysis && (
-          <div className="space-y-6">
+          <>
              <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl">Diagnóstico Estratégico de Perfil</CardTitle>
@@ -249,7 +259,7 @@ export function ProfileAnalyzer() {
                     </Accordion>
                 </CardContent>
             </Card>
-          </div>
+          </>
         )}
       </div>
     </div>
