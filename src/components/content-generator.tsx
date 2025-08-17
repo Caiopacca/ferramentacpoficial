@@ -152,13 +152,13 @@ export function ContentGenerator() {
                 )}
               />
             </div>
-            <div className="mx-auto max-w-md grid grid-cols-2 gap-4">
+            <div className="flex justify-center gap-4">
               <Button
                 type="button"
                 onClick={() => handleButtonClick('bizu')}
                 disabled={isLoading}
                 size="lg"
-                className="font-bold px-3 bg-[#FF6A00]/90 border-4 border-black"
+                className="flex-1 font-bold px-3 bg-[#FF6A00]/90 border-4 border-black"
               >
                 {isLoading && activePersona === 'bizu' ? (
                   <>
@@ -166,9 +166,9 @@ export function ContentGenerator() {
                     Gerando...
                   </>
                 ) : (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-center gap-2">
                     <Zap size={20} />
-                    <span className="font-bold">Quero que o Bizu crie conteúdos</span>
+                    <span>Quero que o Bizu crie conteúdos</span>
                   </div>
                 )}
               </Button>
@@ -176,7 +176,7 @@ export function ContentGenerator() {
                 type="button"
                 onClick={() => handleButtonClick('resenha')}
                 disabled={isLoading}
-                className="bg-black border-2 border-primary text-primary hover:bg-primary/10 font-bold px-3"
+                className="flex-1 bg-black border-2 border-primary text-primary hover:bg-primary/10 font-bold px-3"
                 size="lg"
               >
                 {isLoading && activePersona === 'resenha' ? (
@@ -185,9 +185,9 @@ export function ContentGenerator() {
                     Contando a Resenha...
                   </>
                 ) : (
-                  <div className="flex items-center gap-2">
+                   <div className="flex items-center justify-center gap-2">
                     <Search size={20} />
-                    <span className="font-bold">Quero que a Resenha crie conteúdos</span>
+                    <span>Quero que a Resenha crie conteúdos</span>
                   </div>
                 )}
               </Button>
