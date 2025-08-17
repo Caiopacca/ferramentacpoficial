@@ -98,6 +98,12 @@ export function ProfileAnalyzer() {
 
   return (
     <div className="space-y-8">
+       <div className="text-center mt-6">
+        <h2 className="text-2xl font-bold text-foreground">Escolha seu especialista</h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto mt-2">
+            O Bizu e a Resenha são estrategistas de marketing, cariocas da gema, prontos para te ajudar. Prefere um papo reto e estratégico? Vá de Bizu. Quer uma ideia mais criativa e magnética? A Resenha resolve.
+        </p>
+      </div>
       <Card>
         <CardHeader>
             <CardTitle>Analisador de Perfil</CardTitle>
@@ -119,33 +125,47 @@ export function ProfileAnalyzer() {
                     </FormItem>
                 )}
                 />
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button type="button" onClick={() => handleButtonClick('bizu')} disabled={isLoading} className="w-auto bg-[#FF6A00] hover:bg-[#E75A00] text-white rounded-xl px-5 py-3 font-semibold shadow-md focus:outline-none focus:ring-2 ring-orange-400">
-                    {isLoading && activePersona === 'bizu' ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Analisando...
-                      </>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                          <Zap size={20}/>
-                          <span className="text-lg">Bizu</span>
-                      </div>
-                    )}
-                  </Button>
-                  <Button type="button" onClick={() => handleButtonClick('resenha')} disabled={isLoading} className="w-auto bg-[#1B1B1B] border border-[#FF6A00] text-[#FF6A00] hover:bg-orange-500/10 rounded-2xl px-5 py-3 font-semibold focus:outline-none focus:ring-2 ring-orange-400">
-                    {isLoading && activePersona === 'resenha' ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Analisando...
-                      </>
-                    ) : (
-                        <div className="flex items-center gap-2">
-                            <Search size={20} />
-                            <span className="text-lg">Resenha</span>
-                        </div>
-                    )}
-                  </Button>
+                <div className="flex justify-center pt-4">
+                    <div className="inline-grid grid-cols-2 gap-4">
+                        <Button
+                            type="button"
+                            onClick={() => handleButtonClick('bizu')}
+                            disabled={isLoading}
+                            size="lg"
+                            className="bg-[#FF6A00]/90"
+                        >
+                            {isLoading && activePersona === 'bizu' ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Analisando...
+                            </>
+                            ) : (
+                            <div className="flex items-center justify-center gap-2">
+                                <Zap size={20} />
+                                <span className="font-bold">Análise do Bizu</span>
+                            </div>
+                            )}
+                        </Button>
+                        <Button
+                            type="button"
+                            onClick={() => handleButtonClick('resenha')}
+                            disabled={isLoading}
+                            className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
+                            size="lg"
+                        >
+                            {isLoading && activePersona === 'resenha' ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Analisando...
+                            </>
+                            ) : (
+                            <div className="flex items-center justify-center gap-2">
+                                <Search size={20} />
+                                <span className="font-bold">Análise da Resenha</span>
+                            </div>
+                            )}
+                        </Button>
+                    </div>
                 </div>
             </form>
             </Form>
