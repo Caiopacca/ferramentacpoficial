@@ -126,5 +126,3 @@ export async function generateContentIdeas(
 ): Promise<GenerateContentIdeasOutput> {
   return generateContentIdeasFlow(input);
 }
-
-    
