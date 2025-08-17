@@ -171,16 +171,16 @@ export default function ToolsPage() {
         </header>
 
         <Card className="mb-8 bg-card-foreground/5 border-primary/20">
-            <CardHeader>
+            <CardHeader className="pb-4">
                 <CardTitle className="text-center text-2xl font-bold">Conheça Nossos Especialistas de Marketing IA</CardTitle>
                 <CardDescription className="text-center text-muted-foreground">
                 Duas personalidades, um objetivo: acelerar seus resultados.
                 </CardDescription>
             </CardHeader>
             <CardContent className="grid md:grid-cols-2 gap-6 p-4 pt-2">
-                <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg">
-                    <div className="p-1 bg-primary/20 rounded-full mb-3">
-                        <Zap className="h-5 w-5 text-primary" />
+                <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg">
+                    <div className="p-1 bg-primary/20 rounded-full mb-2">
+                        <Zap className="h-4 w-4 text-primary" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">O Bizu</h3>
                     <p className="font-semibold text-primary/90 text-xs mb-2">O Estrategista</p>
@@ -188,9 +188,9 @@ export default function ToolsPage() {
                         Carioca, papo reto e focado em conversão. O Bizu analisa seus dados com um olhar clínico para performance, clareza e resultados financeiros. Ideal para quem busca a rota mais rápida para o lucro.
                     </p>
                 </div>
-                <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg">
-                    <div className="p-1 bg-primary/20 rounded-full mb-3">
-                        <Lightbulb className="h-5 w-5 text-primary" />
+                <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg">
+                    <div className="p-1 bg-primary/20 rounded-full mb-2">
+                        <Lightbulb className="h-4 w-4 text-primary" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">A Resenha</h3>
                     <p className="font-semibold text-primary/90 text-xs mb-2">A Criativa</p>
