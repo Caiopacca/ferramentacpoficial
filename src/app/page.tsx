@@ -171,15 +171,15 @@ export default function ToolsPage() {
         </header>
 
         <Card className="mb-8 bg-card-foreground/5 border-primary/20">
-            <CardHeader className="pb-4">
+            <CardHeader className="pb-4 pt-6">
                 <CardTitle className="text-center text-2xl font-bold">Conheça Nossos Especialistas de Marketing IA</CardTitle>
                 <CardDescription className="text-center text-muted-foreground">
                 Duas personalidades, um objetivo: acelerar seus resultados.
                 </CardDescription>
             </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-6 p-4 pt-2">
+            <CardContent className="grid md:grid-cols-2 gap-6 p-4">
                 <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg">
-                    <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={60} height={60} className="rounded-full mb-2" />
+                    <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={70} height={70} className="rounded-full mb-2" />
                     <h3 className="text-lg font-bold text-foreground">O Bizu</h3>
                     <p className="font-semibold text-primary/90 text-xs mb-2">O Estrategista</p>
                     <p className="text-muted-foreground text-sm">
@@ -187,7 +187,7 @@ export default function ToolsPage() {
                     </p>
                 </div>
                 <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg">
-                    <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={60} height={60} className="rounded-full mb-2" />
+                    <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={70} height={70} className="rounded-full mb-2" />
                     <h3 className="text-lg font-bold text-foreground">A Resenha</h3>
                     <p className="font-semibold text-primary/90 text-xs mb-2">A Criativa</p>
                     <p className="text-muted-foreground text-sm">
@@ -221,3 +221,5 @@ export default function ToolsPage() {
     </main>
   );
 }
+
+    
