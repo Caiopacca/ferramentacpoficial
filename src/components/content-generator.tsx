@@ -166,7 +166,7 @@ export function ContentGenerator() {
                       onClick={() => handleButtonClick('bizu')}
                       disabled={isLoading}
                       size="lg"
-                      className="bg-[#FF6A00]/90"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
                   >
                       {isLoading && activePersona === 'bizu' ? (
                       <>
@@ -176,7 +176,7 @@ export function ContentGenerator() {
                       ) : (
                       <div className="flex items-center justify-center gap-2">
                           <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={24} height={24} className="rounded-full border-2 border-black" />
-                          <span className="font-bold">Quero que o Bizu crie conteúdos</span>
+                          <span className="font-bold">Quero que o Bizu crie</span>
                       </div>
                       )}
                   </Button>
@@ -184,18 +184,18 @@ export function ContentGenerator() {
                       type="button"
                       onClick={() => handleButtonClick('resenha')}
                       disabled={isLoading}
-                      className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
+                      className="bg-background border-2 border-primary text-primary hover:bg-primary/10"
                       size="lg"
                   >
                       {isLoading && activePersona === 'resenha' ? (
                       <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Contando a Resenha...
+                          Gerando...
                       </>
                       ) : (
                       <div className="flex items-center justify-center gap-2">
                           <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={24} height={24} className="rounded-full border-2 border-primary" />
-                          <span className="font-bold">Quero que a Resenha crie conteúdos</span>
+                          <span className="font-bold">Quero que a Resenha crie</span>
                       </div>
                       )}
                   </Button>

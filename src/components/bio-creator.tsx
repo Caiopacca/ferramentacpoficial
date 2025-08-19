@@ -141,7 +141,7 @@ export function BioCreator() {
                       onClick={() => handleButtonClick('bizu')}
                       disabled={isLoading}
                       size="lg"
-                      className="bg-[#FF6A00]/90"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
                   >
                       {isLoading && activePersona === 'bizu' ? (
                       <>
@@ -159,7 +159,7 @@ export function BioCreator() {
                       type="button"
                       onClick={() => handleButtonClick('resenha')}
                       disabled={isLoading}
-                      className="bg-black border-2 border-primary text-primary hover:bg-primary/10"
+                      className="bg-background border-2 border-primary text-primary hover:bg-primary/10"
                       size="lg"
                   >
                       {isLoading && activePersona === 'resenha' ? (
