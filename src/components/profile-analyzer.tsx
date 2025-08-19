@@ -146,7 +146,7 @@ export function ProfileAnalyzer() {
                             type="button"
                             onClick={() => handleButtonClick('resenha')}
                             disabled={isLoading}
-                            className="bg-background border-2 border-primary text-primary hover:text-primary"
+                            className="bg-black border-2 border-primary text-primary hover:bg-black hover:text-primary"
                             size="lg"
                         >
                             {isLoading && activePersona === 'resenha' ? (
