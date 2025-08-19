@@ -132,7 +132,7 @@ const pillarIcons: { [key: string]: React.ReactNode } = {
                       </>
                       ) : (
                       <div className="flex items-center justify-center gap-2">
-                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={24} height={24} className="rounded-full" />
+                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={24} height={24} className="rounded-full border-2 border-black" />
                           <span className="font-bold">Análise do Bizu</span>
                       </div>
                       )}
@@ -151,7 +151,7 @@ const pillarIcons: { [key: string]: React.ReactNode } = {
                       </>
                       ) : (
                       <div className="flex items-center justify-center gap-2">
-                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={24} height={24} className="rounded-full" />
+                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={24} height={24} className="rounded-full border-2 border-primary" />
                           <span className="font-bold">Análise da Resenha</span>
                       </div>
                       )}
@@ -269,5 +269,3 @@ const pillarIcons: { [key: string]: React.ReactNode } = {
     </div>
   );
 }
-
-    

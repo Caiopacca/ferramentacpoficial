@@ -198,7 +198,7 @@ export function ColdEmailGenerator() {
                       </>
                       ) : (
                       <div className="flex items-center justify-center gap-2">
-                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={24} height={24} className="rounded-full" />
+                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={24} height={24} className="rounded-full border-2 border-black" />
                           <span className="font-bold">E-mail do Bizu</span>
                       </div>
                       )}
@@ -217,7 +217,7 @@ export function ColdEmailGenerator() {
                       </>
                       ) : (
                       <div className="flex items-center justify-center gap-2">
-                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={24} height={24} className="rounded-full" />
+                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={24} height={24} className="rounded-full border-2 border-primary" />
                           <span className="font-bold">E-mail da Resenha</span>
                       </div>
                       )}
