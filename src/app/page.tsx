@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter, CardContent } from '@/components/ui/card';
-import { ArrowRight, LogOut, Zap, Lightbulb } from 'lucide-react';
+import { ArrowRight, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CtaSection } from '@/components/cta-section';
@@ -179,9 +179,7 @@ export default function ToolsPage() {
             </CardHeader>
             <CardContent className="grid md:grid-cols-2 gap-6 p-4 pt-2">
                 <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg">
-                    <div className="p-1 bg-primary/20 rounded-full mb-2">
-                        <Zap className="h-4 w-4 text-primary" />
-                    </div>
+                    <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={60} height={60} className="rounded-full mb-2" />
                     <h3 className="text-lg font-bold text-foreground">O Bizu</h3>
                     <p className="font-semibold text-primary/90 text-xs mb-2">O Estrategista</p>
                     <p className="text-muted-foreground text-sm">
@@ -189,9 +187,7 @@ export default function ToolsPage() {
                     </p>
                 </div>
                 <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg">
-                    <div className="p-1 bg-primary/20 rounded-full mb-2">
-                        <Lightbulb className="h-4 w-4 text-primary" />
-                    </div>
+                    <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={60} height={60} className="rounded-full mb-2" />
                     <h3 className="text-lg font-bold text-foreground">A Resenha</h3>
                     <p className="font-semibold text-primary/90 text-xs mb-2">A Criativa</p>
                     <p className="text-muted-foreground text-sm">
