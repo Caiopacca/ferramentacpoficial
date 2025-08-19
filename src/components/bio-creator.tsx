@@ -156,24 +156,25 @@ export function BioCreator() {
                       )}
                   </Button>
                   <Button
-                      type="button"
-                      onClick={() => handleButtonClick('resenha')}
-                      disabled={isLoading}
-                      className="bg-background border-2 border-primary text-primary hover:bg-primary/10"
-                      size="lg"
-                  >
-                      {isLoading && activePersona === 'resenha' ? (
-                      <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Gerando...
-                      </>
-                      ) : (
-                      <div className="flex items-center justify-center gap-2">
-                           <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={24} height={24} className="rounded-full border-2 border-primary" />
-                          <span className="font-bold">Bio da Resenha</span>
-                      </div>
-                      )}
-                  </Button>
+                        type="button"
+                        onClick={() => handleButtonClick('resenha')}
+                        disabled={isLoading}
+                        variant="outline"
+                        className="bg-black text-primary border-primary border-2 hover:bg-black hover:text-primary/90"
+                        size="lg"
+                    >
+                        {isLoading && activePersona === 'resenha' ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Gerando...
+                        </>
+                        ) : (
+                        <div className="flex items-center justify-center gap-2">
+                            <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={24} height={24} className="rounded-full border-2 border-primary" />
+                            <span className="font-bold">Bio da Resenha</span>
+                        </div>
+                        )}
+                    </Button>
               </div>
             </div>
           </form>
