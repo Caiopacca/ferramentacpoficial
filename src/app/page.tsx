@@ -170,7 +170,7 @@ export default function ToolsPage() {
           </p>
         </header>
 
-        <Card className="mb-8 bg-card-foreground/5 border-primary/20">
+        <Card className="mb-8 bg-card-foreground/5 border border-primary/30">
             <CardHeader className="pb-4 pt-6">
                 <CardTitle className="text-center text-2xl font-bold">Conheça Nossos Especialistas de Marketing IA</CardTitle>
                 <CardDescription className="text-center text-muted-foreground">
@@ -178,18 +178,22 @@ export default function ToolsPage() {
                 </CardDescription>
             </CardHeader>
             <CardContent className="grid md:grid-cols-2 gap-6 p-4">
-                <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg">
-                    <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={70} height={70} className="rounded-full mb-2" />
+                <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg border border-primary/20">
+                    <div className="mb-2 p-1 rounded-full border-2 border-primary">
+                        <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={70} height={70} className="rounded-full" />
+                    </div>
                     <h3 className="text-lg font-bold text-foreground">O Bizu</h3>
-                    <p className="font-semibold text-primary/90 text-xs mb-2">O Estrategista</p>
+                    <p className="font-semibold text-primary text-xs mb-2">O Estrategista</p>
                     <p className="text-muted-foreground text-sm">
                         Carioca, papo reto e focado em conversão. O Bizu analisa seus dados com um olhar clínico para performance, clareza e resultados financeiros. Ideal para quem busca a rota mais rápida para o lucro.
                     </p>
                 </div>
-                <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg">
-                    <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={70} height={70} className="rounded-full mb-2" />
+                <div className="flex flex-col items-center text-center p-3 bg-card rounded-lg border border-primary/20">
+                     <div className="mb-2 p-1 rounded-full border-2 border-primary">
+                        <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={70} height={70} className="rounded-full" />
+                    </div>
                     <h3 className="text-lg font-bold text-foreground">A Resenha</h3>
-                    <p className="font-semibold text-primary/90 text-xs mb-2">A Criativa</p>
+                    <p className="font-semibold text-primary text-xs mb-2">A Criativa</p>
                     <p className="text-muted-foreground text-sm">
                         Também carioca, mas com foco em criatividade e conexão. A Resenha avalia sua comunicação, storytelling e o poder da sua marca de criar uma comunidade. Ideal para quem quer construir um legado e uma audiência fiel.
                     </p>
@@ -221,5 +225,3 @@ export default function ToolsPage() {
     </main>
   );
 }
-
-    
