@@ -5,9 +5,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Loader2, Users, FileText, Image as ImageIcon, ArrowRight, Award, CheckCircle, TrendingUp, Zap, Search, MessageSquareQuote } from 'lucide-react';
+import { Loader2, Users, FileText, Image as ImageIcon, ArrowRight, Award, CheckCircle, TrendingUp, MessageSquareQuote } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -168,7 +169,7 @@ export function AdAnalyzer() {
                       </>
                       ) : (
                       <div className="flex items-center justify-center gap-2">
-                          <Zap size={20} />
+                          <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609495/BIZU_aeju4r.png" alt="Avatar do Bizu" width={24} height={24} className="rounded-full" />
                           <span className="font-bold">Análise do Bizu</span>
                       </div>
                       )}
@@ -187,7 +188,7 @@ export function AdAnalyzer() {
                       </>
                       ) : (
                       <div className="flex items-center justify-center gap-2">
-                          <Search size={20} />
+                         <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1755609475/RESENHA_snj8lf.png" alt="Avatar da Resenha" width={24} height={24} className="rounded-full" />
                           <span className="font-bold">Análise da Resenha</span>
                       </div>
                       )}
