@@ -21,7 +21,7 @@ export default function ContentFactoryPage() {
           </Link>
         </div>
         <header className="text-center mb-4 md:mb-6">
-            <Image src="https://firebasestorage.googleapis.com/v0/b/site-cp-marketing.firebasestorage.app/o/LOGO%20REDONDA%20EM%20SVG%20CP.svg?alt=media&token=973b78cf-9a80-4c4a-bac0-a66a058c392d" alt="Logo CP Marketing" width={60} height={60} className="mx-auto mb-4 rounded-md" />
+            <Image src="https://res.cloudinary.com/dp3gukavt/image/upload/v1759844468/Prancheta_1_1_rxjl52.png" alt="Logo CP Marketing" width={60} height={60} className="mx-auto mb-4 rounded-md" />
             <h1 className="text-3xl md:text-4xl font-bold text-primary tracking-tight">
                 Fábrica de Conteúdo CP Marketing
             </h1>
